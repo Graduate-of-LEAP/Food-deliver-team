@@ -1,5 +1,10 @@
 import Image from "next/image";
+import Main from "./components/Main";
 
 export default function Home() {
-  return <div className="">aa222a</div>;
+  return (
+    <>
+      <Main />
+    </>
+  );
 }
