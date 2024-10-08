@@ -1,5 +1,5 @@
 export const Footer = () => {
     return (
-        <div>hiii</div>
+        <div>hiiid</div>
     )
 }
