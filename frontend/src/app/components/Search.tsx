@@ -67,9 +67,8 @@ export const SearchFoodCard = ({ src, title, price }: searchFoodType) => {
         <Image
           src={src}
           alt="Picture"
-          width={242}
-          height={146}
-          //   fill
+          width={282}
+          height={186}
           className={`object-cover rounded-2xl`}
         ></Image>
       </div>

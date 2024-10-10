@@ -80,8 +80,8 @@ export const FoodSweetCard = ({ src, title, price }: foodCardType) => {
         <Image
           src={src}
           alt="Picture"
-          width={242}
-          height={146}
+          width={282}
+          height={186}
           //   fill
           className={`object-cover rounded-2xl`}
         ></Image>

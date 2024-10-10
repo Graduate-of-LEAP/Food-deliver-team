@@ -36,7 +36,7 @@ const slidesFood = [
 ];
 
 export const FoodDiscount = () => {
-  const discountPercentage = 20; // Хямдралын хувь
+  const discountPercentage = 20;
   return (
     <>
       <div className="flex flex-col">
@@ -55,10 +55,9 @@ export const FoodDiscount = () => {
           <div className="flex text-[#18BA51] font-normal">
             Бүгдийг харах <ChevronRight />
           </div>
-        </div>{" "}
+        </div>
         <div className=" grid grid-cols-4 grid-flow-row gap-5 my-10">
           {slidesFood?.map((item, index) => {
-            // Хямдралын дүнг тооцоолох
             const discountAmount = item.price * (discountPercentage / 100);
             const discountedPrice = item.price - discountAmount;
             return (
@@ -70,7 +69,7 @@ export const FoodDiscount = () => {
                   price={item.price}
                   discountPercentage={discountPercentage}
                   discountAmount={discountAmount}
-                  discountedPrice={discountedPrice} // Хямдарсан үнийг дамжуулж байна
+                  discountedPrice={discountedPrice}
                 />
               </div>
             );
@@ -87,7 +86,7 @@ type foodCardType = {
   price: number;
   discountPercentage: number;
   discountAmount: number;
-  discountedPrice: number; // Хямдарсан үнийн хувьсагч
+  discountedPrice: number;
 };
 
 export const FoodDiscountCard = ({
@@ -105,11 +104,10 @@ export const FoodDiscountCard = ({
           <Image
             src={src}
             alt="Picture"
-            width={242}
-            height={146}
+            width={282}
+            height={186}
             className={`object-cover rounded-2xl`}
           ></Image>
-          {/* <p>Хямдарсан үнэ: {discountAmount}₮</p> */}
         </div>
         <div className="absolute top-5 right-6">
           <button className="bg-[#18BA51] rounded-lg px-2 text-white font-semibold text-[12px]">

@@ -45,69 +45,72 @@ const Card = [
 const Main = () => {
   return (
     <>
-      <div className="w-full h-fit "></div>
-      <div className="flex flex-col">
-        <div className="flex bg-[#18BA51] justify-around relative w-full h-[50vh]">
-          <div className="absolute top-0 left-0 z-10 w-full h-full">
-            <Image
-              src="/images/MainGroup.png"
-              alt="Description"
-              fill
-              className="object-cover"
-            />
-          </div>
-          <div className="absolute top-1/2 left-1/4 z-20 flex flex-col">
-            <h1 className="font-extrabold text-white border-b mb-3 text-[24px]">
-              Pinebator's Food delivery
-            </h1>
-            <p className="text-white font-thin text-[20px]">
-              Horem ipsum dolor sit amet,
-              <br /> consectetur adipiscing elit.
-            </p>
-          </div>
-          <div className="flex absolute top-1/3 left-1/2 z-20">
-            <div className="">
-              <Image
-                src="/images/main1.png"
-                alt="Description"
-                width={443}
-                height={438}
-                className=""
-              />
+      <div className="w-full h-fit ">
+        <div className="flex flex-col w-full ">
+          <div className="flex bg-[#18BA51] justify-around  w-full ">
+            <div className="container">
+              <div className=" w-full h-full flex ">
+                <Image
+                  src="/images/MainGroup.png"
+                  alt="Description"
+                  fill
+                  className="object-cover"
+                />
+
+                <div className=" flex w-full  items-center justify-center ">
+                  <div className="flex flex-col ">
+                    <h1 className="font-bold text-white text-[55px] leading-none">
+                      Pinebator's <br />
+                      Food delivery
+                    </h1>
+                    <p className="border-b my-5"></p>
+                    <p className="text-white font-normal text-[22px] leading-6">
+                      Horem ipsum dolor sit amet,
+                      <br /> consectetur adipiscing elit.
+                    </p>
+                  </div>
+                </div>
+                <div className="flex  justify-center items-center w-full">
+                  <div className="relative py-44 ">
+                    <Image
+                      src="/images/main1.png"
+                      alt="Description"
+                      width={588}
+                      height={438}
+                      className=""
+                    />
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-        <div className="container bg-yellow-200 m-auto">
-          <div className="flex gap-5 mt-5 justify-center">
-            {Card.map((item, index) => {
-              return (
-                <CardComponent
-                  key={index}
-                  icon={item.icon}
-                  title={item.title}
-                  desc={item.desc}
-                />
-              );
-            })}
+          <div className="container m-auto">
+            <div className="flex gap-7 mt-5 justify-center">
+              {Card.map((item, index) => {
+                return (
+                  <CardComponent
+                    key={index}
+                    icon={item.icon}
+                    title={item.title}
+                    desc={item.desc}
+                  />
+                );
+              })}
+            </div>
+
+            <div className="flex justify-center">
+              <FoodDiscount />
+            </div>
+            <div className="flex justify-center">
+              <FoodMain />
+            </div>
+            <div className="flex justify-center">
+              <FoodSalad />
+            </div>
+            <div className="flex justify-center">
+              <FoodSweet />
+            </div>
           </div>
-          <div className="flex justify-center">
-            <DiscountCalculator />
-          </div>
-          <div className="flex justify-center">
-            <FoodDiscount />
-          </div>
-          <div className="flex justify-center">
-            <FoodMain />
-          </div>
-          <div className="flex justify-center">
-            <FoodSalad />
-          </div>
-          <div className="flex justify-center">
-            <FoodSweet />
-          </div>
-        </div>
-        <div className="flex justify-center">
-          <Search />
         </div>
       </div>
     </>
