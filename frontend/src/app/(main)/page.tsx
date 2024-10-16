@@ -1,15 +1,15 @@
 import { Cart } from "./components/Cart";
+import { Header } from "./components/Header";
 import Main from "./components/Main";
-import { Menu } from "./components/Menu";
-import { Order } from "./components/Order";
+
 
 export default function Home() {
   return (
     <>
+      <Header />
       <Main />
-      <Order />
-      {/* <Cart /> */}
-      <Menu/>
+
+     
     </>
   );
 }

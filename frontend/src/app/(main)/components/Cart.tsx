@@ -1,15 +1,8 @@
 "use client";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import {
   Sheet,
-  SheetClose,
   SheetContent,
-  SheetDescription,
-  SheetFooter,
-  SheetHeader,
-  SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { FaShoppingCart } from "react-icons/fa";
@@ -34,16 +27,16 @@ export const Cart = () => {
         </Button>
       </SheetTrigger>
       <SheetContent>
-        <div className="flex py-2 border-t-2 border-b-2">
-          <div className="w-1/2 p-6">
+        <div className="flex border-t-2 border-b-2 py-2">
+          <div className="w-1/2 p-2 flex">
             <Image
               src="/pizza.png"
-              width={360}
-              height={300}
+              width={270}
+              height={270}
               alt="Picture of the pizza"
             />
           </div>
-          <div className="w-1/2 flex flex-col justify-between p-6">
+          <div className="w-1/2 flex flex-col justify-between p-3">
             <div>
               <b className="text-2xl">Main Pizza</b>
               <p className="text-green-500 text-lg font-bold">34,800 ₮</p>
