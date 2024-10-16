@@ -49,7 +49,7 @@ const Main = () => {
         <div className="flex flex-col w-full ">
           <div className="flex bg-[#18BA51] justify-around  w-full ">
             <div className="container">
-              <div className=" w-full h-full flex ">
+              <div className=" w-full h-full flex relative">
                 <Image
                   src="/images/MainGroup.png"
                   alt="Description"
