@@ -1,9 +1,12 @@
-import { Footer } from "./Footer";
+"use client"
 import { PiStarFourFill } from "react-icons/pi";
+import { Footer } from "../components/Footer";
+import { Header } from "../components/Header";
 
-export const TermsOfService = () => {
+ const Page = () => {
     return (
         <div className="w-full h-fit">
+            <Header/>
             <div className="flex justify-center">
                 <div className="container">
                     <div className="py-8">
@@ -37,7 +40,8 @@ export const TermsOfService = () => {
                    
                 </div>
             </div>
-            <Footer/>
+          <Footer/>
         </div>
     );
 };
+export default Page;

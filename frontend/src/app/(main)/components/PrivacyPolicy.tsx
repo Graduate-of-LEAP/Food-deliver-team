@@ -1,4 +1,4 @@
-import { Footer } from "@/components/Footer";
+
 import { PiStarFourFill } from "react-icons/pi";
 
 export const TermsOfService = () => {
@@ -37,7 +37,7 @@ export const TermsOfService = () => {
                    
                 </div>
             </div>
-            <Footer/>
+           
         </div>
     );
 };

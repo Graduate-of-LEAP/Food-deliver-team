@@ -1,7 +1,12 @@
 "use client"
 import { useState } from 'react';
+import { Header } from '../components/Header';
+import { Footer } from '../components/Footer';
+import { FoodDiscount } from '../components/FoodDiscount';
+import { FoodMain } from '../components/FoodMain';
+import { FoodSweet } from '../components/FoodSweet';
  
-export const Menu = () => {
+ const Page = () => {
     type Menu = {
         title: string,
     };
@@ -19,7 +24,8 @@ export const Menu = () => {
         setActiveIndex(index);
     };
  
-    return (
+    return (<>
+<Header/>
         <div className="flex justify-center">
             <div className="container">
                 <div className="w-full gap-7 flex h-fit">
@@ -33,7 +39,15 @@ export const Menu = () => {
                         </div>
                     ))}
                 </div>
+                <div>
+                    <FoodDiscount/>
+                    <FoodMain/>
+                    <FoodSweet/>
+                </div>
             </div>
         </div>
+        <Footer/>
+        </>
     );
 };
+export default Page;

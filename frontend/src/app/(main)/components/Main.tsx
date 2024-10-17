@@ -48,16 +48,17 @@ const Main = () => {
       <div className="w-full h-fit ">
         <div className="flex flex-col w-full ">
           <div className="flex bg-[#18BA51] justify-around  w-full ">
-            <div className="container">
-              <div className=" w-full h-full flex relative">
+          <div className=" w-full h-full flex relative">
                 <Image
                   src="/images/MainGroup.png"
                   alt="Description"
                   fill
                   className="object-cover"
                 />
+            <div className="container flex justify-between m-auto  border border-black ">
+            
 
-                <div className=" flex w-full  items-center justify-center ">
+                <div className=" flex  justify-center items-center  ">
                   <div className="flex flex-col ">
                     <h1 className="font-bold text-white text-[55px] leading-none">
                       Pinebator's <br />
@@ -70,7 +71,7 @@ const Main = () => {
                     </p>
                   </div>
                 </div>
-                <div className="flex  justify-center items-center w-full">
+                <div className="flex  border border-black ">
                   <div className="relative py-44 ">
                     <Image
                       src="/images/main1.png"
