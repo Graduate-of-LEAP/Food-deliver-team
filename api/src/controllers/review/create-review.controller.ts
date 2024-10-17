@@ -15,7 +15,7 @@ export const createReviewController: RequestHandler = async (req, res) => {
 
     if (!food) return;
     await foodModel.findOneAndUpdate(
-      { _id: req.body.productId },
+      { _id: req.body.foodId },
       { $inc: { reviewCount: 1 } },
       { new: true }
     );
