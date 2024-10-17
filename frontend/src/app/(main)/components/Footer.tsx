@@ -6,7 +6,7 @@ import { FaFacebook, FaInstagram, FaTwitter } from "react-icons/fa";
 export const Footer = () => {
   return (
     <>
-      <div className="w-full  bg-[#18BA51]">
+      <div className="w-full  bg-[#f7432b]">
         <div className="relative w-full h-fit">
           <Image
             src="/traced.png"

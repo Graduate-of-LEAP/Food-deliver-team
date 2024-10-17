@@ -76,8 +76,10 @@ const LoginDialog: React.FC = () => {
             <Button
               type="submit"
               className={`text-center w-full shadow-lg ${
-                isClicked ? "bg-green-500 text-white" : "bg-gray-50 text-black"
-              } hover:bg-transparent hover:border hover:border-green-500`}
+                isClicked
+                  ? "bg-[bg-[#f7432b] text-white"
+                  : "bg-gray-50 text-black"
+              } hover:bg-transparent hover:border hover:border-[#f7432b]`}
             >
               Нэвтрэх
             </Button>
@@ -85,7 +87,7 @@ const LoginDialog: React.FC = () => {
             <div className="space-y-8 text-center text-sm">
               <Button
                 type="submit"
-                className="text-center bg-gray-50 text-black w-full shadow-lg hover:bg-transparent hover:border hover:border-green-500"
+                className="text-center bg-gray-50 text-black w-full shadow-lg hover:bg-transparent hover:border hover:border-[#f7432b]"
               >
                 Бүртгүүлэх
               </Button>
