@@ -5,17 +5,16 @@ import { FaRegUser } from "react-icons/fa6";
 import { MdOutlineEdit } from "react-icons/md";
 import { MdOutlinePhone } from "react-icons/md";
 import { MdOutlineEmail } from "react-icons/md";
-import { GrHistory } from "react-icons/gr";
-import { RxExit } from "react-icons/rx";
-import { UserExitDialog } from "./UserExitDialog";
+import { Toaster, toast } from "react-hot-toast";
+import Link from "next/link";
 
-export const UserProfile = () => {
+export const UserProfileRegister = () => {
   const [username, setUsername] = useState<string>("");
   const [phoneNumber, setPhonenumber] = useState<string>("");
 
   return (
     <div>
-      <div className="lg:w-[448px]  m-auto mt-[74px] space-y-12 p-8">
+      <div className="lg:w-[448px]  m-auto mt-[74px] space-y-12 p-6">
         <div className="flex flex-col gap-10 justify-center  w-[132px] m-auto">
           <div className="relative">
             <Avatar className="m-auto w-[120px] h-[120px]">
@@ -30,7 +29,7 @@ export const UserProfile = () => {
           <h1 className="font-bold text-2xl text-center">Name</h1>
         </div>
         <div className=" space-y-4">
-          <div className="bg-gray-50 h-[64px] w-[392px] flex justify-between items-center px-5 rounded ">
+          <div className="bg-gray-50 h-[64px] w-full flex justify-between items-center px-5 rounded ">
             <div className="flex gap-2">
               <div className="h-12 w-12 rounded-full bg-white flex justify-center items-center">
                 <FaRegUser />
@@ -46,7 +45,7 @@ export const UserProfile = () => {
             </div>
             <MdOutlineEdit className="text-green-500" size={20} />
           </div>
-          <div className="bg-gray-50 h-[64px] w-[392px] flex justify-between items-center px-5 rounded ">
+          <div className="bg-gray-50 h-[64px] w-full flex justify-between items-center px-5 rounded ">
             <div className="flex gap-2">
               <div className="h-12 w-12 rounded-full bg-white flex justify-center items-center">
                 <MdOutlinePhone />
@@ -55,14 +54,14 @@ export const UserProfile = () => {
                 <p className="text-sm text-gray-500">Утасны дугаар</p>
                 <input
                   type="phoneNumber"
-                  className="bg-transparent border-none w-[240px] outline-none"
+                  className="bg-transparent border-none w-[220px] outline-none"
                   placeholder="Утасны дугаараа оруулна уу"
                 ></input>
               </div>
             </div>
             <MdOutlineEdit className="text-green-500" size={20} />
           </div>
-          <div className="bg-gray-50 h-[64px] w-[392px] flex justify-between items-center px-5 rounded ">
+          <div className="bg-gray-50 h-[64px] w-full flex justify-between items-center px-5 rounded ">
             <div className="flex gap-2">
               <div className="h-12 w-12 rounded-full bg-white flex justify-center items-center">
                 <MdOutlineEmail />
@@ -78,24 +77,29 @@ export const UserProfile = () => {
             </div>
             <MdOutlineEdit className="text-green-500" size={20} />
           </div>
-          <div className=" h-[64px] w-[392px] flex justify-between items-center px-5 rounded ">
-            <div className="flex gap-2 items-center">
-              <div className="h-12 w-12 border rounded-full bg-white flex justify-center items-center">
-                <GrHistory />
-              </div>
-              <p>Захиалгын түүх</p>
-            </div>
-          </div>
-          <div className=" h-[64px] w-[392px] flex justify-between items-center px-5 rounded ">
-            <div className="flex gap-2 items-center">
-              <div className="h-12 w-12 border rounded-full bg-white flex justify-center items-center">
-                <RxExit />
-              </div>
-              <UserExitDialog />
-            </div>
-          </div>
+        </div>
+        <div className="w-full bg-green-500 text-white py-2 rounded text-center">
+          <MyComponent />
         </div>
       </div>
     </div>
   );
 };
+const MyComponent = () => {
+  const handleClick = () => {
+    toast.success("Мэдээлэл амжилттай хадгалагдлаа!", {
+      style: {
+        marginTop: "60px",
+      },
+    });
+  };
+
+  return (
+    <Link href="/userexit">
+      <button onClick={handleClick}> Хадгалах</button>
+      <Toaster />
+    </Link>
+  );
+};
+
+export default MyComponent;

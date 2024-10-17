@@ -1,11 +1,11 @@
 "use client";
 
-import { UserProfile } from "../../components/UserProfile";
+import { UserProfileRegister } from "../components/UserProfileRegister";
 
 const Page = () => {
   return (
     <div>
-      <UserProfile />
+      <UserProfileRegister />
     </div>
   );
 };
