@@ -1,9 +1,9 @@
 import { RequestHandler } from "express";
-import { foodModel } from "../../models/food.schema";
+import { orderModel } from "../../models/order.schema";
 
 export const createOrderController: RequestHandler = async (req, res) => {
   try {
-    await foodModel.create({
+    await orderModel.create({
       ...req.body,
       createdAt: new Date(),
       updatedAt: new Date(),
@@ -13,7 +13,7 @@ export const createOrderController: RequestHandler = async (req, res) => {
     });
   } catch (error) {
     return res.status(400).json({
-      message: "createOrderController buruu l nemeed bndaa",
+      message: "Order buruu l nemeed bndaa",
     });
   }
 };
