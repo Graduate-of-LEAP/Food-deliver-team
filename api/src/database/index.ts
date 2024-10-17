@@ -2,7 +2,7 @@ import { connect } from "mongoose";
 
 export const connectToDataBase = async () => {
   await connect(
-    "mongodb+srv://myagmartsognnaranbaatar:QSzeO382fq88Pv8J@cluster0.2mlwk.mongodb.net/food?retryWrites=true&w=majority&appName=Cluster0"
+    "mongodb+srv://tadashia:6xTsXv8V2VB6808i@fooddeliver.jtmgk.mongodb.net/"
   );
   console.log("Connected mongodb database");
 };
