@@ -5,6 +5,13 @@ import { FC, useState } from "react";
 import { IoEyeOutline } from "react-icons/io5";
 import { IoEyeOffOutline } from "react-icons/io5";
 
+interface Formvalues {
+  username: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
+}
+
 export const SignUp: FC = () => {
   const [showPassword, setShowPassword] = useState(false);
   const togglePasswordVisibility = () => {
