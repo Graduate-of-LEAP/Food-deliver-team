@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 const { Schema, model } = mongoose;
 
 const savedFoodSchema = new Schema({
-  FoodId: {
+  foodId: {
     type: Schema.Types.ObjectId,
     ref: "Food",
     required: false,
