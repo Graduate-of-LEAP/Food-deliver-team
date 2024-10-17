@@ -4,7 +4,7 @@ import { foodModel } from "../../models/food.schema";
 
 export const createReviewController: RequestHandler = async (req, res) => {
   try {
-    const food = await foodModel.findById(req.body.productId);
+    const food = await foodModel.findById(req.body.foodId);
     const { foodId, comment, rating } = req.body;
 
     await reviewModel.create({
