@@ -1,7 +1,7 @@
 "use client";
-import { useEffect, useState } from "react";
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import Image from "next/image";
-import Link from "next/link";
+import { useState } from "react";
 import { Sparkle } from "lucide-react";
 import { ChevronRight } from "lucide-react";
 
@@ -17,6 +17,7 @@ const slidesFood = [
     title: "Өглөөний хоол",
     src: "/images/main2.png",
     price: 14800,
+
   },
   {
     title: "Зайрмаг",
@@ -37,6 +38,15 @@ const slidesFood = [
 
 export const FoodDiscount = () => {
   const discountPercentage = 20;
+  const [quantity, setQuantity] = useState(1);
+
+  const handleDecrease = () => {
+    setQuantity((prevQuantity) => Math.max(prevQuantity - 1, 1));
+  };
+
+  const handleIncrease = () => {
+    setQuantity((prevQuantity) => prevQuantity + 1);
+  };
   return (
     <>
       <div className="flex flex-col">
@@ -50,7 +60,7 @@ export const FoodDiscount = () => {
               height={20}
               className=""
             />
-             Хямдралтай
+            Хямдралтай
           </div>
           <div className="flex text-[#18BA51] font-normal">
             Бүгдийг харах <ChevronRight />
@@ -61,17 +71,78 @@ export const FoodDiscount = () => {
             const discountAmount = item.price * (discountPercentage / 100);
             const discountedPrice = item.price - discountAmount;
             return (
-              <div key={index}>
-                <FoodDiscountCard
-                  key={index}
-                  src={item.src}
-                  title={item.title}
-                  price={item.price}
-                  discountPercentage={discountPercentage}
-                  discountAmount={discountAmount}
-                  discountedPrice={discountedPrice}
-                />
-              </div>
+              <Dialog key={index}>
+                <DialogTrigger asChild>
+                  <div
+                    className="cursor-pointer"
+                    onClick={() => { }}
+                  >
+                    <FoodDiscountCard
+                      src={item.src}
+                      title={item.title}
+                      price={item.price}
+                      discountPercentage={discountPercentage}
+                      discountAmount={discountAmount}
+                      discountedPrice={discountedPrice}
+                    />
+                  </div>
+                </DialogTrigger>
+                <DialogContent className="sm:max-w-[800px] flex gap-8">
+                  <div className="w-[48%]">
+                    <Image
+                      src={item.src}
+                      width={800}
+                      height={800}
+                      alt="Picture of the pizza"
+                      className="h-full w-full object-cover rounded-2xl"
+                    />
+                  </div>
+
+                  <div className="w-[48%] flex flex-col py-8">
+                    <div>
+                      <b className="text-2xl">{item.title}</b>
+                      <div className="flex gap-5">
+                        <p className="text-base font-serif text-[#18BA51]">
+                          {discountAmount}₮
+                        </p>
+                        <p className="text-base font-serif text-[#e13bc8] line-through">
+                          {discountedPrice}₮
+                        </p>
+                      </div>
+                    </div>
+                    <div>
+                      <b className="text-lg">Орц</b>
+                      <p className="p-2 bg-gray-50 rounded-lg my-2">
+                        Хулуу, төмс, лууван, сонгино, цөцгийн тос, самрын үр
+                      </p>
+                    </div>
+                    <div className="flex flex-col gap-4">
+                      <b className="text-lg">Тоо</b>
+                      <div>
+                        <div className="flex justify-between">
+                          <button
+                            className="h-10 px-4 text-xl rounded-lg bg-green-500 text-white"
+                            onClick={handleDecrease}
+                          >
+                            -
+                          </button>
+                          <div className="flex items-center">{quantity}</div>
+                          <button
+                            className="h-10 px-4 text-xl rounded-lg bg-green-500 text-white"
+                            onClick={handleIncrease}
+                          >
+                            +
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                    <button className="mt-8 h-12 rounded-sm px-20 bg-green-500 flex justify-center text-white items-center">
+                      Сагслах
+                    </button>
+                  </div>
+                </DialogContent>
+              </Dialog>
+
             );
           })}
         </div>
@@ -99,7 +170,7 @@ export const FoodDiscountCard = ({
 }: foodCardType) => {
   return (
     <div className="">
-      <div className="relative border">
+      <div className="relative">
         <div className={`relative`}>
           <Image
             src={src}

@@ -1,12 +1,15 @@
 import express from "express";
+import cors from "cors";
+import { connectToDataBase } from "./database";
 
+connectToDataBase();
 const app = express();
-const port = 8000;
-
-app.get("/", (req, res) => {
-  res.send("Hello, TypeScript with Express!");
+app.use(cors());
+app.use(express.json());
+app.get("/", (_req, res) => {
+  res.json("Hello world");
 });
 
-app.listen(port, () => {
-  console.log(`Server is running on http://localhost:${port}`);
+app.listen(3001, () => {
+  console.log("Server running http://localhost:3001");
 });
