@@ -1,21 +1,44 @@
 import { RequestHandler } from "express";
 import { foodModel } from "../../models/food.schema";
 
-export const createFoodController: RequestHandler = async (req, res) => {
+export const createFood: RequestHandler = async (req, res) => {
+  console.log(req.body);
+
   try {
-    await foodModel.create({
-      ...req.body,
+    // console.log("WHERE IS CREATE PRODUCTs REQ.BODY", req.body);
+    const {
+      category,
+      foodName,
+      price,
+      orts,
+      images,
+      quantity,
+      saledCount,
+      salePercent,
+      averageRating,
+      reviewCount,
+    } = req.body;
+
+    const product = await foodModel.create({
+      category: category,
+      foodName: foodName,
+      price: price,
+      orts: orts,
+      images: images,
+      quantity: quantity,
+      saledCount: saledCount,
+      salePercent: salePercent,
+      averageRating: averageRating,
+      reviewCount: reviewCount,
       createdAt: new Date(),
       updatedAt: new Date(),
     });
-    return res.status(201).json({
-      message: "Product nemegdlee",
-    });
+
+    res.send(product);
   } catch (error) {
-    return res.status(500).json({
-      message: "Product buruu l nemeed bndaa",
-    });
+    console.log(error);
+    res
+      .status(400)
+      .json({ ErrorMessage: " Error happenned to create PRODUCT" });
   }
 };
-
-// afafa
