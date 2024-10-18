@@ -4,6 +4,8 @@ import Image from "next/image";
 import { useState } from "react";
 import { Sparkle } from "lucide-react";
 import { ChevronRight } from "lucide-react";
+import { useCart } from "./context/Cartcontext";
+
 
 export type DiscountCalculatorType = {
   originalPrice: number;
@@ -37,6 +39,7 @@ const slidesFood = [
 ];
 
 export const FoodDiscount = () => {
+  const { addItem } = useCart();
   const discountPercentage = 20;
   const [quantity, setQuantity] = useState(1);
 
@@ -136,7 +139,18 @@ export const FoodDiscount = () => {
                         </div>
                       </div>
                     </div>
-                    <button className="mt-8 h-12 rounded-sm px-20 bg-green-500 flex justify-center text-white items-center">
+                    <button
+                      className="mt-8 h-12 rounded-sm px-20 bg-green-500 flex justify-center text-white items-center"
+                      onClick={() => {
+                        addItem({
+                          id: index,
+                          title: item.title,
+                          price: discountedPrice,
+                          src: item.src,
+                          quantity,
+                        });
+                      }}
+                    >
                       Сагслах
                     </button>
                   </div>
