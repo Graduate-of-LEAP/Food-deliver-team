@@ -10,6 +10,7 @@ import { FaRegUser } from "react-icons/fa6";
 import { FaBars } from "react-icons/fa6";
 import { useState } from "react";
 import LoginDialog from "../components/LoginDialog";
+import { Cart } from "./Cart";
 
 export const Header = () => {
   const pathname: string = usePathname();
@@ -68,8 +69,8 @@ export const Header = () => {
             ></Input>
           </div>
           <div className="flex gap-2 items-center px-4 font-semibold ">
-            <MdOutlineShoppingBasket />
-            <p>Сагс</p>
+            <MdOutlineShoppingBasket /><Cart />
+
           </div>
           <div className="flex items-center px-4 font-semibold ">
             <FaRegUser />
