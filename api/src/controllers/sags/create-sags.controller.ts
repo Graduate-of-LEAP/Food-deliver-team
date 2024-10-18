@@ -2,11 +2,13 @@ import { RequestHandler } from "express";
 import { sagsModel } from "../../models/sags.schema";
 
 export const createSagsController: RequestHandler = async (req, res) => {
-  const { productId, userId } = req.body; // Extract productId and userId from the request body
+  const { foodId, userId } = req.body; // Extract productId and userId from the request body
 
   try {
     // Check if an order with the same productId and userId already exists
-    const existingOrder = await sagsModel.findOne({ productId, userId });
+    const existingOrder = await sagsModel.findOne({ foodId, userId });
+    console.log(existingOrder);
+    
 
     if (existingOrder) {
       // If an order exists, return a conflict status
