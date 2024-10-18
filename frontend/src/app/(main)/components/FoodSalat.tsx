@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useState } from "react";
 import { Sparkle } from "lucide-react";
 import { ChevronRight } from "lucide-react";
+import { useCart } from "./context/Cartcontext";
 
 const slidesFood = [
   {
@@ -29,6 +30,7 @@ const slidesFood = [
 ];
 
 export const FoodSalad = () => {
+  const { addItem } = useCart();
   const [quantity, setQuantity] = useState(1);
 
   const handleDecrease = () => {
@@ -118,7 +120,18 @@ export const FoodSalad = () => {
                         </div>
                       </div>
                     </div>
-                    <button className="mt-8 h-12 rounded-sm px-20 bg-green-500 flex justify-center text-white items-center">
+                    <button
+                      className="mt-8 h-12 rounded-sm px-20 bg-green-500 flex justify-center text-white items-center"
+                      onClick={() => {
+                        addItem({
+                          id: index,
+                          title: item.title,
+                          price: item.price,
+                          src: item.src,
+                          quantity,
+                        });
+                      }}
+                    >
                       Сагслах
                     </button>
                   </div>

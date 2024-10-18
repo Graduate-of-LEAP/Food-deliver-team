@@ -10,6 +10,7 @@ import { FaRegUser } from "react-icons/fa6";
 import { FaBars } from "react-icons/fa6";
 import { useState } from "react";
 import LoginDialog from "../components/LoginDialog";
+
 import {
   Sheet,
   SheetContent,
@@ -20,6 +21,7 @@ import {
 
 import { Button } from "@/components/ui/button";
 import { FaAngleLeft } from "react-icons/fa";
+
 
 export const Header = () => {
   const pathname: string = usePathname();
@@ -61,7 +63,7 @@ export const Header = () => {
           {paths.slice(0, 3).map((path, index) => (
             <Link key={index} href={path.path}>
               <div
-                style={{ color: pathname === path.path ? "#18Ba51" : "black" }}
+                style={{ color: pathname === path.path ? "#c0f288" : "black" }}
                 className="font-semibold"
               >
                 {path.name}
@@ -78,16 +80,14 @@ export const Header = () => {
           <div className="relative">
             <CiSearch
               size={18}
-              className="absolute w-6 h-6 top-[6px] left-2 border-gray-500"
+              className="absolute w-6 h-6 top-[6px] left-2 border-gray-500 "
             />
             <Input
               type="search"
               placeholder="Бүтээгдэхүүн хайх"
-              className="bg-transparent  w-[260px] px-10 border-gray-500 rounded-md"
+              className="bg-transparent  w-[260px] px-10 border-gray-100 rounded-xl outline-none bg-[#c0f288]"
             ></Input>
           </div>
-
-
           <Sheet>
       <SheetTrigger asChild>
         <Button variant="outline" className="flex gap-2 items-center px-4 font-semibold  border-none">
@@ -140,13 +140,9 @@ export const Header = () => {
                   >
                     +
                   </button>
-                 
                 </div>
-                
               </div>
-             
             </div>
-          
           </div>
         </div>
         <div className="w-full  flex h-fit">

@@ -54,6 +54,7 @@ export const Footer = () => {
               <div>
                 <p className="text-white flex justify-center">© 2024 Pinecone Foods LLC</p>
                 <p className="text-white flex justify-center">Зохиогчийн эрх хуулиар хамгаалагдсан.</p>
+
               </div>
             </div>
           </div>
