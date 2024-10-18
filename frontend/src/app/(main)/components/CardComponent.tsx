@@ -3,7 +3,7 @@ import Image from "next/image";
 
 export const CardComponent = ({ icon, title, desc }: CardType) => {
   return (
-    <div className="border w-fit h-fit rounded-xl p-6 my-10">
+    <div className="border  w-full h-fit rounded-xl p-6 my-10  ">
       <div className="text-[#18BA51]">{icon}</div>
 
       <div>

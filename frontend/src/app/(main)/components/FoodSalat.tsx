@@ -42,7 +42,7 @@ export const FoodSalad = () => {
   };
   return (
     <>
-      <div className="flex flex-col">
+      <div className="flex flex-col container border">
         <div className="flex justify-between mt-6">
           <div className="flex font-bold ">
             <Sparkle className="text-green-400" />
@@ -154,12 +154,11 @@ type foodCardType = {
 export const FoodSaladCard = ({ src, title, price }: foodCardType) => {
   return (
     <div className="">
-      <div className={`relative`}>
+      <div className={`relative  w-[350px] h-[250px]`}>
         <Image
           src={src}
           alt="Picture"
-          width={282}
-          height={186}
+         fill
           className={`object-cover rounded-2xl`}
         ></Image>
       </div>

@@ -1,8 +1,13 @@
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
+import { Header } from "./Header"
+import { Footer } from "./Footer"
  
 export const Forget = () => {
     return(
+        <>
+         <Header/>
+        
         <div className=" w-full flex  justify-center">
             <div className=" container  flex justify-center">
                 <div className="  w-fit px-8 py-8 mt-24">
@@ -19,5 +24,7 @@ export const Forget = () => {
                 </div>
             </div>
         </div>
+        <Footer/>
+        </>
     )
 }

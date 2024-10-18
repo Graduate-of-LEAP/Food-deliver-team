@@ -41,7 +41,7 @@ export const FoodMain = () => {
   };
   return (
     <>
-      <div className="flex flex-col">
+      <div className="flex container border flex-col">
         <div className="flex justify-between mt-6">
           <div className="flex font-bold ">
             <Sparkle className="text-green-400" />
@@ -58,7 +58,7 @@ export const FoodMain = () => {
             Бүгдийг харах <ChevronRight />
           </div>
         </div>{" "}
-        <div className=" grid grid-cols-4 grid-flow-row gap-5 my-10">
+        <div className=" flex w-full justify-around gap-5 my-10">
           {slidesFood?.map((item, index) => {
             return (
               <Dialog key={index}>
@@ -154,12 +154,11 @@ type foodCardType = {
 export const FoodMainCard = ({ src, title, price }: foodCardType) => {
   return (
     <div className="">
-      <div className={`relative`}>
+      <div className={`relative w-[350px] h-[250px]`}>
         <Image
           src={src}
           alt="Picture"
-          width={282}
-          height={186}
+          fill
           className={`object-cover rounded-2xl`}
         ></Image>
       </div>
