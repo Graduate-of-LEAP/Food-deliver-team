@@ -9,11 +9,13 @@ export const createFoodController: RequestHandler = async (req, res) => {
       updatedAt: new Date(),
     });
     return res.status(201).json({
-      message: "Food nemegdlee",
+      message: "Food Nemegdlee",
     });
   } catch (error) {
-    return res.status(500).json({
-      message: "Food buruu l nemeed bndaa",
+    console.log(error);
+
+    return res.status(400).json({
+      message: "createFoodController buruu l nemeed bndaa",
     });
   }
 };
