@@ -2,12 +2,12 @@ import { RequestHandler } from "express";
 import { foodModel } from "../../../src/models/food.schema";
 
 export const editFoodController: RequestHandler = async (req, res) => {
-  const { _id, newPrice, newProductName, newQuantity, newOrts } = req.body;
+  const { _id, newPrice, newFoodtName, newQuantity, newOrts } = req.body;
   try {
     const result = await foodModel.findByIdAndUpdate(
       _id,
       {
-        productName: newProductName,
+        foodName: newFoodtName,
         price: newPrice,
         quantity: newQuantity,
         orts: newOrts,
