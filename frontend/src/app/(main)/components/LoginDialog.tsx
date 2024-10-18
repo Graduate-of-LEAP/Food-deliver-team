@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import Link from "next/link";
 import React, { useState } from "react";
 import { IoEyeOutline } from "react-icons/io5";
 import { IoEyeOffOutline } from "react-icons/io5";
@@ -85,12 +86,14 @@ const LoginDialog: React.FC = () => {
             </Button>
             <p className="text-center ">Эсвэл</p>
             <div className="space-y-8 text-center text-sm">
-              <Button
-                type="submit"
-                className="text-center bg-gray-50 text-black w-full shadow-lg hover:bg-transparent hover:border hover:border-[#f7432b]"
-              >
-                Бүртгүүлэх
-              </Button>
+              <Link href={"/signup"}>
+                <Button
+                  type="submit"
+                  className="text-center bg-gray-50 text-black w-full shadow-lg hover:bg-transparent hover:border hover:border-[#f7432b]"
+                >
+                  Бүртгүүлэх
+                </Button>
+              </Link>
             </div>
           </div>
         </DialogContent>
