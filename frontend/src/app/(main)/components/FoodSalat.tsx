@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useState } from "react";
 import { Sparkle } from "lucide-react";
 import { ChevronRight } from "lucide-react";
+import { useCart } from "./context/Cartcontext";
 
 const slidesFood = [
   {
@@ -29,6 +30,7 @@ const slidesFood = [
 ];
 
 export const FoodSalad = () => {
+  const { addItem } = useCart();
   const [quantity, setQuantity] = useState(1);
 
   const handleDecrease = () => {
@@ -40,7 +42,7 @@ export const FoodSalad = () => {
   };
   return (
     <>
-      <div className="flex flex-col">
+      <div className="flex flex-col container border">
         <div className="flex justify-between mt-6">
           <div className="flex font-bold ">
             <Sparkle className="text-green-400" />
@@ -118,7 +120,18 @@ export const FoodSalad = () => {
                         </div>
                       </div>
                     </div>
-                    <button className="mt-8 h-12 rounded-sm px-20 bg-green-500 flex justify-center text-white items-center">
+                    <button
+                      className="mt-8 h-12 rounded-sm px-20 bg-green-500 flex justify-center text-white items-center"
+                      onClick={() => {
+                        addItem({
+                          id: index,
+                          title: item.title,
+                          price: item.price,
+                          src: item.src,
+                          quantity,
+                        });
+                      }}
+                    >
                       Сагслах
                     </button>
                   </div>
@@ -141,12 +154,11 @@ type foodCardType = {
 export const FoodSaladCard = ({ src, title, price }: foodCardType) => {
   return (
     <div className="">
-      <div className={`relative`}>
+      <div className={`relative  w-[350px] h-[250px]`}>
         <Image
           src={src}
           alt="Picture"
-          width={282}
-          height={186}
+         fill
           className={`object-cover rounded-2xl`}
         ></Image>
       </div>

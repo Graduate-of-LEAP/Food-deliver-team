@@ -3,10 +3,10 @@ import { TbCircleCheckFilled } from "react-icons/tb";
 export const Orderhistory = () => {
 
     return (
-        <div className="flex">
+        <div className="flex gap-60">
             <div className='px-8'>
 
-                <div className='border-2 rounded-lg p-4 flex flex-col  shadow-lg h-[720px]'>
+                <div className='border-2 rounded-lg p-4 flex flex-col w-[432px] shadow-lg h-[720px]'>
                     <p>Захиалгын түүх</p>
                     <div className='flex items-center gap-8 py-8 border-b-2 border-blue-700'>
                         <div className="w-10 h-10 rounded-full flex items-center justify-center border-2">
@@ -24,7 +24,7 @@ export const Orderhistory = () => {
                         </div>
 
                     </div>
-                    <div className='flex items-center gap-8 py-8 border-b-2 border-green-500'>
+                    <div className='flex items-center gap-8  py-8 border-b-2 border-green-500'>
                         <TbCircleCheckFilled color="green" size={48} />
                         <div className='flex justify-between gap-8'>
                             <div className='flex flex-col'>
@@ -43,7 +43,7 @@ export const Orderhistory = () => {
             </div>
             <div className='px-8'>
 
-                <div className='border-2 rounded-lg p-4 flex flex-col  shadow-lg h-[720px] w-[384px]'>
+                <div className='border-2 rounded-lg p-4 flex flex-col  shadow-lg h-[720px] w-[432px]'>
                     <p>Захиалгын дэлгэрэнгүй</p>
                     <div className='py-8 border-b-2 border-gray-200'>
                         <div className='flex justify-between'>

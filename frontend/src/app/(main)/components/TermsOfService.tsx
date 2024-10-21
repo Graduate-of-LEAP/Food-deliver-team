@@ -1,3 +1,4 @@
+
 import { Footer } from "@/app/(main)/components/Footer";
 import { PiStarFourFill } from "react-icons/pi";
 

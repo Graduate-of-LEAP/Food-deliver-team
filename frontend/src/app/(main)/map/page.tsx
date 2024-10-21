@@ -1,8 +1,10 @@
 
 import Image from "next/image";
 import { PiStarFourFill } from "react-icons/pi";
+import { Footer } from "../components/Footer";
+import { Header } from "../components/Header";
 
-export const Map = () => {
+ const Page = () => {
     type Location = {
         title: string;
         about: string;
@@ -28,6 +30,7 @@ export const Map = () => {
 
     return (
         <div className="w-full bg-slate-50">
+            <Header/>
             <div className="flex justify-center">
                 <div className="container">
                     <div className="w-full mt-12 h-fit">
@@ -82,8 +85,9 @@ export const Map = () => {
                     </div>
                 </div>
             </div>
-           
+           <Footer/>
         </div>
         
     );
 };
+export default Page

@@ -1,5 +1,22 @@
 import mongoose from "mongoose";
 const { Schema, model } = mongoose;
+
+const orderFoodSchema = new Schema({
+  food: {
+    type: [Schema.Types.ObjectId],
+    ref: "Food",
+    required: true,
+  },
+  quantity: {
+    type: Number,
+    required: true,
+  },
+  price: {
+    type: String,
+  },
+});
+
+
 const orderSchema = new Schema({
   status: {
     type: String,
@@ -47,21 +64,7 @@ const orderSchema = new Schema({
     default: "Дэлгэрэнгүй мэдээлэл",
   },
   foods: [
-    {
-      food: {
-        type: Schema.Types.ObjectId,
-        ref: "Food",
-        required: true,
-      },
-      count: {
-        type: Number,
-        required: true,
-      },
-      price: {
-        type: Number,
-        required: true,
-      },
-    },
+    orderFoodSchema
   ],
   createdAt: {
     type: Date,

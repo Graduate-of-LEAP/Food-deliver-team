@@ -4,6 +4,8 @@ import Image from "next/image";
 import { useState } from "react";
 import { Sparkle } from "lucide-react";
 import { ChevronRight } from "lucide-react";
+import { useCart } from "./context/Cartcontext";
+
 
 export type DiscountCalculatorType = {
   originalPrice: number;
@@ -37,6 +39,7 @@ const slidesFood = [
 ];
 
 export const FoodDiscount = () => {
+  const { addItem } = useCart();
   const discountPercentage = 20;
   const [quantity, setQuantity] = useState(1);
 
@@ -49,8 +52,8 @@ export const FoodDiscount = () => {
   };
   return (
     <>
-      <div className="flex flex-col">
-        <div className="flex justify-between mt-6">
+      <div className="flex flex-col container border ">
+        <div className="flex justify-between mt-6 px-20">
           <div className="flex font-bold ">
             <Sparkle className="text-green-400" />
             <Image
@@ -66,7 +69,7 @@ export const FoodDiscount = () => {
             Бүгдийг харах <ChevronRight />
           </div>
         </div>
-        <div className=" grid grid-cols-4 grid-flow-row gap-5 my-10">
+        <div className=" flex w-full justify-around gap-5 my-10">
           {slidesFood?.map((item, index) => {
             const discountAmount = item.price * (discountPercentage / 100);
             const discountedPrice = item.price - discountAmount;
@@ -74,7 +77,7 @@ export const FoodDiscount = () => {
               <Dialog key={index}>
                 <DialogTrigger asChild>
                   <div
-                    className="cursor-pointer"
+                    className="cursor-pointer m-auto"
                     onClick={() => { }}
                   >
                     <FoodDiscountCard
@@ -136,7 +139,18 @@ export const FoodDiscount = () => {
                         </div>
                       </div>
                     </div>
-                    <button className="mt-8 h-12 rounded-sm px-20 bg-green-500 flex justify-center text-white items-center">
+                    <button
+                      className="mt-8 h-12 rounded-sm px-20 bg-green-500 flex justify-center text-white items-center"
+                      onClick={() => {
+                        addItem({
+                          id: index,
+                          title: item.title,
+                          price: discountedPrice,
+                          src: item.src,
+                          quantity,
+                        });
+                      }}
+                    >
                       Сагслах
                     </button>
                   </div>
@@ -169,24 +183,23 @@ export const FoodDiscountCard = ({
   discountedPrice,
 }: foodCardType) => {
   return (
-    <div className="">
+    <div className=" ">
       <div className="relative">
-        <div className={`relative`}>
+        <div className={`relative  w-[350px] h-[250px]`}>
           <Image
             src={src}
             alt="Picture"
-            width={282}
-            height={186}
+        fill
             className={`object-cover rounded-2xl`}
           ></Image>
         </div>
-        <div className="absolute top-5 right-6">
+        <div className="absolute top-5 right-10">
           <button className="bg-[#18BA51] rounded-lg px-2 text-white font-semibold text-[12px]">
             {discountPercentage}%
           </button>
         </div>
       </div>
-      <p className="text-base font-bold  text-black ">{title}</p>
+      <p className="text-base font-bold  text-black  ">{title}</p>
       <div className="flex gap-5">
         <p className="text-base font-serif text-[#18BA51]">
           {discountedPrice}₮

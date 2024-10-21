@@ -1,15 +1,18 @@
-
+"use client"
 import { PiStarFourFill } from "react-icons/pi";
+import { Footer } from "../components/Footer";
+import { Header } from "../components/Header";
 
-export const TermsOfService = () => {
+ const Page = () => {
     return (
         <div className="w-full h-fit">
+            <Header/>
             <div className="flex justify-center">
                 <div className="container">
                     <div className="py-8">
                         <div className="flex py-4 gap-4 items-center text-[22px] font-bold">
                             <PiStarFourFill className="text-[#18BA51]" />
-                            Нууцлалын бодлого
+                            Нийтлэг нөхцлүүд
                         </div>
                     </div>
                     <div className="  w-full h-fit  pb-[52px]">
@@ -37,7 +40,8 @@ export const TermsOfService = () => {
                    
                 </div>
             </div>
-           
+          <Footer/>
         </div>
     );
 };
+export default Page;

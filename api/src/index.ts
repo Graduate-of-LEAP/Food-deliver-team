@@ -15,8 +15,9 @@ connectToDataBase();
 const app = express();
 app.use(cors());
 app.use(express.json());
+//
 app.get("/", (_req, res) => {
-  res.json("Hello world");
+  res.json([{ name: "Saraa" }]);
 });
 app.use("/category", categoryRouter);
 app.use("/food", foodRouter);

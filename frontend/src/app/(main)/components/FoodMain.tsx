@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useState } from "react";
 import { Sparkle } from "lucide-react";
 import { ChevronRight } from "lucide-react";
+import { useCart } from "./context/Cartcontext";
 
 const slidesFood = [
   {
@@ -29,6 +30,7 @@ const slidesFood = [
 ];
 
 export const FoodMain = () => {
+  const { addItem } = useCart();
   const [quantity, setQuantity] = useState(1);
   const handleDecrease = () => {
     setQuantity((prevQuantity) => Math.max(prevQuantity - 1, 1));
@@ -39,7 +41,7 @@ export const FoodMain = () => {
   };
   return (
     <>
-      <div className="flex flex-col">
+      <div className="flex container border flex-col">
         <div className="flex justify-between mt-6">
           <div className="flex font-bold ">
             <Sparkle className="text-green-400" />
@@ -56,7 +58,7 @@ export const FoodMain = () => {
             Бүгдийг харах <ChevronRight />
           </div>
         </div>{" "}
-        <div className=" grid grid-cols-4 grid-flow-row gap-5 my-10">
+        <div className=" flex w-full justify-around gap-5 my-10">
           {slidesFood?.map((item, index) => {
             return (
               <Dialog key={index}>
@@ -117,7 +119,18 @@ export const FoodMain = () => {
                         </div>
                       </div>
                     </div>
-                    <button className="mt-8 h-12 rounded-sm px-20 bg-green-500 flex justify-center text-white items-center">
+                    <button
+                      className="mt-8 h-12 rounded-sm px-20 bg-green-500 flex justify-center text-white items-center"
+                      onClick={() => {
+                        addItem({
+                          id: index, // Use a unique ID if available
+                          title: item.title,
+                          price: item.price,
+                          src: item.src,
+                          quantity,
+                        });
+                      }}
+                    >
                       Сагслах
                     </button>
                   </div>
@@ -141,12 +154,11 @@ type foodCardType = {
 export const FoodMainCard = ({ src, title, price }: foodCardType) => {
   return (
     <div className="">
-      <div className={`relative`}>
+      <div className={`relative w-[350px] h-[250px]`}>
         <Image
           src={src}
           alt="Picture"
-          width={282}
-          height={186}
+          fill
           className={`object-cover rounded-2xl`}
         ></Image>
       </div>

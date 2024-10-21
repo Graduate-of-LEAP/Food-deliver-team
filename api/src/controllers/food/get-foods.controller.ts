@@ -8,6 +8,8 @@ export const getFoodsController: RequestHandler = async (req, res) => {
       foods,
     });
   } catch (error) {
+    console.log(error);
+
     return res.status(500).json({
       message: "Food Awahad asuudaltai l bndaa",
     });
