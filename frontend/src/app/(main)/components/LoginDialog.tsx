@@ -32,7 +32,7 @@ const LoginDialog: React.FC = () => {
         <DialogTrigger asChild>
           <Button
             variant="outline"
-            className="border-none shadow-none font-semibold text-base px-2"
+            className="border-none shadow-md font-semibold text-base px-2 pl-8 "
           >
             Нэвтрэх
           </Button>

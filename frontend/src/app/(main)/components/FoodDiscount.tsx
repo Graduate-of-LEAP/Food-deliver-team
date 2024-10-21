@@ -5,7 +5,7 @@ import { useState } from "react";
 import { Sparkle } from "lucide-react";
 import { ChevronRight } from "lucide-react";
 import { useCart } from "./context/Cartcontext";
-
+import { FaRegHeart, FaHeart } from "react-icons/fa";
 
 export type DiscountCalculatorType = {
   originalPrice: number;
@@ -19,7 +19,6 @@ const slidesFood = [
     title: "Өглөөний хоол",
     src: "/images/main2.png",
     price: 14800,
-
   },
   {
     title: "Зайрмаг",
@@ -39,6 +38,7 @@ const slidesFood = [
 ];
 
 export const FoodDiscount = () => {
+  const [saveFood, setSaveFood] = useState();
   const { addItem } = useCart();
   const discountPercentage = 20;
   const [quantity, setQuantity] = useState(1);
@@ -50,6 +50,10 @@ export const FoodDiscount = () => {
   const handleIncrease = () => {
     setQuantity((prevQuantity) => prevQuantity + 1);
   };
+
+  // const handleSave=()=>{
+  //   if(!Array.isArray(saveFood))return;
+  // }
   return (
     <>
       <div className="flex flex-col container border ">
@@ -77,9 +81,26 @@ export const FoodDiscount = () => {
               <Dialog key={index}>
                 <DialogTrigger asChild>
                   <div
-                    className="cursor-pointer m-auto"
-                    onClick={() => { }}
+                    className="cursor-pointer m-auto relative"
+                    onClick={() => {}}
                   >
+                    <div className="w-8 h-8 rounded-full bg-transparent hover:bg-slate-300 duration-300 absolute left-4 top-4 z-50 flex justify-center items-center">
+                      {/* {Array.isArray(saveFood) && saveFood.includes(id) ? (
+        <FaHeart
+          onClick={handleRemoveSave}
+          size={18}
+          className="absolute top-4 right-4 text-red-500 cursor-pointer"
+        />
+      ) : (
+        <FaRegHeart
+          onClick={handleSave}
+          size={18}
+          className="absolute top-4 right-4 cursor-pointer"
+        />
+      )} */}
+                      <FaRegHeart />
+                    </div>
+
                     <FoodDiscountCard
                       src={item.src}
                       title={item.title}
@@ -156,7 +177,6 @@ export const FoodDiscount = () => {
                   </div>
                 </DialogContent>
               </Dialog>
-
             );
           })}
         </div>
@@ -189,7 +209,7 @@ export const FoodDiscountCard = ({
           <Image
             src={src}
             alt="Picture"
-        fill
+            fill
             className={`object-cover rounded-2xl`}
           ></Image>
         </div>
