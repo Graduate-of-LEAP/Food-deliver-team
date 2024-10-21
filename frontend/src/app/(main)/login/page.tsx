@@ -1,6 +1,7 @@
 "use client";
 
 import { useFormik } from "formik";
+import Link from "next/link";
 
 interface FormValues {
   email: string;
@@ -36,9 +37,11 @@ const Page = () => {
             Нэвтрэх
           </button>
           <p>Эсвэл</p>
-          <button className="p-2 bg-gray-50 border shadow-md w-full rounded  hover:bg-green-400 hover:text-white">
-            Бүртгүүлэх
-          </button>
+          <Link href={"/signup"}>
+            <button className="p-2 bg-gray-50 border shadow-md w-full rounded  hover:bg-green-400 hover:text-white">
+              Бүртгүүлэх
+            </button>
+          </Link>
         </div>
       </div>
     </div>
