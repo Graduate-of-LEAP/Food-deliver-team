@@ -4,3 +4,4 @@ export * from "./savedFood";
 // export * from "./order";
 export * from "./sags";
 export * from "./review";
+export * from "./cloudinary";
