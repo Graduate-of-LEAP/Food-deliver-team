@@ -34,7 +34,7 @@ export const Address: React.FC = () => {
   };
 
   return (
-    <div className="flex">
+    <div className="flex gap-60">
       <div className="px-8 w-fit">
         <div className="flex items-center gap-8 py-8">
           {allFieldsFilled() && isPaymentSelected() ? (
@@ -55,9 +55,8 @@ export const Address: React.FC = () => {
           Хаяг аа оруулна уу
           <Select onValueChange={setDistrict} value={district}>
             <SelectTrigger
-              className={`${
-                district ? "bg-green-500 text-white" : "bg-gray-100"
-              } w-[300px]`}
+              className={`${district ? "bg-green-500 text-white" : "bg-gray-100"
+                } w-[432px]`}
             >
               <SelectValue
                 placeholder={
@@ -96,9 +95,8 @@ export const Address: React.FC = () => {
           </Select>
           <Select onValueChange={setKhoro} value={khoro}>
             <SelectTrigger
-              className={`${
-                khoro ? "bg-green-500 text-white" : "bg-gray-100"
-              } w-[300px]`}
+              className={`${khoro ? "bg-green-500 text-white" : "bg-gray-100"
+                } w-[432px]`}
             >
               <SelectValue
                 placeholder={
@@ -131,9 +129,8 @@ export const Address: React.FC = () => {
           </Select>
           <Select onValueChange={setBuilding} value={building}>
             <SelectTrigger
-              className={`${
-                building ? "bg-green-500 text-white" : "bg-gray-100"
-              } w-[300px]`}
+              className={`${building ? "bg-green-500 text-white" : "bg-gray-100"
+                } w-[432px]`}
             >
               <SelectValue
                 placeholder={
@@ -231,7 +228,7 @@ export const Address: React.FC = () => {
           </div>
         </div>
         <div className="border-2 rounded-lg p-4 flex flex-col gap-[24.2rem] shadow-lg">
-          <div className="flex py-2 border-t-2 border-b-2 w-[384px] gap-4 ">
+          <div className="flex py-2 border-t-2 border-b-2 w-[432px] gap-4 ">
             <div className="w-1/2 flex items-center justify-center">
               <Image
                 src="/pizza.png"
@@ -259,11 +256,10 @@ export const Address: React.FC = () => {
               <b>34,800₮</b>
             </div>
             <button
-              className={`w-1/2 rounded-sm text-white ${
-                allFieldsFilled() && isPaymentSelected()
-                  ? "bg-green-500"
-                  : "bg-gray-100 text-gray-400"
-              }`}
+              className={`w-1/2 rounded-sm text-white ${allFieldsFilled() && isPaymentSelected()
+                ? "bg-green-500"
+                : "bg-gray-100 text-gray-400"
+                }`}
               disabled={!allFieldsFilled() || !isPaymentSelected()}
             >
               Захиалах

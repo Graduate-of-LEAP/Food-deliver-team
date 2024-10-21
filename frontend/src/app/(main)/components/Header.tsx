@@ -21,6 +21,7 @@ import {
 
 import { Button } from "@/components/ui/button";
 import { FaAngleLeft } from "react-icons/fa";
+import { Cart } from "./Cart";
 
 
 export const Header = () => {
@@ -88,7 +89,7 @@ export const Header = () => {
               className="bg-transparent  w-[260px] px-10 border-gray-100 rounded-xl outline-none bg-[#c0f288]"
             ></Input>
           </div>
-          <Sheet>
+          {/* <Sheet>
       <SheetTrigger asChild>
         <Button variant="outline" className="flex gap-2 items-center px-4 font-semibold  border-none">
         <MdOutlineShoppingBasket />
@@ -162,11 +163,11 @@ export const Header = () => {
                   </div>
                   </div>
       </SheetContent>
-    </Sheet>
+    </Sheet> */}
 
 
-
-
+          <MdOutlineShoppingBasket />
+          <Cart />
 
 
           <div className="flex items-center px-4 font-semibold ">
@@ -175,7 +176,7 @@ export const Header = () => {
           </div>
         </div>
       </div>
-      
+
     </>
   );
 };
