@@ -14,10 +14,7 @@ export const getOneSavedFoodController: RequestHandler = async (req, res) => {
         return res.status(200).json({
             savedFood
         });
-
     }catch (error) {
         console.log(error)
     }
-  
-    
 }

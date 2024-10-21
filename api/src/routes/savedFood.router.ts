@@ -4,7 +4,9 @@ import {
   editFoodController,
   getOneSavedFoodController,
   getSavedFoodsController,
+  deleteSavedFoodController,
 } from "../controllers";
+
 
 const savedFoodRouter = Router();
 savedFoodRouter
@@ -12,5 +14,6 @@ savedFoodRouter
   .get("/", getSavedFoodsController)
   .get("/:id", getOneSavedFoodController)
   .put("/", editFoodController)
+  .delete("/", deleteSavedFoodController)
 
 export { savedFoodRouter };
