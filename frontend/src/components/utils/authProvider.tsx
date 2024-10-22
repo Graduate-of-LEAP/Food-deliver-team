@@ -32,22 +32,6 @@ type AuthProviderProps = {
   children: ReactNode;
 };
 
-type orderDataResponse = {
-  _id: string;
-  productId: ProductResponse;
-  userId: string;
-  size: string;
-  count: number;
-  price: number;
-}[];
-
-type ProductResponse = {
-  _id: string;
-  productName: string;
-  image: string[];
-  price: number;
-};
-
 export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [userMe, setUserMe] = useState<UserMeResponse | undefined>();
   const userId = userMe?.id || ""; // Use userMe ID
@@ -77,7 +61,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   };
 
   useEffect(() => {
-    getMe(); // Хэрэглэгчийн мэдээллийг татаж авч байна
+    getMe();
   }, []);
 
   return (
