@@ -6,41 +6,10 @@ import { FoodDiscount } from "./FoodDiscount";
 import { FoodMain } from "./FoodMain";
 import { FoodSalad } from "./FoodSalat";
 import { FoodSweet } from "./FoodSweet";
-import { CardComponent } from "./CardComponent";
-import { BookOpen } from "lucide-react";
-import { Clock4 } from "lucide-react";
-import { Salad } from "lucide-react";
-import { Soup } from "lucide-react";
+import CardComponent  from "./CardComponent";
+
 import { DiscountCalculator } from "./DiscountCalculator";
 import { Search } from "./Search";
-
-export type CardType = {
-  icon: JSX.Element;
-  title: string;
-  desc: string;
-};
-const Card = [
-  {
-    icon: <BookOpen />,
-    title: "Хүргэлтийн төлөв хянах",
-    desc: "Захиалга бэлтгэлийн явцыг хянах",
-  },
-  {
-    icon: <Clock4 />,
-    title: "Шуурхай хүргэлт",
-    desc: "Захиалга бэлтгэлийн явцыг хянах",
-  },
-  {
-    icon: <Salad />,
-    title: "Эрүүл, баталгаат орц",
-    desc: "Захиалга бэлтгэлийн явцыг хянах",
-  },
-  {
-    icon: <Soup />,
-    title: "Хоолны өргөн сонголт",
-    desc: "Захиалга бэлтгэлийн явцыг хянах",
-  },
-];
 
 const Main = () => {
   return (
@@ -83,27 +52,21 @@ const Main = () => {
                     />
                   </div>
                 </div>
+                
               </div>
+
+          
             </div>
           </div>
           <div className="container m-auto">
-            <div className="flex gap-7 mt-5 justify-center">
-              {Card.map((item, index) => {
-                return (
-                  <CardComponent
-                    key={index}
-                    icon={item.icon}
-                    title={item.title}
-                    desc={item.desc}
-                  />
-                );
-              })}
-            </div>
+          <CardComponent/>
+            
+         
 
             <div className="flex justify-center">
               <FoodDiscount />
             </div>
-            <div className="flex justify-center">
+            {/* <div className="flex justify-center">
               <FoodMain />
             </div>
             <div className="flex justify-center">
@@ -111,7 +74,7 @@ const Main = () => {
             </div>
             <div className="flex justify-center">
               <FoodSweet />
-            </div>
+            </div> */}
           </div>
         </div>
       </div>

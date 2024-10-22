@@ -3,8 +3,7 @@ import { useState } from 'react';
 import { Header } from '../components/Header';
 import { Footer } from '../components/Footer';
 import { FoodDiscount } from '../components/FoodDiscount';
-import { FoodMain } from '../components/FoodMain';
-import { FoodSweet } from '../components/FoodSweet';
+ 
  
  const Page = () => {
     type Menu = {
@@ -41,8 +40,7 @@ import { FoodSweet } from '../components/FoodSweet';
                 </div>
                 <div>
                     <FoodDiscount/>
-                    <FoodMain/>
-                    <FoodSweet/>
+                  
                 </div>
             </div>
         </div>
