@@ -5,3 +5,6 @@ export * from "./savedFood";
 export * from "./sags";
 export * from "./review";
 export * from "./cloudinary";
+export * from "./auth";
+export * from "./middleware";
+export * from "./user";
