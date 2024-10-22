@@ -11,27 +11,27 @@ const JWT_SECRET=process.env.JWT_SECRET as string;
 
 export const registerController:RequestHandler=async(req,res)=>{
     try{
-        const {username,email,address,password}=req.body;
-        console.log(username);
+        const {userName,email,password}=req.body;
 
-        if(!username||!email||!address||!password){
+        if(!userName||!email||!password){
             return res.status(400).json({
 message:"Хэрэглэгчийн нэр, email болон нууц үг шаардлагатай.."
             });
         }
         const existingUser=await userModel.findOne({email});
-
+        console.log("Existing user:", existingUser);
         if (existingUser){
             return res.status(400).json({message:"Хэрэглэгч бүртгэлтэй байна."})
         }
-        const salt=await bcrypt.genSalt(10);
-        const hashedPassword=await bcrypt.hash(password,salt)
+        // const salt=await bcrypt.genSalt(10);
+        // const hashedPassword=await bcrypt.hash(password,salt)
 
         const newUser=new userModel({
-            username,email,password:hashedPassword,
+            userName,email,password,
             role:"user",
         });
         await newUser.save();
+        console.log("New user saved:", newUser);
 
         // const token=jwt.sign(
         //     {userId:newUser._id,email:newUser.email, role:newUser.role},
@@ -43,9 +43,8 @@ message:"Хэрэглэгчийн нэр, email болон нууц үг шаа�
             // token,
             user:{
                 id:newUser._id,
-                username: newUser.userName,
+                userName: newUser.userName,
                 email:newUser.email,
-                address:newUser.address,
                 role:newUser.role
             },
         });
