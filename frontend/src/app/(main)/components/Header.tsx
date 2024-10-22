@@ -11,18 +11,12 @@ import { FaBars } from "react-icons/fa6";
 import { useState } from "react";
 import LoginDialog from "../components/LoginDialog";
 
-import {
-  Sheet,
-  SheetContent,
-  SheetTrigger,
-} from "@/components/ui/sheet";
-
-
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 
 import { Button } from "@/components/ui/button";
 import { FaAngleLeft } from "react-icons/fa";
 import { Cart } from "./Cart";
-
+import { Drawer } from "./Drawer";
 
 export const Header = () => {
   const pathname: string = usePathname();
@@ -165,18 +159,16 @@ export const Header = () => {
       </SheetContent>
     </Sheet> */}
 
-
           <MdOutlineShoppingBasket />
           <Cart />
-
 
           <div className="flex items-center px-4 font-semibold ">
             <FaRegUser />
             <LoginDialog />
+            <Drawer />
           </div>
         </div>
       </div>
-
     </>
   );
 };
