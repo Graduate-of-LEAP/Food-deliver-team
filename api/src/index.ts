@@ -5,6 +5,7 @@ import { connectToDataBase } from "./database";
 import {
   categoryRouter,
   foodRouter,
+  getMeRouter,
   orderRouter,
   reviewRouter,
   sagsRouter,
@@ -13,6 +14,7 @@ import {
 } from "./routes";
 import { upload } from "./controllers/config/multer";
 import { createCloudinaryController } from "./controllers";
+import authMiddleware from "./controllers/middleware/auth.middleware";
 
 connectToDataBase();
 const app = express();
@@ -22,6 +24,8 @@ app.use(express.json());
 app.get("/", (_req, res) => {
   res.json([{ name: "Saraa" }]);
 });
+app.use(authMiddleware);
+
 app.use("/category", categoryRouter);
 app.use("/food", foodRouter);
 app.use("/user", userRouter);
@@ -29,6 +33,7 @@ app.use("/savedFood", savedFoodRouter);
 app.use("/order", orderRouter);
 app.use("/sags", sagsRouter);
 app.use("/review", reviewRouter);
+app.use("/auth", getMeRouter);
 
 cloudinary.config({
   cloud_name: process.env.CLOUD_NAME,
