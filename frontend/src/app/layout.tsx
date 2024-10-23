@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import { CartProvider } from "./(main)/components/context/Cartcontext";
+import { ToastContainer } from "react-toastify";
+import { AuthProvider } from "@/components/utils/authProvider";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -30,7 +32,8 @@ export default function RootLayout({
         <body
           className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         >
-          {children}
+          <AuthProvider>{children}</AuthProvider>
+          <ToastContainer />
         </body>
       </CartProvider>
     </html>

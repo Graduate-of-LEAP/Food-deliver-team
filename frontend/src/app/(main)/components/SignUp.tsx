@@ -12,11 +12,9 @@ import api from "axios";
 interface Formvalues {
   userName: string;
   email: string;
-  address: string;
   password: string;
   confirmPassword: string;
 }
-
 export const SignUp: FC = () => {
   const router = useRouter();
   const [, setSuccessMessage] = useState("");
@@ -33,50 +31,29 @@ export const SignUp: FC = () => {
     initialValues: {
       userName: "",
       email: "",
-      address: "",
       password: "",
       confirmPassword: "",
     },
-    validationSchema: Yup.object({
-      username: Yup.string().required("Хэрэглэгчийн нэр шаардлагатай"),
-      email: Yup.string()
-        .email("Имэйл хаяг буруу байна")
-        .required("Имэйл хаяг шаардлагатай"),
-      address: Yup.string().required("Хаягаа оруулна уу"),
-      password: Yup.string()
-        .min(8, "Нууц үг 8 тэмдэгтээс дээш байх ёстой")
-        .matches(/[A-Z]/, "Том үсэг оруулах шаардлагатай")
-        .matches(/[a-z]/, "Жижиг үсэг оруулах шаардлагатай")
-        .matches(/\d/, "Тоо оруулах шаардлагатай")
-        .matches(/[\W_]/, "Тусгай тэмдэгт оруулах шаардлагатай")
-        .required("Нууц үг шаардлагатай"),
-      confirmPassword: Yup.string()
-        .oneOf([Yup.ref("password")], "Нууц үг таарахгүй байна")
-        .required("Нууц үгээ давтан оруулах шаардлагатай"),
-    }),
+
     onSubmit: async (values) => {
+      console.log("FormValues", values);
       try {
-        const response = await register(values);
-        console.log("Амжилттай бүртгүүллээ:", response.data);
+        await api.post("http://localhost:3001/user/register", {
+          userName: values.userName,
+          email: values.email,
+          password: values.password,
+        });
+        console.log("server");
+        setSuccessMessage("Амжилттай бүртгүүллээ!");
+        console.log("Амжилттай бүртгүүллээ!");
+        setTimeout(() => {
+          router.push("/login");
+        }, 5000);
       } catch (error) {
         console.error("Бүртгэл амжилтгүй боллоо:", error);
       }
     },
   });
-  const register = async (values: Formvalues) => {
-    const response = await axios.post("https:locakhost:3001/register", {
-      username: values.userName,
-      email: values.email,
-      address: values.address,
-      password: values.password,
-    });
-    return response;
-  };
-
-  const isValidUpperCase = /[A-Z]/.test(formik.values.password);
-  const isValidLowerCase = /[a-z]/.test(formik.values.password);
-  const isValidNumber = /\d/.test(formik.values.password);
-  const isValidSpecialChar = /[\W_]/.test(formik.values.password);
 
   return (
     <div>
@@ -94,11 +71,6 @@ export const SignUp: FC = () => {
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
               />
-              {formik.touched.userName && formik.errors.userName ? (
-                <div className="text-xs text-red-500">
-                  {formik.errors.userName}
-                </div>
-              ) : null}
             </div>
             <div className="flex flex-col text-sm">
               <label>И-мэйл</label>
@@ -110,27 +82,6 @@ export const SignUp: FC = () => {
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
               />
-              {formik.touched.email && formik.errors.email ? (
-                <div className="text-xs text-red-500">
-                  {formik.errors.email}
-                </div>
-              ) : null}
-            </div>
-            <div className="flex flex-col text-sm">
-              <label>Хаяг</label>
-              <input
-                name="address"
-                className="border bg-gray-50 p-2 rounded shadow-lg"
-                placeholder="Хаягаа оруулна уу"
-                value={formik.values.address}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-              />
-              {formik.touched.address && formik.errors.address ? (
-                <div className="text-xs text-red-500">
-                  {formik.errors.address}
-                </div>
-              ) : null}
             </div>
             <div className="flex flex-col text-sm relative">
               <label>Нууц үг</label>
@@ -143,11 +94,6 @@ export const SignUp: FC = () => {
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
               />
-              {formik.touched.password && formik.errors.password ? (
-                <div className="text-xs text-red-500">
-                  {formik.errors.password}
-                </div>
-              ) : null}
               <div
                 className="absolute right-3 top-10 transform -translate-y-1/2 cursor-pointer"
                 onClick={togglePasswordVisibility}
@@ -179,52 +125,6 @@ export const SignUp: FC = () => {
                 </div>
               ) : null}
             </div>
-            <div className="text-xs p-2 leading-5 text-gray-500 ">
-              <li
-                className={`${
-                  formik.values.password === ""
-                    ? "text-gray-500"
-                    : isValidUpperCase
-                    ? "text-green-500"
-                    : "text-red-500"
-                }`}
-              >
-                Том үсэг оруулах шаардлагатай
-              </li>
-              <li
-                className={`${
-                  formik.values.password === ""
-                    ? "text-gray-500"
-                    : isValidLowerCase
-                    ? "text-green-500"
-                    : "text-red-500"
-                }`}
-              >
-                Жижиг үсэг оруулах шаардлагатай
-              </li>
-              <li
-                className={`${
-                  formik.values.password === ""
-                    ? "text-gray-500"
-                    : isValidNumber
-                    ? "text-green-500"
-                    : "text-red-500"
-                }`}
-              >
-                Тоо оруулах шаардлагатай
-              </li>
-              <li
-                className={`${
-                  formik.values.password === ""
-                    ? "text-gray-500"
-                    : isValidSpecialChar
-                    ? "text-green-500"
-                    : "text-red-500"
-                }`}
-              >
-                Тусгай тэмдэгт оруулах шаардлагатай
-              </li>
-            </div>
             <div>
               <div className="flex gap-2 items-center text-sm py-12">
                 <Checkbox onClick={handleCheckboxClick} />
@@ -235,10 +135,19 @@ export const SignUp: FC = () => {
                 </Link>
               </div>
             </div>
-
             <button
               type="submit"
-              className="bg-gray-50 p-2 rounded w-full text-center text-sm cursor-pointer shadow-lg"
+              className={`${
+                isChecked
+                  ? "bg-green-500  text-white cursor-pointer "
+                  : "bg-gray-200 cursor-not-allowed "
+              }py-2 rounded w-full text-center text-sm shadow-lg`}
+              disabled={!isChecked}
+              onClick={() => {
+                if (isChecked) {
+                  router.push("/login");
+                }
+              }}
             >
               Бүртгүүлэх
             </button>

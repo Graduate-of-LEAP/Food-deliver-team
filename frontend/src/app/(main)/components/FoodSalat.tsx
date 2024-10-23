@@ -8,8 +8,6 @@ import { api } from "@/lib/axios";
 import { useEffect, useState } from "react";
 import { FoodDiscountCard } from "./FoodDiscountCart"
 
-
-
 type CategoryType={
   _id:string;
   categoryName:string;
@@ -19,7 +17,6 @@ type foodCardType = {
   images: string[];
   foodName: string;
   price: number;
-
 };
 
 export const FoodSalad = () => {
@@ -42,6 +39,7 @@ export const FoodSalad = () => {
   }, []);
   const { addItem } = useCart();
   const [quantity, setQuantity] = useState(1);
+  const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   const handleDecrease = () => {
     setQuantity((prevQuantity) => Math.max(prevQuantity - 1, 1));
@@ -50,6 +48,19 @@ export const FoodSalad = () => {
   const handleIncrease = () => {
     setQuantity((prevQuantity) => prevQuantity + 1);
   };
+  const handleAddToCart = (item: typeof slidesFood[number], index: number) => {
+    addItem({
+      id: index,
+      title: item.title,
+      price: item.price,
+      src: item.src,
+      quantity,
+    });
+
+    toast.success(`${item.title} added to cart!`); // Show toast notification
+    setOpenIndex(null); // Close the dialog
+  };
+
   return (
     <>
       <div className="flex flex-col container border">
@@ -239,7 +250,7 @@ export const FoodSalad = () => {
         <div className=" grid grid-cols-4 grid-flow-row gap-5 my-10">
           {filteredSweetFoods?.map((item, index) => {
             return (
-              <Dialog key={index}>
+              <Dialog key={index} open={openIndex === index} onOpenChange={(open) => setOpenIndex(open ? index : null)}>
                 <DialogTrigger asChild>
                   <div
                     className="cursor-pointer"
@@ -335,7 +346,7 @@ export const FoodSaladCard = ({ src, title, price }: FoodDiscountCardProps) => {
         <Image
           src={src}
           alt="Picture"
-         fill
+          fill
           className={`object-cover rounded-2xl`}
         ></Image>
       </div>

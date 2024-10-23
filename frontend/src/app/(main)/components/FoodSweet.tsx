@@ -7,7 +7,7 @@ import { ChevronRight } from "lucide-react";
 import { useCart } from "./context/Cartcontext";
 import { api } from "@/lib/axios";
 import { useEffect, useState } from "react";
-
+import { toast } from 'react-toastify';
 
 
 type CategoryType={
@@ -43,13 +43,25 @@ export const FoodSweet = () => {
 
   const { addItem } = useCart();
   const [quantity, setQuantity] = useState(1);
-
+  const [openIndex, setOpenIndex] = useState<number | null>(null);
   const handleDecrease = () => {
     setQuantity((prevQuantity) => Math.max(prevQuantity - 1, 1));
   };
 
   const handleIncrease = () => {
     setQuantity((prevQuantity) => prevQuantity + 1);
+  };
+  const handleAddToCart = (item: typeof slidesFood[number], index: number) => {
+    addItem({
+      id: index,
+      title: item.title,
+      price: item.price,
+      src: item.src,
+      quantity,
+    });
+
+    toast.success(`${item.title} added to cart!`); // Show toast notification
+    setOpenIndex(null); // Close the dialog
   };
   return (
     <>
@@ -75,7 +87,7 @@ export const FoodSweet = () => {
         
 
             return (
-              <Dialog key={index}>
+              <Dialog key={index} open={openIndex === index} onOpenChange={(open) => setOpenIndex(open ? index : null)}>
                 <DialogTrigger asChild>
                   <div
                     className="cursor-pointer"
@@ -172,7 +184,7 @@ export const FoodSweetCard = ({ src, title, price }: FoodDiscountCardProps) => {
         <Image
           src={src}
           alt="Picture"
-         fill
+          fill
           className={`object-cover rounded-2xl`}
         ></Image>
       </div>

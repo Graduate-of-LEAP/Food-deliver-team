@@ -4,6 +4,8 @@ import Image from "next/image";
 import { Sparkle } from "lucide-react";
 import { ChevronRight } from "lucide-react";
 import { useCart } from "./context/Cartcontext";
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { api } from "@/lib/axios";
 import { useEffect, useState } from "react";
 import {
@@ -63,6 +65,7 @@ export const FoodDiscount = () => {
 
   const { addItem } = useCart();
   const [quantity, setQuantity] = useState(1);
+  const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   const handleDecrease = () => {
     setQuantity((prevQuantity) => Math.max(prevQuantity - 1, 1));
@@ -72,9 +75,6 @@ export const FoodDiscount = () => {
     setQuantity((prevQuantity) => prevQuantity + 1);
   };
 
-
-
-
   useEffect(() => {
     const interval = setInterval(() => {
       percent === 3 ? setIsTransitioning(false) : setIsTransitioning(true);
@@ -83,6 +83,7 @@ export const FoodDiscount = () => {
     return () => clearInterval(interval);
   });
  
+
   return (
     <>
       <div className="flex flex-col container border ">
@@ -91,25 +92,12 @@ export const FoodDiscount = () => {
           <div className="flex font-bold ">
 
             <Sparkle className="text-green-400" />
-            <Image
-              src="/images/Star.png"
-              alt="Description"
-              width={20}
-              height={20}
-              className=""
-            />
+            <Image src="/images/Star.png" alt="Description" width={20} height={20} />
             Хямдралтай
           </div>      
         </div>
-      
-  
- <div className=" flex justify-center bg-blue-300   "
-
->
-
-    <Carousel   className="  w-[800px]"
-    
-       >
+ <div className=" flex justify-center bg-blue-300   ">
+    <Carousel   className="  w-[800px]">
       <CarouselContent style={{ transform: `translateX(-${(percent * 100) / 6}%)` }}
     className={`  w-full flex h-fit gap-10  ${
       isTransitioning ? "duration-1000" : null 
@@ -129,15 +117,14 @@ export const FoodDiscount = () => {
                     className="cursor-pointer m-auto"
                     onClick={() => { }}
                   >
-                    
+
                     <FoodDiscountCard
                       src={item.images[0]}
                       title={item.foodName}
                       price={item.price}
                       discountPercentage={item.salePercent}
                       discountAmount={discountAmount}
-                      discountedPrice={discountedPrice}
-                    />
+                      discountedPrice={discountedPrice}/>
                     
                   </div>
                 </DialogTrigger>
@@ -152,16 +139,15 @@ export const FoodDiscount = () => {
                       className="h-full w-full object-cover rounded-2xl"
                     />
                   </div>
-
                   <div className="w-[48%] flex flex-col py-8">
                     <div>
                       <b className="text-2xl">{item.foodName}</b>
                       <div className="flex gap-5">
                         <p className="text-base font-serif text-[#18BA51]">
-                          {discountAmount}₮
+                          {item.price * (discountPercentage / 100)}₮
                         </p>
                         <p className="text-base font-serif text-[#e13bc8] line-through">
-                          {discountedPrice}₮
+                          {item.price - (item.price * (discountPercentage / 100))}₮
                         </p>
                       </div>
                     </div>
@@ -175,17 +161,11 @@ export const FoodDiscount = () => {
                       <b className="text-lg">Тоо</b>
                       <div>
                         <div className="flex justify-between">
-                          <button
-                            className="h-10 px-4 text-xl rounded-lg bg-green-500 text-white"
-                            onClick={handleDecrease}
-                          >
+                          <button className="h-10 px-4 text-xl rounded-lg bg-green-500 text-white" onClick={handleDecrease}>
                             -
                           </button>
                           <div className="flex items-center">{quantity}</div>
-                          <button
-                            className="h-10 px-4 text-xl rounded-lg bg-green-500 text-white"
-                            onClick={handleIncrease}
-                          >
+                          <button className="h-10 px-4 text-xl rounded-lg bg-green-500 text-white" onClick={handleIncrease}>
                             +
                           </button>
                         </div>
@@ -208,9 +188,6 @@ export const FoodDiscount = () => {
                   </div>
                 </DialogContent>
               </Dialog>
-
-                  
-                  
                   <span className="text-2xl font-semibold">{index + 1}</span>
                 </CardContent>
               </Card>
@@ -221,8 +198,6 @@ export const FoodDiscount = () => {
       <CarouselPrevious />
       <CarouselNext />
     </Carousel>
-
-  
     </div>
       {/* filteredSaladFoods*/}
     <div className="w-full  bg-red-400">
@@ -306,26 +281,15 @@ export const FoodDiscount = () => {
                   </div>
                 </DialogContent>
               </Dialog>
-
             );
           })}
         </div>
         </div>   
-         {/*  */}
-
-
     </div >
-
-    
-   
-    
-    
-
-    
-
     </>
   );
 };
+
 
 
 
