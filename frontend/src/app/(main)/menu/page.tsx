@@ -15,6 +15,7 @@ type Category = {
   type Menu = {
     title: string,
 };
+
  const Page = () => {
     type Menu = {
         title: string,
@@ -77,7 +78,7 @@ type Category = {
                 <div className="bg-pink-200">
                     
                     <FoodDiscount />
-                   
+
                 </div>
             </div>
         </div>
