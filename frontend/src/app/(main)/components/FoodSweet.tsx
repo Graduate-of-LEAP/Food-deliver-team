@@ -5,6 +5,7 @@ import { useState } from "react";
 import { Sparkle } from "lucide-react";
 import { ChevronRight } from "lucide-react";
 import { useCart } from "./context/Cartcontext";
+import { toast } from 'react-toastify';
 
 const slidesFood = [
   {
@@ -32,13 +33,25 @@ const slidesFood = [
 export const FoodSweet = () => {
   const { addItem } = useCart();
   const [quantity, setQuantity] = useState(1);
-
+  const [openIndex, setOpenIndex] = useState<number | null>(null);
   const handleDecrease = () => {
     setQuantity((prevQuantity) => Math.max(prevQuantity - 1, 1));
   };
 
   const handleIncrease = () => {
     setQuantity((prevQuantity) => prevQuantity + 1);
+  };
+  const handleAddToCart = (item: typeof slidesFood[number], index: number) => {
+    addItem({
+      id: index,
+      title: item.title,
+      price: item.price,
+      src: item.src,
+      quantity,
+    });
+
+    toast.success(`${item.title} added to cart!`); // Show toast notification
+    setOpenIndex(null); // Close the dialog
   };
   return (
     <>
@@ -62,7 +75,7 @@ export const FoodSweet = () => {
         <div className=" flex w-full  justify-around gap-5 my-10">
           {slidesFood?.map((item, index) => {
             return (
-              <Dialog key={index}>
+              <Dialog key={index} open={openIndex === index} onOpenChange={(open) => setOpenIndex(open ? index : null)}>
                 <DialogTrigger asChild>
                   <div
                     className="cursor-pointer"
@@ -121,15 +134,7 @@ export const FoodSweet = () => {
                     </div>
                     <button
                       className="mt-8 h-12 rounded-sm px-20 bg-green-500 flex justify-center text-white items-center"
-                      onClick={() => {
-                        addItem({
-                          id: index,
-                          title: item.title,
-                          price: item.price,
-                          src: item.src,
-                          quantity,
-                        });
-                      }}
+                      onClick={() => handleAddToCart(item, index)}
                     >
                       Сагслах
                     </button>
@@ -157,7 +162,7 @@ export const FoodSweetCard = ({ src, title, price }: foodCardType) => {
         <Image
           src={src}
           alt="Picture"
-         fill
+          fill
           className={`object-cover rounded-2xl`}
         ></Image>
       </div>
