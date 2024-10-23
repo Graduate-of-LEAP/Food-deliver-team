@@ -103,16 +103,14 @@
 //                 key={category._id}
 //                 className=""
 //                 >
-                 
+
 //                 {/* <button className="border border-b px-2 rounded-lg">{category.categoryName}</button> */}
-                
+
 //               </div>
 //             ))}
 
-                  
 //       </div>
 //       {/*  */}
-
 
 //           {/*  */}
 //         <div className="flex justify-between mt-6 px-20">
@@ -378,7 +376,6 @@
 //   );
 // };
 
-
 // // export const GGG = () => {
 // //   return(
 // //     <div>dfkjgnfgjkhnf</div>
@@ -401,6 +398,7 @@ import {
 } from "@/components/ui/carousel";
 import { Card, CardContent } from "@/components/ui/card";
 import { Category } from "../menu/page";
+import { FoodDiscountCard } from "./FoodDiscountCart";
 
 export type DiscountCalculatorType = {
   originalPrice: number;
@@ -459,7 +457,6 @@ export const FoodDiscount = () => {
     setQuantity((prevQuantity) => prevQuantity + 1);
   };
 
-
   const handleNext = () => {
     setPercent((prev) => (prev + 1) % filteredSaledPercentFoods.length);
     setIsTransitioning(true);
@@ -471,7 +468,6 @@ export const FoodDiscount = () => {
     );
     setIsTransitioning(true);
   };
-
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -551,7 +547,6 @@ export const FoodDiscount = () => {
                                 <p className="text-green-500 text-lg font-bold">
                                   {discountedPrice}₮
                                 </p>
-
                               </div>
                               <div className="flex flex-col gap-4">
                                 <b className="text-lg">Тоо</b>
@@ -565,7 +560,6 @@ export const FoodDiscount = () => {
                                     </button>
                                     <div className="flex items-center">
                                       {quantity}
-
                                     </div>
                                     <button
                                       className="h-10 px-4 text-xl rounded-lg bg-green-500 text-white"
@@ -604,7 +598,6 @@ export const FoodDiscount = () => {
           <CarouselNext onClick={handleNext} />
         </Carousel>
       </div>
-
     </div>
   );
 };
