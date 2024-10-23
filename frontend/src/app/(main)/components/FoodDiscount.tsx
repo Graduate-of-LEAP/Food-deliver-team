@@ -4,8 +4,8 @@ import Image from "next/image";
 import { Sparkle } from "lucide-react";
 import { ChevronRight } from "lucide-react";
 import { useCart } from "./context/Cartcontext";
-import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { api } from "@/lib/axios";
 import { useEffect, useState } from "react";
 import {
@@ -14,9 +14,9 @@ import {
   CarouselItem,
   CarouselNext,
   CarouselPrevious,
-} from "@/components/ui/carousel"
+} from "@/components/ui/carousel";
 import { Card, CardContent } from "@/components/ui/card";
-import { FoodDiscountCard } from "./FoodDiscountCart"
+import { FoodDiscountCard } from "./FoodDiscountCart";
 
 export type DiscountCalculatorType = {
   originalPrice: number;
@@ -24,12 +24,12 @@ export type DiscountCalculatorType = {
   discountAmount: number;
   discountPrice: number;
 };
-type CategoryType={
-  _id:string;
-  categoryName:string;
-}
+type CategoryType = {
+  _id: string;
+  categoryName: string;
+};
 type foodCardType = {
-  category:CategoryType[];
+  category: CategoryType[];
   images: string[];
   foodName: string;
   price: number;
@@ -40,10 +40,9 @@ type foodCardType = {
 export const FoodDiscount = () => {
   const [percent, setPercent] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(true);
-  
 
   const [foods, setFoods] = useState<foodCardType[]>([]);
-  
+
   const getFoods = async () => {
     try {
       const response = await api.get("/food");
@@ -54,10 +53,18 @@ export const FoodDiscount = () => {
     }
   };
 
-  const filteredSaledPercentFoods = foods.filter(item => item.salePercent > 0);
-  const filteredVndsenHoolfoods=foods.filter(item=>item.category[0].categoryName==="Breakfast")
-  const filteredSaladFoods = foods.filter (item=> item.category[0].categoryName=== "Desserts")
-  const filteredSweetFoods = foods.filter (item=> item.category[0].categoryName=== "Soup")
+  const filteredSaledPercentFoods = foods.filter(
+    (item) => item.salePercent > 0
+  );
+  const filteredVndsenHoolfoods = foods.filter(
+    (item) => item.category[0].categoryName === "Breakfast"
+  );
+  const filteredSaladFoods = foods.filter(
+    (item) => item.category[0].categoryName === "Desserts"
+  );
+  const filteredSweetFoods = foods.filter(
+    (item) => item.category[0].categoryName === "Soup"
+  );
 
   useEffect(() => {
     getFoods();
@@ -82,217 +89,222 @@ export const FoodDiscount = () => {
     }, 3000);
     return () => clearInterval(interval);
   });
- 
 
   return (
     <>
       <div className="flex flex-col container border ">
         <div className="flex justify-between mt-6 px-20">
-          
           <div className="flex font-bold ">
-
             <Sparkle className="text-green-400" />
-            <Image src="/images/Star.png" alt="Description" width={20} height={20} />
+            <Image
+              src="/images/Star.png"
+              alt="Description"
+              width={20}
+              height={20}
+            />
             Хямдралтай
-          </div>      
+          </div>
         </div>
- <div className=" flex justify-center bg-blue-300   ">
-    <Carousel   className="  w-[800px]">
-      <CarouselContent style={{ transform: `translateX(-${(percent * 100) / 6}%)` }}
-    className={`  w-full flex h-fit gap-10  ${
-      isTransitioning ? "duration-1000" : null 
-    }`}>
-        {filteredSaledPercentFoods.map((item, index) => {
-          const discountAmount = item.price * (item.salePercent / 100);
-          const discountedPrice = item.price - discountAmount;
-          return(
-          <CarouselItem key={index} className="pl-1  md:basis-1/2 relative lg:basis-1/3">
-            <div className="p-1">
-              <Card>
-                <CardContent className="flex aspect-square items-center justify-center p-6">
-                     <Dialog key={index}>
-                
-                <DialogTrigger asChild>
-                  <div
-                    className="cursor-pointer m-auto"
-                    onClick={() => { }}
+        <div className=" flex justify-center bg-blue-300   ">
+          <Carousel className="  w-[800px]">
+            <CarouselContent
+              style={{ transform: `translateX(-${(percent * 100) / 6}%)` }}
+              className={`  w-full flex h-fit gap-10  ${
+                isTransitioning ? "duration-1000" : null
+              }`}
+            >
+              {filteredSaledPercentFoods.map((item, index) => {
+                const discountAmount = item.price * (item.salePercent / 100);
+                const discountedPrice = item.price - discountAmount;
+                return (
+                  <CarouselItem
+                    key={index}
+                    className="pl-1  md:basis-1/2 relative lg:basis-1/3"
                   >
+                    <div className="p-1">
+                      <Card>
+                        <CardContent className="flex aspect-square items-center justify-center p-6">
+                          <Dialog key={index}>
+                            <DialogTrigger asChild>
+                              <div
+                                className="cursor-pointer m-auto"
+                                onClick={() => {}}
+                              >
+                                <FoodDiscountCard
+                                  src={item.images[0]}
+                                  title={item.foodName}
+                                  price={item.price}
+                                  discountPercentage={item.salePercent}
+                                  discountAmount={discountAmount}
+                                  discountedPrice={discountedPrice}
+                                />
+                              </div>
+                            </DialogTrigger>
 
-                    <FoodDiscountCard
-                      src={item.images[0]}
-                      title={item.foodName}
-                      price={item.price}
-                      discountPercentage={item.salePercent}
-                      discountAmount={discountAmount}
-                      discountedPrice={discountedPrice}/>
-                    
-                  </div>
-                </DialogTrigger>
-              
-                <DialogContent className="sm:max-w-[800px] flex gap-8">
-                  <div className="w-[48%]">
-                    <Image
-                      src={item.images[0]}
-                      width={800}
-                      height={800}
-                      alt="Picture of the pizza"
-                      className="h-full w-full object-cover rounded-2xl"
-                    />
-                  </div>
-                  <div className="w-[48%] flex flex-col py-8">
-                    <div>
-                      <b className="text-2xl">{item.foodName}</b>
-                      <div className="flex gap-5">
-                        <p className="text-base font-serif text-[#18BA51]">
-                          {item.price * (discountPercentage / 100)}₮
-                        </p>
-                        <p className="text-base font-serif text-[#e13bc8] line-through">
-                          {item.price - (item.price * (discountPercentage / 100))}₮
-                        </p>
-                      </div>
+                            <DialogContent className="sm:max-w-[800px] flex gap-8">
+                              <div className="w-[48%]">
+                                <Image
+                                  src={item.images[0]}
+                                  width={800}
+                                  height={800}
+                                  alt="Picture of the pizza"
+                                  className="h-full w-full object-cover rounded-2xl"
+                                />
+                              </div>
+                              <div className="w-[48%] flex flex-col py-8">
+                                <div>
+                                  <b className="text-2xl">{item.foodName}</b>
+                                  <div className="flex gap-5">
+                                    <p className="text-base font-serif text-[#18BA51]">
+                                      {/* {item.price * (discountPercentage / 100)}₮ */}
+                                    </p>
+                                    <p className="text-base font-serif text-[#e13bc8] line-through">
+                                      {/* {item.price - (item.price * (discountPercentage / 100))}₮ */}
+                                    </p>
+                                  </div>
+                                </div>
+                                <div>
+                                  <b className="text-lg">Орц</b>
+                                  <p className="p-2 bg-gray-50 rounded-lg my-2">
+                                    Хулуу, төмс, лууван, сонгино, цөцгийн тос,
+                                    самрын үр
+                                  </p>
+                                </div>
+                                <div className="flex flex-col gap-4">
+                                  <b className="text-lg">Тоо</b>
+                                  <div>
+                                    <div className="flex justify-between">
+                                      <button
+                                        className="h-10 px-4 text-xl rounded-lg bg-green-500 text-white"
+                                        onClick={handleDecrease}
+                                      >
+                                        -
+                                      </button>
+                                      <div className="flex items-center">
+                                        {quantity}
+                                      </div>
+                                      <button
+                                        className="h-10 px-4 text-xl rounded-lg bg-green-500 text-white"
+                                        onClick={handleIncrease}
+                                      >
+                                        +
+                                      </button>
+                                    </div>
+                                  </div>
+                                </div>
+                                <button
+                                  className="mt-8 h-12 rounded-sm px-20 bg-green-500 flex justify-center text-white items-center"
+                                  onClick={() => {
+                                    addItem({
+                                      id: index,
+                                      title: item.foodName,
+                                      price: discountedPrice,
+                                      src: item.images[0],
+                                      quantity,
+                                    });
+                                  }}
+                                >
+                                  Сагслах
+                                </button>
+                              </div>
+                            </DialogContent>
+                          </Dialog>
+                          <span className="text-2xl font-semibold">
+                            {index + 1}
+                          </span>
+                        </CardContent>
+                      </Card>
                     </div>
-                    <div>
-                      <b className="text-lg">Орц</b>
-                      <p className="p-2 bg-gray-50 rounded-lg my-2">
-                        Хулуу, төмс, лууван, сонгино, цөцгийн тос, самрын үр
-                      </p>
-                    </div>
-                    <div className="flex flex-col gap-4">
-                      <b className="text-lg">Тоо</b>
-                      <div>
-                        <div className="flex justify-between">
-                          <button className="h-10 px-4 text-xl rounded-lg bg-green-500 text-white" onClick={handleDecrease}>
-                            -
-                          </button>
-                          <div className="flex items-center">{quantity}</div>
-                          <button className="h-10 px-4 text-xl rounded-lg bg-green-500 text-white" onClick={handleIncrease}>
-                            +
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                    <button
-                      className="mt-8 h-12 rounded-sm px-20 bg-green-500 flex justify-center text-white items-center"
-                      onClick={() => {
-                        addItem({
-                          id: index,
-                          title: item.foodName,
-                          price: discountedPrice,
-                          src: item.images[0],
-                          quantity,
-                        });
-                      }}
-                    >
-                      Сагслах
-                    </button>
-                  </div>
-                </DialogContent>
-              </Dialog>
-                  <span className="text-2xl font-semibold">{index + 1}</span>
-                </CardContent>
-              </Card>
-            </div>
-          </CarouselItem>
-        )})}
-      </CarouselContent>
-      <CarouselPrevious />
-      <CarouselNext />
-    </Carousel>
-    </div>
-      {/* filteredSaladFoods*/}
-    <div className="w-full  bg-red-400">
-    <div className=" flex w-full  justify-around gap-5 my-10">
-          {filteredVndsenHoolfoods?.map((item, index) => {
-            return (
-              <Dialog key={index}>
-                <DialogTrigger asChild>
-                  <div
-                    className="cursor-pointer"
-                    onClick={() => { }}
-                  >
-
-                  
+                  </CarouselItem>
+                );
+              })}
+            </CarouselContent>
+            <CarouselPrevious />
+            <CarouselNext />
+          </Carousel>
+        </div>
+        {/* filteredSaladFoods*/}
+        <div className="w-full  bg-red-400">
+          <div className=" flex w-full  justify-around gap-5 my-10">
+            {filteredVndsenHoolfoods?.map((item, index) => {
+              return (
+                <Dialog key={index}>
+                  <DialogTrigger asChild>
+                    <div className="cursor-pointer" onClick={() => {}}>
                       <FoodDiscountCard
-                      src={item.images[0]}
-                      title={item.foodName}
-                      price={item.price}
-                      // discountPercentage={item.salePercent}
-                     
-                    />
-
-                  </div>
-                </DialogTrigger>
-                <DialogContent className="sm:max-w-[800px] flex gap-8">
-                  <div className="w-[48%]">
-                    <Image
-                      src={item.images[0]}
-                      width={800}
-                      height={800}
-                      alt="Picture of the pizza"
-                      className="h-full w-full object-cover rounded-2xl"
-                    />
-                  </div>
-
-                  <div className="w-[48%] flex flex-col py-8">
-                    <div>
-                      <b className="text-2xl">{item.foodName}</b>
-                      <p className="text-green-500 text-lg font-bold py-4">{item.price} ₮</p>
+                        src={item.images[0]}
+                        title={item.foodName}
+                        price={item.price}
+                        // discountPercentage={item.salePercent}
+                      />
                     </div>
-                    <div>
-                      <b className="text-lg">Орц</b>
-                      <p className="p-2 bg-gray-50 rounded-lg my-2">
-                        Хулуу, төмс, лууван, сонгино, цөцгийн тос, самрын үр
-                      </p>
+                  </DialogTrigger>
+                  <DialogContent className="sm:max-w-[800px] flex gap-8">
+                    <div className="w-[48%]">
+                      <Image
+                        src={item.images[0]}
+                        width={800}
+                        height={800}
+                        alt="Picture of the pizza"
+                        className="h-full w-full object-cover rounded-2xl"
+                      />
                     </div>
-                    <div className="flex flex-col gap-4">
-                      <b className="text-lg">Тоо</b>
+
+                    <div className="w-[48%] flex flex-col py-8">
                       <div>
-                        <div className="flex justify-between">
-                          <button
-                            className="h-10 px-4 text-xl rounded-lg bg-green-500 text-white"
-                            onClick={handleDecrease}
-                          >
-                            -
-                          </button>
-                          <div className="flex items-center">{quantity}</div>
-                          <button
-                            className="h-10 px-4 text-xl rounded-lg bg-green-500 text-white"
-                            onClick={handleIncrease}
-                          >
-                            +
-                          </button>
+                        <b className="text-2xl">{item.foodName}</b>
+                        <p className="text-green-500 text-lg font-bold py-4">
+                          {item.price} ₮
+                        </p>
+                      </div>
+                      <div>
+                        <b className="text-lg">Орц</b>
+                        <p className="p-2 bg-gray-50 rounded-lg my-2">
+                          Хулуу, төмс, лууван, сонгино, цөцгийн тос, самрын үр
+                        </p>
+                      </div>
+                      <div className="flex flex-col gap-4">
+                        <b className="text-lg">Тоо</b>
+                        <div>
+                          <div className="flex justify-between">
+                            <button
+                              className="h-10 px-4 text-xl rounded-lg bg-green-500 text-white"
+                              onClick={handleDecrease}
+                            >
+                              -
+                            </button>
+                            <div className="flex items-center">{quantity}</div>
+                            <button
+                              className="h-10 px-4 text-xl rounded-lg bg-green-500 text-white"
+                              onClick={handleIncrease}
+                            >
+                              +
+                            </button>
+                          </div>
                         </div>
                       </div>
+                      <button
+                        className="mt-8 h-12 rounded-sm px-20 bg-green-500 flex justify-center text-white items-center"
+                        onClick={() => {
+                          addItem({
+                            id: index,
+                            title: item.foodName,
+                            price: item.price,
+                            src: item.images[0],
+                            quantity,
+                          });
+                        }}
+                      >
+                        Сагслах
+                      </button>
                     </div>
-                    <button
-                      className="mt-8 h-12 rounded-sm px-20 bg-green-500 flex justify-center text-white items-center"
-                      onClick={() => {
-                        addItem({
-                          id: index,
-                          title: item.foodName,
-                          price: item.price,
-                          src: item.images[0],
-                          quantity,
-                        });
-                      }}
-                    >
-                      Сагслах
-                    </button>
-                  </div>
-                </DialogContent>
-              </Dialog>
-            );
-          })}
+                  </DialogContent>
+                </Dialog>
+              );
+            })}
+          </div>
         </div>
-        </div>   
-    </div >
+      </div>
     </>
   );
 };
-
-
-
-
-
-
-
