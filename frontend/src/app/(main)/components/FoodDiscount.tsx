@@ -1,6 +1,7 @@
 "use client";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import Image from "next/image";
+
 import { Sparkle } from "lucide-react";
 import { ChevronRight } from "lucide-react";
 import { useCart } from "./context/Cartcontext";
@@ -38,6 +39,7 @@ type foodCardType = {
   discountedPrice: number;
 };
 export const FoodDiscount = () => {
+
   const [percent, setPercent] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(true);
 
@@ -92,7 +94,26 @@ export const FoodDiscount = () => {
 
   return (
     <>
-      <div className="flex flex-col container border ">
+      <div className=" ">
+        {/* categories.map */}
+      <div className="">
+                {categories.map((category) => (
+              <div
+                key={category._id}
+                className=""
+                >
+                 
+                {/* <button className="border border-b px-2 rounded-lg">{category.categoryName}</button> */}
+                
+              </div>
+            ))}
+
+                  
+      </div>
+      {/*  */}
+
+
+          {/*  */}
         <div className="flex justify-between mt-6 px-20">
           <div className="flex font-bold ">
             <Sparkle className="text-green-400" />
@@ -105,6 +126,7 @@ export const FoodDiscount = () => {
             Хямдралтай
           </div>
         </div>
+
         <div className=" flex justify-center bg-blue-300   ">
           <Carousel className="  w-[800px]">
             <CarouselContent
@@ -237,6 +259,7 @@ export const FoodDiscount = () => {
                         price={item.price}
                         // discountPercentage={item.salePercent}
                       />
+
                     </div>
                   </DialogTrigger>
                   <DialogContent className="sm:max-w-[800px] flex gap-8">
@@ -304,7 +327,59 @@ export const FoodDiscount = () => {
             })}
           </div>
         </div>
+        {/*  */}
       </div>
     </>
   );
 };
+
+type foodCardType = {
+  src: string;
+  title: string;
+  price: number;
+  discountPercentage: number;
+  discountAmount: number;
+  discountedPrice: number;
+  categoryNameItem?:string;
+};
+
+export const FoodDiscountCard = ({
+  src,
+  title,
+  price,
+  discountPercentage,
+  discountedPrice,
+  categoryNameItem, // Пропс хүлээн авах
+}: foodCardType) => {
+  return (
+    <div className="">
+      <div className="relative">
+        <div className={`relative w-[350px] h-[250px]`}>
+          <Image src={src} alt="Picture" fill className={`object-cover rounded-2xl`} />
+        </div>
+        <div className="absolute top-5 right-10">
+          <button className="bg-[#18BA51] rounded-lg px-2 text-white font-semibold text-[12px]">
+            {discountPercentage}%
+          </button>
+        </div>
+      </div>
+      <p className="text-base font-bold text-black">{title}</p>
+      <p className="text-sm text-gray-600">{categoryNameItem}</p> {/* Категорын нэрийг харуулах */}
+      <div className="flex gap-5">
+        <p className="text-base font-serif text-[#18BA51]">
+          {discountedPrice}₮
+        </p>
+        <p className="text-base font-serif text-[#e13bc8] line-through">
+          {price}₮
+        </p>
+      </div>
+    </div>
+  );
+};
+
+
+export const GGG = () => {
+  return(
+    <div>dfkjgnfgjkhnf</div>
+  )
+}
