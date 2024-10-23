@@ -8,7 +8,7 @@ import { FoodSweet } from '../components/FoodSweet';
 import { api } from "@/lib/axios";
 import { FaEllipsisV } from 'react-icons/fa';
 
-type Category = {
+export type Category = {
     _id: string;
     categoryName: string;
   };
