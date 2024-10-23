@@ -1,12 +1,14 @@
 "use client";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import Image from "next/image";
-import { useState } from "react";
+import { useState, useEffect } from 'react';
+
 import { Sparkle } from "lucide-react";
 import { ChevronRight } from "lucide-react";
 import { useCart } from "./context/Cartcontext";
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { api } from "@/lib/axios";
 
 const slidesFood = [
   {
@@ -30,8 +32,15 @@ const slidesFood = [
     price: 24800,
   },
 ];
+type Category = {
+  _id: string;
+  categoryName: string;
+};
 
 export const FoodDiscount = () => {
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [selectedCategory, setSelectedCategory] = useState<string>("");
+  // 
   const { addItem } = useCart();
   const discountPercentage = 20;
   const [quantity, setQuantity] = useState(1);
@@ -60,10 +69,46 @@ export const FoodDiscount = () => {
     toast.success(`${item.title} added to cart!`); // Show toast notification
     setOpenIndex(null); // Close the dialog
   };
+  const handleCategorySelect = (_id: string) => {
+    setSelectedCategory(_id);
+  };
+
+
+  const getCategories = async () => {
+    try {
+      const response = await api.get("/category");
+      setCategories(response.data.categories);
+    } catch (error) {
+      console.log("Failed to fetch categories:", error);
+    }
+  };
+
+  useEffect(() => {
+    getCategories();
+  }, []);
 
   return (
     <>
-      <div className="flex flex-col container border ">
+      <div className=" ">
+        {/* categories.map */}
+      <div className="">
+                {categories.map((category) => (
+              <div
+                key={category._id}
+                className=""
+                >
+                 
+                {/* <button className="border border-b px-2 rounded-lg">{category.categoryName}</button> */}
+                
+              </div>
+            ))}
+
+                  
+      </div>
+      {/*  */}
+
+
+          {/*  */}
         <div className="flex justify-between mt-6 px-20">
           <div className="flex font-bold ">
             <Sparkle className="text-green-400" />
@@ -74,9 +119,12 @@ export const FoodDiscount = () => {
             Бүгдийг харах <ChevronRight />
           </div>
         </div>
+          {/*  */}
+        {/*  */}
         <div className="flex w-full justify-around gap-5 my-10">
           {slidesFood.map((item, index) => {
             return (
+              
               <Dialog key={index} open={openIndex === index} onOpenChange={(open) => setOpenIndex(open ? index : null)}>
                 <DialogTrigger asChild>
                   <div className="cursor-pointer m-auto">
@@ -87,6 +135,7 @@ export const FoodDiscount = () => {
                       discountPercentage={discountPercentage}
                       discountAmount={item.price * (discountPercentage / 100)}
                       discountedPrice={item.price - (item.price * (discountPercentage / 100))}
+                      categoryNameItem={categories.length > 0 ? categories[index % categories.length].categoryName : "Нэргүй"} // Дараах мөрөнд категориын нэрийг дамжуулж байна
                     />
                   </div>
                 </DialogTrigger>
@@ -144,6 +193,7 @@ export const FoodDiscount = () => {
             );
           })}
         </div>
+        {/*  */}
       </div>
     </>
   );
@@ -156,6 +206,7 @@ type foodCardType = {
   discountPercentage: number;
   discountAmount: number;
   discountedPrice: number;
+  categoryNameItem?:string;
 };
 
 export const FoodDiscountCard = ({
@@ -164,6 +215,7 @@ export const FoodDiscountCard = ({
   price,
   discountPercentage,
   discountedPrice,
+  categoryNameItem, // Пропс хүлээн авах
 }: foodCardType) => {
   return (
     <div className="">
@@ -178,6 +230,7 @@ export const FoodDiscountCard = ({
         </div>
       </div>
       <p className="text-base font-bold text-black">{title}</p>
+      <p className="text-sm text-gray-600">{categoryNameItem}</p> {/* Категорын нэрийг харуулах */}
       <div className="flex gap-5">
         <p className="text-base font-serif text-[#18BA51]">
           {discountedPrice}₮
