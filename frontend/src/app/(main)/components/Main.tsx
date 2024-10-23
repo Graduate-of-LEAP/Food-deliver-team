@@ -68,13 +68,13 @@ const Main = () => {
             </div>
             {/* <div className="flex justify-center">
               <FoodMain />
-            </div>
+            </div>*/}
             <div className="flex justify-center">
               <FoodSalad />
             </div>
-            <div className="flex justify-center">
+            {/* <div className="flex justify-center">
               <FoodSweet />
-            </div> */}
+            </div>  */}
           </div>
         </div>
       </div>
