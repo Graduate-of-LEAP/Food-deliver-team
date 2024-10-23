@@ -5,21 +5,14 @@ import { useState } from "react";
 import { Sparkle } from "lucide-react";
 import { ChevronRight } from "lucide-react";
 import { useCart } from "./context/Cartcontext";
-
-
-export type DiscountCalculatorType = {
-  originalPrice: number;
-  discountPercentage: number;
-  discountAmount: number;
-  discountPrice: number;
-};
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const slidesFood = [
   {
     title: "Өглөөний хоол",
     src: "/images/main2.png",
     price: 14800,
-
   },
   {
     title: "Зайрмаг",
@@ -32,7 +25,7 @@ const slidesFood = [
     price: 24800,
   },
   {
-    title: "Breakfast ",
+    title: "Breakfast",
     src: "/images/main5.png",
     price: 24800,
   },
@@ -42,6 +35,7 @@ export const FoodDiscount = () => {
   const { addItem } = useCart();
   const discountPercentage = 20;
   const [quantity, setQuantity] = useState(1);
+  const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   const handleDecrease = () => {
     setQuantity((prevQuantity) => Math.max(prevQuantity - 1, 1));
@@ -50,43 +44,49 @@ export const FoodDiscount = () => {
   const handleIncrease = () => {
     setQuantity((prevQuantity) => prevQuantity + 1);
   };
+
+  const handleAddToCart = (item: typeof slidesFood[number], index: number) => {
+    const discountAmount = item.price * (discountPercentage / 100);
+    const discountedPrice = item.price - discountAmount;
+
+    addItem({
+      id: index,
+      title: item.title,
+      price: discountedPrice,
+      src: item.src,
+      quantity,
+    });
+
+    toast.success(`${item.title} added to cart!`); // Show toast notification
+    setOpenIndex(null); // Close the dialog
+  };
+
   return (
     <>
       <div className="flex flex-col container border ">
         <div className="flex justify-between mt-6 px-20">
           <div className="flex font-bold ">
             <Sparkle className="text-green-400" />
-            <Image
-              src="/images/Star.png"
-              alt="Description"
-              width={20}
-              height={20}
-              className=""
-            />
+            <Image src="/images/Star.png" alt="Description" width={20} height={20} />
             Хямдралтай
           </div>
           <div className="flex text-[#18BA51] font-normal">
             Бүгдийг харах <ChevronRight />
           </div>
         </div>
-        <div className=" flex w-full justify-around gap-5 my-10">
-          {slidesFood?.map((item, index) => {
-            const discountAmount = item.price * (discountPercentage / 100);
-            const discountedPrice = item.price - discountAmount;
+        <div className="flex w-full justify-around gap-5 my-10">
+          {slidesFood.map((item, index) => {
             return (
-              <Dialog key={index}>
+              <Dialog key={index} open={openIndex === index} onOpenChange={(open) => setOpenIndex(open ? index : null)}>
                 <DialogTrigger asChild>
-                  <div
-                    className="cursor-pointer m-auto"
-                    onClick={() => { }}
-                  >
+                  <div className="cursor-pointer m-auto">
                     <FoodDiscountCard
                       src={item.src}
                       title={item.title}
                       price={item.price}
                       discountPercentage={discountPercentage}
-                      discountAmount={discountAmount}
-                      discountedPrice={discountedPrice}
+                      discountAmount={item.price * (discountPercentage / 100)}
+                      discountedPrice={item.price - (item.price * (discountPercentage / 100))}
                     />
                   </div>
                 </DialogTrigger>
@@ -100,16 +100,15 @@ export const FoodDiscount = () => {
                       className="h-full w-full object-cover rounded-2xl"
                     />
                   </div>
-
                   <div className="w-[48%] flex flex-col py-8">
                     <div>
                       <b className="text-2xl">{item.title}</b>
                       <div className="flex gap-5">
                         <p className="text-base font-serif text-[#18BA51]">
-                          {discountAmount}₮
+                          {item.price * (discountPercentage / 100)}₮
                         </p>
                         <p className="text-base font-serif text-[#e13bc8] line-through">
-                          {discountedPrice}₮
+                          {item.price - (item.price * (discountPercentage / 100))}₮
                         </p>
                       </div>
                     </div>
@@ -123,17 +122,11 @@ export const FoodDiscount = () => {
                       <b className="text-lg">Тоо</b>
                       <div>
                         <div className="flex justify-between">
-                          <button
-                            className="h-10 px-4 text-xl rounded-lg bg-green-500 text-white"
-                            onClick={handleDecrease}
-                          >
+                          <button className="h-10 px-4 text-xl rounded-lg bg-green-500 text-white" onClick={handleDecrease}>
                             -
                           </button>
                           <div className="flex items-center">{quantity}</div>
-                          <button
-                            className="h-10 px-4 text-xl rounded-lg bg-green-500 text-white"
-                            onClick={handleIncrease}
-                          >
+                          <button className="h-10 px-4 text-xl rounded-lg bg-green-500 text-white" onClick={handleIncrease}>
                             +
                           </button>
                         </div>
@@ -141,22 +134,13 @@ export const FoodDiscount = () => {
                     </div>
                     <button
                       className="mt-8 h-12 rounded-sm px-20 bg-green-500 flex justify-center text-white items-center"
-                      onClick={() => {
-                        addItem({
-                          id: index,
-                          title: item.title,
-                          price: discountedPrice,
-                          src: item.src,
-                          quantity,
-                        });
-                      }}
+                      onClick={() => handleAddToCart(item, index)}
                     >
                       Сагслах
                     </button>
                   </div>
                 </DialogContent>
               </Dialog>
-
             );
           })}
         </div>
@@ -179,19 +163,13 @@ export const FoodDiscountCard = ({
   title,
   price,
   discountPercentage,
-  discountAmount,
   discountedPrice,
 }: foodCardType) => {
   return (
-    <div className=" ">
+    <div className="">
       <div className="relative">
-        <div className={`relative  w-[350px] h-[250px]`}>
-          <Image
-            src={src}
-            alt="Picture"
-        fill
-            className={`object-cover rounded-2xl`}
-          ></Image>
+        <div className={`relative w-[350px] h-[250px]`}>
+          <Image src={src} alt="Picture" fill className={`object-cover rounded-2xl`} />
         </div>
         <div className="absolute top-5 right-10">
           <button className="bg-[#18BA51] rounded-lg px-2 text-white font-semibold text-[12px]">
@@ -199,7 +177,7 @@ export const FoodDiscountCard = ({
           </button>
         </div>
       </div>
-      <p className="text-base font-bold  text-black  ">{title}</p>
+      <p className="text-base font-bold text-black">{title}</p>
       <div className="flex gap-5">
         <p className="text-base font-serif text-[#18BA51]">
           {discountedPrice}₮
