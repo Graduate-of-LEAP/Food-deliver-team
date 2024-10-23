@@ -242,3 +242,10 @@ export const FoodDiscountCard = ({
     </div>
   );
 };
+
+
+export const GGG = () => {
+  return(
+    <div>dfkjgnfgjkhnf</div>
+  )
+}
