@@ -59,6 +59,7 @@ export default function Home() {
           <div className="font-bold text-[22px]">Food menu</div>
           <div className="flex flex-col gap-6">
             {categories.map((category) => (
+              
               <div
                 key={category._id}
                 onClick={() => handleCategorySelect(category._id)}

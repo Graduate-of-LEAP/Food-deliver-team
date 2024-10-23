@@ -1,36 +1,46 @@
 "use client";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import Image from "next/image";
-import { useState } from "react";
+
 import { Sparkle } from "lucide-react";
 import { ChevronRight } from "lucide-react";
 import { useCart } from "./context/Cartcontext";
+import { api } from "@/lib/axios";
+import { useEffect, useState } from "react";
 import { toast } from 'react-toastify';
 
-const slidesFood = [
-  {
-    title: "Торт",
-    src: "/images/main14.png",
-    price: 54800,
-  },
-  {
-    title: "Oreo shake",
-    src: "/images/main15.png",
-    price: 14800,
-  },
-  {
-    title: "Chocolate",
-    src: "/images/main16.png",
-    price: 14800,
-  },
-  {
-    title: "Yoghurt",
-    src: "/images/main17.png",
-    price: 14800,
-  },
-];
+
+type CategoryType={
+  _id:string;
+  categoryName:string;
+}
+type foodCardType = {
+  category:CategoryType[];
+  images: string[];
+  foodName: string;
+  price: number;
+
+};
 
 export const FoodSweet = () => {
+
+  const [foods, setFoods] = useState<foodCardType[]>([]);
+  
+  const getFoods = async () => {
+    try {
+      const response = await api.get("/food");
+      setFoods(response.data.foods);
+      console.log(response.data.foods);
+    } catch (error) {
+      console.log("Failed to fetch foods:", error);
+    }
+  };
+  const filteredVndsenHoolfoods=foods.filter(item=>item.category[0].categoryName==="Breakfast");
+  
+  useEffect(() => {
+    getFoods();
+  }, []);
+
   const { addItem } = useCart();
   const [quantity, setQuantity] = useState(1);
   const [openIndex, setOpenIndex] = useState<number | null>(null);
@@ -73,7 +83,9 @@ export const FoodSweet = () => {
           </div>
         </div>{" "}
         <div className=" flex w-full  justify-around gap-5 my-10">
-          {slidesFood?.map((item, index) => {
+          {filteredVndsenHoolfoods?.map((item, index) => {
+        
+
             return (
               <Dialog key={index} open={openIndex === index} onOpenChange={(open) => setOpenIndex(open ? index : null)}>
                 <DialogTrigger asChild>
@@ -83,10 +95,11 @@ export const FoodSweet = () => {
                   >
 
                     <FoodSweetCard
-                      key={index}
-                      src={item.src}
-                      title={item.title}
+                      src={item.images[0]}
+                      title={item.foodName}
                       price={item.price}
+                     
+                  
                     />
 
                   </div>
@@ -94,7 +107,7 @@ export const FoodSweet = () => {
                 <DialogContent className="sm:max-w-[800px] flex gap-8">
                   <div className="w-[48%]">
                     <Image
-                      src={item.src}
+                      src={item.images[0]}
                       width={800}
                       height={800}
                       alt="Picture of the pizza"
@@ -104,7 +117,7 @@ export const FoodSweet = () => {
 
                   <div className="w-[48%] flex flex-col py-8">
                     <div>
-                      <b className="text-2xl">{item.title}</b>
+                      <b className="text-2xl">{item.foodName}</b>
                       <p className="text-green-500 text-lg font-bold py-4">{item.price} ₮</p>
                     </div>
                     <div>
@@ -134,7 +147,15 @@ export const FoodSweet = () => {
                     </div>
                     <button
                       className="mt-8 h-12 rounded-sm px-20 bg-green-500 flex justify-center text-white items-center"
-                      onClick={() => handleAddToCart(item, index)}
+                      onClick={() => {
+                        addItem({
+                          id: index,
+                          title: item.foodName,
+                          price: item.price,
+                          src: item.images[0],
+                          quantity,
+                        });
+                      }}
                     >
                       Сагслах
                     </button>
@@ -150,12 +171,13 @@ export const FoodSweet = () => {
   );
 };
 
-type foodCardType = {
+type FoodDiscountCardProps = {
   src: string;
   title: string;
   price: number;
+
 };
-export const FoodSweetCard = ({ src, title, price }: foodCardType) => {
+export const FoodSweetCard = ({ src, title, price }: FoodDiscountCardProps) => {
   return (
     <div className="">
       <div className={`relative  w-[350px] h-[250px]`}>
