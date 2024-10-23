@@ -5,7 +5,6 @@ import { CartProvider } from "./(main)/components/context/Cartcontext";
 import { ToastContainer } from "react-toastify";
 import { AuthProvider } from "@/components/utils/authProvider";
 
-
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
   variable: "--font-geist-sans",
@@ -33,12 +32,10 @@ export default function RootLayout({
         <body
           className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         >
-          {children}
-          <ToastContainer />
           <AuthProvider>{children}</AuthProvider>
+          <ToastContainer />
         </body>
       </CartProvider>
     </html>
-
   );
 }
