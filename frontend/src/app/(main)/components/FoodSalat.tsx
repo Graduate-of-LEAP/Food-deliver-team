@@ -48,18 +48,7 @@ export const FoodSalad = () => {
   const handleIncrease = () => {
     setQuantity((prevQuantity) => prevQuantity + 1);
   };
-  const handleAddToCart = (item: typeof slidesFood[number], index: number) => {
-    addItem({
-      id: index,
-      title: item.title,
-      price: item.price,
-      src: item.src,
-      quantity,
-    });
-
-    toast.success(`${item.title} added to cart!`); // Show toast notification
-    setOpenIndex(null); // Close the dialog
-  };
+  
 
   return (
     <>
