@@ -64,7 +64,12 @@ const Page = () => {
               onChange={(e) => setPassword(e.target.value)}
               value={password}
             ></input>
-            <p className="text-end">Нууц үг сэргээх</p>
+            <Link
+              href={"/forgetpassword"}
+              className=" cursor-pointer hover:underline hover:underline-offset-4  "
+            >
+              <p className="right-0 text-sm"> Нууц үг сэргээх</p>
+            </Link>
           </div>
         </div>
         <div className="space-y-8 text-center text-sm">

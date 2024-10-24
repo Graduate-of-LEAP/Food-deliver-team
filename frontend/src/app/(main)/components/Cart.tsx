@@ -1,16 +1,11 @@
 "use client";
 import { Button } from "@/components/ui/button";
-import {
-  Sheet,
-  SheetContent,
-  SheetTrigger,
-} from "@/components/ui/sheet";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { useState } from "react";
 import Image from "next/image";
 import { useCart } from "./context/Cartcontext";
 import { IoIosArrowBack } from "react-icons/io";
-import { MdOutlineCancel } from "react-icons/md";
-
+import { MdOutlineCancel, MdOutlineShoppingBasket } from "react-icons/md";
 
 export const Cart = () => {
   const { items, removeItem } = useCart();
@@ -24,17 +19,28 @@ export const Cart = () => {
     setQuantity((prevQuantity) => prevQuantity + 1);
   };
 
-  const totalPrice = items.reduce((total, item) => total + item.price * item.quantity, 0);
+  const totalPrice = items.reduce(
+    (total, item) => total + item.price * item.quantity,
+    0
+  );
 
   return (
     <Sheet>
       <SheetTrigger asChild>
-        <Button variant="outline">Сагс</Button>
+        <Button
+          variant="outline"
+          className="border-none  font-semibold text-base px-2 "
+        >
+          <MdOutlineShoppingBasket className="mr-2" />
+          Сагс
+        </Button>
       </SheetTrigger>
 
       <SheetContent className="flex flex-col justify-between">
         <div className="flex font-bold items-center text-3xl gap-48 pb-4">
-          <p><IoIosArrowBack /></p>
+          <p>
+            <IoIosArrowBack />
+          </p>
           <p> Таны сагс</p>
         </div>
         <div className="h-[90%]">
@@ -42,7 +48,10 @@ export const Cart = () => {
             <p>Сагс хоосон байна</p>
           ) : (
             items.map((item) => (
-              <div key={item.id} className="flex border-t-2 border-b-2 py-2 justify-start items-start">
+              <div
+                key={item.id}
+                className="flex border-t-2 border-b-2 py-2 justify-start items-start"
+              >
                 <div className="w-1/2 p-2 flex">
                   <Image
                     src={item.src}

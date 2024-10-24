@@ -11,6 +11,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import Link from "next/link";
 import React, { useState } from "react";
+import { FaRegUser } from "react-icons/fa";
 import { IoEyeOutline } from "react-icons/io5";
 import { IoEyeOffOutline } from "react-icons/io5";
 
@@ -32,8 +33,9 @@ const LoginDialog: React.FC = () => {
         <DialogTrigger asChild>
           <Button
             variant="outline"
-            className="border-none shadow-none font-semibold text-base px-2"
+            className="border-none font-semibold text-base px-2 "
           >
+            <FaRegUser className="mr-2" />
             Нэвтрэх
           </Button>
         </DialogTrigger>
@@ -62,9 +64,12 @@ const LoginDialog: React.FC = () => {
                 className="col-span-3 shadow-lg border-none bg-gray-100"
                 onChange={(e) => setPassword(e.target.value)}
               />
-              <div className="text-end text-sm cursor-pointer hover:underline hover:underline-offset-4 ">
-                Нууц үг сэргээх
-              </div>
+              <Link
+                href={"/forgetpassword"}
+                className=" cursor-pointer hover:underline hover:underline-offset-4 "
+              >
+                <p className="text-end text-sm"> Нууц үг сэргээх</p>
+              </Link>
               <div
                 className="absolute right-4 top-1/2 transform -translate-y-1/2 cursor-pointer z-100"
                 onClick={togglePasswordVisibility}

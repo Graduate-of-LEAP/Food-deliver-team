@@ -1,7 +1,7 @@
 import { RequestHandler } from "express";
 import { savedFoodModel } from "../../models/savedFood.schema";
 
-export const getSavedFoodsController: RequestHandler = async (req, res) => {
+export const getSavedFoodsController: RequestHandler = async (_req, res) => {
   try {
     const savedFoods = await savedFoodModel.find({}).populate("foodId"); // Populate productId with Product documents
 

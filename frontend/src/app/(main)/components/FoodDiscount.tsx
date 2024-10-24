@@ -6,7 +6,6 @@ import { Sparkle } from "lucide-react";
 import { ChevronRight } from "lucide-react";
 import { useCart } from "./context/Cartcontext";
 
-
 export type DiscountCalculatorType = {
   originalPrice: number;
   discountPercentage: number;
@@ -19,7 +18,6 @@ const slidesFood = [
     title: "Өглөөний хоол",
     src: "/images/main2.png",
     price: 14800,
-
   },
   {
     title: "Зайрмаг",
@@ -50,6 +48,7 @@ export const FoodDiscount = () => {
   const handleIncrease = () => {
     setQuantity((prevQuantity) => prevQuantity + 1);
   };
+
   return (
     <>
       <div className="flex flex-col container border ">
@@ -76,10 +75,7 @@ export const FoodDiscount = () => {
             return (
               <Dialog key={index}>
                 <DialogTrigger asChild>
-                  <div
-                    className="cursor-pointer m-auto"
-                    onClick={() => { }}
-                  >
+                  <div className="cursor-pointer m-auto" onClick={() => {}}>
                     <FoodDiscountCard
                       src={item.src}
                       title={item.title}
@@ -156,7 +152,6 @@ export const FoodDiscount = () => {
                   </div>
                 </DialogContent>
               </Dialog>
-
             );
           })}
         </div>
@@ -189,7 +184,7 @@ export const FoodDiscountCard = ({
           <Image
             src={src}
             alt="Picture"
-        fill
+            fill
             className={`object-cover rounded-2xl`}
           ></Image>
         </div>
