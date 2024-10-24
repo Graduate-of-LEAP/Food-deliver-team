@@ -376,11 +376,7 @@
 //   );
 // };
 
-// // export const GGG = () => {
-// //   return(
-// //     <div>dfkjgnfgjkhnf</div>
-// //   )
-// // }
+
 
 "use client";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
@@ -412,7 +408,7 @@ type CategoryType = {
   categoryName: string;
 };
 
-type foodCardType = {
+ export type foodCardType = {
   category: CategoryType[];
   images: string[];
   foodName: string;
