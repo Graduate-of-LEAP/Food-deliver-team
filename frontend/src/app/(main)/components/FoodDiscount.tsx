@@ -395,6 +395,9 @@ import {
 import { Card, CardContent } from "@/components/ui/card";
 import { Category } from "../menu/page";
 import { FoodDiscountCard } from "./FoodDiscountCart";
+import { FoodDiscountDialog } from "./FoodDiscountDialog";
+import { HiFoodCart } from "./HiFoodCart";
+
 
 export type DiscountCalculatorType = {
   originalPrice: number;
@@ -434,6 +437,10 @@ export const FoodDiscount = () => {
     }
   };
 
+  const filteredSaladFoods = foods.filter (item=> item.category[0].categoryName=== "Desserts");
+  const filteredVndsenHoolfoods=foods.filter(item=>item.category[0].categoryName==="Breakfast");
+  const filteredSweetFoods = foods.filter (item=> item.category[0].categoryName=== "Soup")
+
   useEffect(() => {
     getFoods();
   }, []);
@@ -441,6 +448,8 @@ export const FoodDiscount = () => {
   const filteredSaledPercentFoods = foods.filter(
     (item) => item.salePercent > 0
   );
+
+
 
   const { addItem } = useCart();
   const [quantity, setQuantity] = useState(1);
@@ -487,7 +496,8 @@ export const FoodDiscount = () => {
           />
           Хямдралтай
         </div>
-      </div>
+      </div> 
+      {/*  */}
       <div className="flex justify-center">
         <Carousel className="w-full">
           <CarouselContent
@@ -594,6 +604,28 @@ export const FoodDiscount = () => {
           <CarouselNext onClick={handleNext} />
         </Carousel>
       </div>
+      {/* end */}
+{/* 
+       <div className=" grid grid-cols-4 grid-flow-row gap-5 my-10">
+        {
+          filteredVndsenHoolfoods?.map((item, index) => {
+            return(
+             <div>
+              <FoodDiscountDialog/>
+             </div>
+
+            )
+          }
+       ) }
+
+      </div> */}
+      
+
+       <HiFoodCart/>
+
+
+
+
     </div>
   );
 };

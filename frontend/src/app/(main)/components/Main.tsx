@@ -70,7 +70,7 @@ const Main = () => {
               <FoodMain />
             </div>*/}
             <div className="flex justify-center">
-              <FoodSalad />
+              {/* <FoodSalad /> */}
             </div>
             {/* <div className="flex justify-center">
               <FoodSweet />

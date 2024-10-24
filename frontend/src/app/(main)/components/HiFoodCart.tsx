@@ -19,7 +19,7 @@ type foodCardType = {
   price: number;
 };
 
-export const FoodSalad = () => {
+export const HiFoodCart = () => {
   const [foods, setFoods] = useState<foodCardType[]>([]);
   
   const getFoods = async () => {
