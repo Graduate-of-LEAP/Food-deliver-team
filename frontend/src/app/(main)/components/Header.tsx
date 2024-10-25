@@ -11,11 +11,14 @@ import { FaBars } from "react-icons/fa6";
 import { useState } from "react";
 import LoginDialog from "../components/LoginDialog";
 
+import { SearchCard } from "./SearchCard";
+
 import { Cart } from "./Cart";
 import { useAuthContext } from "@/components/utils/authProvider";
 
 export const Header = () => {
   const { userMe } = useAuthContext();
+  const [searchTerm, setSearchTerm] = useState<string>("");
 
   const pathname: string = usePathname();
   interface Path {
@@ -70,6 +73,7 @@ export const Header = () => {
             size={24}
             className="lg:invisible visible fixed right-6"
           />
+          {/* Search Input */}
           <div className="relative">
             <CiSearch
               size={18}
@@ -79,6 +83,8 @@ export const Header = () => {
               type="search"
               placeholder="Бүтээгдэхүүн хайх"
               className="bg-transparent  w-[260px] px-10 border-gray-100 rounded-xl outline-none bg-[#c0f288]"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
             ></Input>
           </div>
           <MdOutlineShoppingBasket />
@@ -93,6 +99,12 @@ export const Header = () => {
             )}
           </div>
         </div>
+
+        {searchTerm && (
+          <div className="bg-white flex absolute top-20 rounded-lg h-fit justify-center z-50 p-8 border">
+            <SearchCard searchTerm={searchTerm} />
+          </div>
+        )}
       </div>
     </>
   );
