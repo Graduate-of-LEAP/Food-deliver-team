@@ -39,6 +39,7 @@ const LoginDialog: React.FC = () => {
         router.push("/dashboard");
       } else {
         router.push("/");
+        window.location.reload();
       }
     } catch (error) {
       console.log(error);

@@ -56,9 +56,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     try {
       localStorage.removeItem("token");
       setUserMe(undefined);
-      router.push("/");
-
-      // window.location.reload();
+      router.push("/login");
     } catch (error) {
       console.error("Logout error", error);
     }
