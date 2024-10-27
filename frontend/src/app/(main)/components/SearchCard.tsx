@@ -55,8 +55,7 @@ export const SearchCard = ({ searchTerm }: SearchCardProps) => {
 
   return (
     <>
-      <div className="grid grid-cols-3 grid-rows-3 gap-6 p-4 bg-white shadow-md rounded-md">
-        {/* Display filtered foods */}
+      <div className="grid grid-cols-3 grid-rows-3 gap-6 p-4 bg-white shadow-md rounded-md m-auto">
         {filteredFoods.length > 0 ? (
           filteredFoods.map((item, index) => (
             <Link

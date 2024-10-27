@@ -8,17 +8,26 @@ import { CiSearch } from "react-icons/ci";
 import { MdOutlineShoppingBasket } from "react-icons/md";
 import { FaRegUser } from "react-icons/fa6";
 import { FaBars } from "react-icons/fa6";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import LoginDialog from "../components/LoginDialog";
 
 import { SearchCard } from "./SearchCard";
 
 import { Cart } from "./Cart";
 import { useAuthContext } from "@/components/utils/authProvider";
-
+import { api } from "@/lib/axios";
+type UserMeResponse = {
+  id: string;
+  owog: string;
+  userName: string;
+  email: string;
+  phoneNumber: string;
+  address: string;
+  avatarImg: string;
+};
 export const Header = () => {
-  const { userMe } = useAuthContext();
   const [searchTerm, setSearchTerm] = useState<string>("");
+  const [userMe, setUserMe] = useState<UserMeResponse>();
 
   const pathname: string = usePathname();
   interface Path {
@@ -29,6 +38,7 @@ export const Header = () => {
     { name: "Нүүр", path: "/" },
     { name: "Хоолны цэс", path: "/menu" },
     { name: "Хүргэлтийн бүс", path: "/map" },
+    { name: "Dashboard", path: "/dashboard" },
   ];
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
@@ -44,7 +54,22 @@ export const Header = () => {
   const handleIncrease = () => {
     setQuantity((prevQuantity) => prevQuantity + 1);
   };
-
+  const getMe = async () => {
+    const token = localStorage.getItem("token");
+    try {
+      const response = await api.get("/auth/me", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      setUserMe(response.data);
+    } catch (error) {
+      console.log("Error fetching user data", error);
+    }
+  };
+  useEffect(() => {
+    getMe();
+  }, []);
   return (
     <>
       <div className="container flex justify-between m-auto p-6 items-center ">
@@ -56,7 +81,7 @@ export const Header = () => {
             height={32}
             className="w-6 h-6 lg:w-8 lg:h-8"
           />
-          {paths.slice(0, 3).map((path, index) => (
+          {paths.slice(0, 4).map((path, index) => (
             <Link key={index} href={path.path}>
               <div
                 style={{ color: pathname === path.path ? "#c0f288" : "black" }}
@@ -82,7 +107,7 @@ export const Header = () => {
             <Input
               type="search"
               placeholder="Бүтээгдэхүүн хайх"
-              className="bg-transparent  w-[260px] px-10 border-gray-100 rounded-xl outline-none bg-[#c0f288]"
+              className="bg-transparent  w-[260px] px-10 border-gray-100 rounded-xl outline-none "
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             ></Input>
@@ -93,7 +118,7 @@ export const Header = () => {
           <div className="flex gap-2 items-center px-4 font-semibold ">
             <FaRegUser />
             {userMe?.userName ? (
-              <Link href="/userprofile">{userMe?.userName}</Link>
+              <Link href="/userexit">{userMe?.userName}</Link>
             ) : (
               <LoginDialog />
             )}
@@ -101,7 +126,7 @@ export const Header = () => {
         </div>
 
         {searchTerm && (
-          <div className="bg-white flex absolute top-20 rounded-lg h-fit justify-center z-50 p-8 border">
+          <div className="bg-white flex absolute top-20 left-[30%] rounded-lg h-fit justify-center z-50 p-8 border">
             <SearchCard searchTerm={searchTerm} />
           </div>
         )}

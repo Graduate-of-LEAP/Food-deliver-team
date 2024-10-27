@@ -6,7 +6,6 @@ interface CustomRequest extends Request {
 }
 
 export const getMe = async (req: CustomRequest, res: Response) => {
-  console.log(req.user);
   try {
     if (!req.user || !req.user.id) {
       return res.status(401).json({ message: "Unauthorized" });
@@ -17,9 +16,12 @@ export const getMe = async (req: CustomRequest, res: Response) => {
 
     const userData = {
       id: user._id,
+      owog: user.owog,
       userName: user.userName,
       email: user.email,
-      // Avahiig hussen datagaa bicij bolno
+      phoneNumber: user.phoneNumber,
+      address: user.address,
+      avatarImg: user.avatarImg,
     };
 
     res.json(userData);

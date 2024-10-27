@@ -38,7 +38,7 @@ const foodSchema = new Schema({
   },
   salePercent: {
     type: Number,
-    required: true,
+    required: false,
     default: 0,
   },
   averageRating: {

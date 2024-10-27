@@ -9,16 +9,41 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { useAuthContext } from "@/components/utils/authProvider";
 import Link from "next/link";
 import React, { useState } from "react";
 import { IoEyeOutline } from "react-icons/io5";
 import { IoEyeOffOutline } from "react-icons/io5";
+import { useRouter } from "next/navigation";
+import { api } from "@/lib/axios";
 
+type AddUserResponse = {
+  email: string;
+  password: string;
+};
 const LoginDialog: React.FC = () => {
+  const router = useRouter();
+  const { setUserMe } = useAuthContext();
   const [email, setEmail] = React.useState<string>("");
   const [password, setPassword] = React.useState<string>("");
   const [showPassword, setShowPassword] = useState(false);
   const [isClicked, setIsClicked] = useState(false);
+
+  const logIn = async (addUser: AddUserResponse) => {
+    try {
+      const response = await api.post("/user/login", addUser);
+      localStorage.setItem("token", response.data.token);
+      setUserMe(response.data.user);
+
+      if (response.data.user.role === "admin") {
+        router.push("/dashboard");
+      } else {
+        router.push("/");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const handleClick = () => {
     setIsClicked(true);
@@ -81,6 +106,7 @@ const LoginDialog: React.FC = () => {
                   ? "bg-[bg-[#f7432b] text-white"
                   : "bg-gray-50 text-black"
               } hover:bg-transparent hover:border hover:border-[#f7432b]`}
+              onClick={() => logIn({ email, password })}
             >
               Нэвтрэх
             </Button>

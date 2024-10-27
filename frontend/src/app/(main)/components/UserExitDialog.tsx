@@ -10,8 +10,11 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import { useAuthContext } from "@/components/utils/authProvider";
 
 export const UserExitDialog = () => {
+  const { LogOut } = useAuthContext();
+
   return (
     <AlertDialog>
       <AlertDialogTrigger>Гарах</AlertDialogTrigger>
@@ -22,8 +25,8 @@ export const UserExitDialog = () => {
           </AlertDialogTitle>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel>Тийм</AlertDialogCancel>
-          <AlertDialogAction>Үгүй</AlertDialogAction>
+          <AlertDialogCancel>Үгүй</AlertDialogCancel>
+          <AlertDialogAction onClick={() => LogOut()}>Тийм</AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
