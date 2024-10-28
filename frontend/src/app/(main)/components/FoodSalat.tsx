@@ -32,13 +32,13 @@ export const FoodSalad = () => {
     }
   };
   const filteredSaladFoods = foods.filter(
-    (item) => item.category[0]?.categoryName == "Desserts"
+    (item) => item.category[0]?.categoryName == "Үндсэн хоол"
   );
   const filteredVndsenHoolfoods = foods.filter(
-    (item) => item.category[0]?.categoryName == "Breakfast"
+    (item) => item.category[0]?.categoryName == "Салад ба зууш"
   );
   const filteredSweetFoods = foods.filter(
-    (item) => item.category[0]?.categoryName == "Soup"
+    (item) => item.category[0]?.categoryName == "Уух зүйл"
   );
   useEffect(() => {
     getFoods();
