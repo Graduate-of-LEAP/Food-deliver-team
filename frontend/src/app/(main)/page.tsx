@@ -1,18 +1,18 @@
-import { Cart } from "./components/Cart";
+"use client";
 import { Footer } from "./components/Footer";
-
-import { ForgetCode } from "./components/ForgetCode";
-
+import { Headdder } from "./components/Headdder";
 import { Header } from "./components/Header";
 import Main from "./components/Main";
-import { Opt } from "./components/Opt";
+import Main1 from "./components/Main1";
 
 export default function Home() {
   return (
     <>
-      <Header />
-      <Main />
-      <Footer/>
+      {/* <Header /> */}
+      <Headdder />
+      {/* <Main /> */}
+      <Main1 />
+      <Footer />
     </>
   );
 }

@@ -7,21 +7,38 @@ import { MdOutlinePhone } from "react-icons/md";
 import { MdOutlineEmail } from "react-icons/md";
 import { Toaster, toast } from "react-hot-toast";
 import Link from "next/link";
-import { useAuthContext } from "@/components/utils/authProvider";
+import { api } from "@/lib/axios";
+type UserMeResponse = {
+  id: string;
+  owog: string;
+  userName: string;
+  email: string;
+  phoneNumber: string;
+  address: string;
+  avatarImg: string;
+};
 
 export const UserProfileRegister = () => {
-  const { userMe, getMe } = useAuthContext();
+  const [userMe, setUserMe] = useState<UserMeResponse>();
 
-  const [avatarImg, setAvatarImg] = useState(userMe?.avatarImg || "");
-  const [userName, setUserName] = useState(userMe?.userName || "");
-  const [phoneNumber, setPhoneNumber] = useState(userMe?.phoneNumber || "");
-  const [email, setEmail] = useState(userMe?.email || "");
-
+  const [username, setUsername] = useState<string>("");
+  const [phoneNumber, setPhonenumber] = useState<string>("");
+  const getMe = async () => {
+    const token = localStorage.getItem("token");
+    try {
+      const response = await api.get("/auth/me", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      setUserMe(response.data);
+    } catch (error) {
+      console.log("Error fetching user data", error);
+    }
+  };
   useEffect(() => {
     getMe();
-    console.log("ahashbdkasdk", userMe);
   }, []);
-
   return (
     <div>
       <div className="lg:w-[448px]  m-auto mt-[74px] space-y-12 p-6">
@@ -49,10 +66,8 @@ export const UserProfileRegister = () => {
                 <input
                   type="name"
                   className="bg-transparent border-none w-[220px] outline-none"
-                  placeholder="та нэрээ оруулна уу!"
-                >
-                  {userMe?.userName}
-                </input>
+                  placeholder={userMe?.userName}
+                ></input>
               </div>
             </div>
             <MdOutlineEdit className="text-green-500" size={20} />
@@ -67,10 +82,8 @@ export const UserProfileRegister = () => {
                 <input
                   type="phoneNumber"
                   className="bg-transparent border-none w-[220px] outline-none"
-                  placeholder="Утасны дугаараа оруулна уу"
-                >
-                  {userMe?.phoneNumber}
-                </input>
+                  placeholder={userMe?.phoneNumber}
+                ></input>
               </div>
             </div>
             <MdOutlineEdit className="text-green-500" size={20} />
@@ -85,10 +98,8 @@ export const UserProfileRegister = () => {
                 <input
                   type="email"
                   className="bg-transparent border-none w-[220px] outline-none"
-                  placeholder="Имэйл хаягаа оруулна уу"
-                >
-                  {userMe?.email}
-                </input>
+                  placeholder={userMe?.email}
+                ></input>
               </div>
             </div>
             <MdOutlineEdit className="text-green-500" size={20} />

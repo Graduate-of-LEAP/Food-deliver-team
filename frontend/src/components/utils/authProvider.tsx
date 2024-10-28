@@ -8,6 +8,7 @@ import {
   useEffect,
 } from "react";
 import { api } from "@/lib/axios";
+import { useRouter } from "next/navigation";
 
 type UserMeResponse = {
   id: string;
@@ -37,6 +38,7 @@ type AuthProviderProps = {
 export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [userMe, setUserMe] = useState<UserMeResponse | undefined>();
   const userId = userMe?.id || ""; // Use userMe ID
+  const router = useRouter();
 
   const getMe = async () => {
     const token = localStorage.getItem("token");
@@ -61,7 +63,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     try {
       localStorage.removeItem("token");
       setUserMe(undefined);
-      window.location.reload();
+      router.push("/login");
     } catch (error) {
       console.error("Logout error", error);
     }

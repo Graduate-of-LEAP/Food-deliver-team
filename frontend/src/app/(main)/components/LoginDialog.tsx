@@ -9,35 +9,26 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { useAuthContext } from "@/components/utils/authProvider";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { FaRegUser } from "react-icons/fa";
 import { IoEyeOutline } from "react-icons/io5";
 import { IoEyeOffOutline } from "react-icons/io5";
-import { useAuthContext } from "@/components/utils/authProvider";
 import { api } from "@/lib/axios";
 
 type AddUserResponse = {
   email: string;
   password: string;
 };
-
 const LoginDialog: React.FC = () => {
+  const router = useRouter();
+  const { setUserMe } = useAuthContext();
   const [email, setEmail] = React.useState<string>("");
   const [password, setPassword] = React.useState<string>("");
   const [showPassword, setShowPassword] = useState(false);
   const [isClicked, setIsClicked] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const router = useRouter();
-  const { setUserMe } = useAuthContext();
-
-  const handleClick = () => {
-    setIsClicked(true);
-  };
-  const togglePasswordVisibility = () => {
-    setShowPassword((prevState) => !prevState);
-  };
 
   const logIn = async (addUser: AddUserResponse) => {
     try {
@@ -49,18 +40,19 @@ const LoginDialog: React.FC = () => {
         router.push("/dashboard");
       } else {
         router.push("/");
+        window.location.reload();
       }
-    } catch (error: unknown) {
-      if (error instanceof Error) {
-        console.error(error.message);
-        setError("Login failed. Please check your credentials.");
-      } else {
-        console.error("An unexpected error occurred");
-        setError("An unexpected error occurred.");
-      }
+    } catch (error) {
+      console.log(error);
     }
   };
 
+  const handleClick = () => {
+    setIsClicked(true);
+  };
+  const togglePasswordVisibility = () => {
+    setShowPassword((prevState) => !prevState);
+  };
   return (
     <div>
       <Dialog>
@@ -102,7 +94,7 @@ const LoginDialog: React.FC = () => {
                 href={"/forgetpassword"}
                 className=" cursor-pointer hover:underline hover:underline-offset-4 "
               >
-                <p className="text-end text-sm"> Нууц үг сэргээх</p>
+                <p className="text-end text-sm">Нууц үг сэргээх</p>
               </Link>
               <div
                 className="absolute right-4 top-1/2 transform -translate-y-1/2 cursor-pointer z-100"

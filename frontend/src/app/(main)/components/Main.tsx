@@ -6,7 +6,7 @@ import { FoodDiscount } from "./FoodDiscount";
 import { FoodMain } from "./FoodMain";
 import { FoodSalad } from "./FoodSalat";
 import { FoodSweet } from "./FoodSweet";
-import CardComponent  from "./CardComponent";
+import CardComponent from "./CardComponent";
 
 import { DiscountCalculator } from "./DiscountCalculator";
 import { Search } from "./Search";
@@ -17,17 +17,14 @@ const Main = () => {
       <div className="w-full h-fit ">
         <div className="flex flex-col w-full ">
           <div className="flex bg-[#18BA51] justify-around  w-full ">
-          <div className=" w-full h-full flex relative">
-
-                <Image
-                  src="/images/MainGroup.png"
-                  alt="Description"
-                  fill
-                  className="object-cover"
-                />
-            <div className="container flex justify-between m-auto  border border-black ">
-            
-
+            <div className=" w-full h-full flex relative">
+              <Image
+                src="/images/MainGroup.png"
+                alt="Description"
+                fill
+                className="object-cover"
+              />
+              <div className="container flex justify-between m-auto   ">
                 <div className=" flex  justify-center items-center  ">
                   <div className="flex flex-col ">
                     <h1 className="font-bold text-white text-[55px] leading-none">
@@ -41,27 +38,36 @@ const Main = () => {
                     </p>
                   </div>
                 </div>
-                <div className="flex  border border-black ">
+                <div className="flex  ">
                   <div className="relative py-44 ">
                     <Image
-                      src="/images/main1.png"
+                      src="/imageA.png"
                       alt="Description"
                       width={588}
                       height={438}
                       className=""
                     />
                   </div>
+                  {/* <div class="slider">
+                    <div class="circle" id="element1">
+                      1
+                    </div>
+                    <div class="circle" id="element2">
+                      2
+                    </div>
+                    <div class="circle" id="element3">
+                      3
+                    </div>
+                    <div class="circle" id="element4">
+                      4
+                    </div>
+                  </div> */}
                 </div>
-                
               </div>
-
-          
             </div>
           </div>
           <div className="container m-auto">
-          <CardComponent/>
-            
-         
+            <CardComponent />
 
             <div className="flex justify-center">
               <FoodDiscount />
