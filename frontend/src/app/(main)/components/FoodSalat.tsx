@@ -6,14 +6,14 @@ import { ChevronRight } from "lucide-react";
 import { useCart } from "./context/Cartcontext";
 import { api } from "@/lib/axios";
 import { useEffect, useState } from "react";
-import { FoodDiscountCard } from "./FoodDiscountCart"
+import { FoodDiscountCard } from "./FoodDiscountCart";
 
-type CategoryType={
-  _id:string;
-  categoryName:string;
-}
+type CategoryType = {
+  _id: string;
+  categoryName: string;
+};
 type foodCardType = {
-  category:CategoryType[];
+  category: CategoryType[];
   images: string[];
   foodName: string;
   price: number;
@@ -21,7 +21,7 @@ type foodCardType = {
 
 export const FoodSalad = () => {
   const [foods, setFoods] = useState<foodCardType[]>([]);
-  
+
   const getFoods = async () => {
     try {
       const response = await api.get("/food");
@@ -31,9 +31,15 @@ export const FoodSalad = () => {
       console.log("Failed to fetch foods:", error);
     }
   };
-  const filteredSaladFoods = foods.filter (item=> item.category[0].categoryName=== "Desserts");
-  const filteredVndsenHoolfoods=foods.filter(item=>item.category[0].categoryName==="Breakfast");
-  const filteredSweetFoods = foods.filter (item=> item.category[0].categoryName=== "Soup")
+  const filteredSaladFoods = foods.filter(
+    (item) => item.category[0]?.categoryName == "Desserts"
+  );
+  const filteredVndsenHoolfoods = foods.filter(
+    (item) => item.category[0]?.categoryName == "Breakfast"
+  );
+  const filteredSweetFoods = foods.filter(
+    (item) => item.category[0]?.categoryName == "Soup"
+  );
   useEffect(() => {
     getFoods();
   }, []);
@@ -48,7 +54,6 @@ export const FoodSalad = () => {
   const handleIncrease = () => {
     setQuantity((prevQuantity) => prevQuantity + 1);
   };
-  
 
   return (
     <>
@@ -75,18 +80,13 @@ export const FoodSalad = () => {
             return (
               <Dialog key={index}>
                 <DialogTrigger asChild>
-                  <div
-                    className="cursor-pointer"
-                    onClick={() => { }}
-                  >
-
+                  <div className="cursor-pointer" onClick={() => {}}>
                     <FoodDiscountCard
                       key={index}
                       src={item.images[0]}
                       title={item.foodName}
                       price={item.price}
                     />
-
                   </div>
                 </DialogTrigger>
                 <DialogContent className="sm:max-w-[800px] flex gap-8">
@@ -103,7 +103,9 @@ export const FoodSalad = () => {
                   <div className="w-[48%] flex flex-col py-8">
                     <div>
                       <b className="text-2xl">{item.foodName}</b>
-                      <p className="text-green-500 text-lg font-bold py-4">{item.price} ₮</p>
+                      <p className="text-green-500 text-lg font-bold py-4">
+                        {item.price} ₮
+                      </p>
                     </div>
                     <div>
                       <b className="text-lg">Орц</b>
@@ -148,7 +150,6 @@ export const FoodSalad = () => {
                   </div>
                 </DialogContent>
               </Dialog>
-
             );
           })}
         </div>
@@ -158,18 +159,13 @@ export const FoodSalad = () => {
             return (
               <Dialog key={index}>
                 <DialogTrigger asChild>
-                  <div
-                    className="cursor-pointer"
-                    onClick={() => { }}
-                  >
-
+                  <div className="cursor-pointer" onClick={() => {}}>
                     <FoodDiscountCard
                       key={index}
                       src={item.images[0]}
                       title={item.foodName}
                       price={item.price}
                     />
-
                   </div>
                 </DialogTrigger>
                 <DialogContent className="sm:max-w-[800px] flex gap-8">
@@ -186,7 +182,9 @@ export const FoodSalad = () => {
                   <div className="w-[48%] flex flex-col py-8">
                     <div>
                       <b className="text-2xl">{item.foodName}</b>
-                      <p className="text-green-500 text-lg font-bold py-4">{item.price} ₮</p>
+                      <p className="text-green-500 text-lg font-bold py-4">
+                        {item.price} ₮
+                      </p>
                     </div>
                     <div>
                       <b className="text-lg">Орц</b>
@@ -231,7 +229,6 @@ export const FoodSalad = () => {
                   </div>
                 </DialogContent>
               </Dialog>
-
             );
           })}
         </div>
@@ -239,20 +236,19 @@ export const FoodSalad = () => {
         <div className=" grid grid-cols-4 grid-flow-row gap-5 my-10">
           {filteredSweetFoods?.map((item, index) => {
             return (
-              <Dialog key={index} open={openIndex === index} onOpenChange={(open) => setOpenIndex(open ? index : null)}>
+              <Dialog
+                key={index}
+                open={openIndex === index}
+                onOpenChange={(open) => setOpenIndex(open ? index : null)}
+              >
                 <DialogTrigger asChild>
-                  <div
-                    className="cursor-pointer"
-                    onClick={() => { }}
-                  >
-
+                  <div className="cursor-pointer" onClick={() => {}}>
                     <FoodDiscountCard
                       key={index}
                       src={item.images[0]}
                       title={item.foodName}
                       price={item.price}
                     />
-
                   </div>
                 </DialogTrigger>
                 <DialogContent className="sm:max-w-[800px] flex gap-8">
@@ -269,7 +265,9 @@ export const FoodSalad = () => {
                   <div className="w-[48%] flex flex-col py-8">
                     <div>
                       <b className="text-2xl">{item.foodName}</b>
-                      <p className="text-green-500 text-lg font-bold py-4">{item.price} ₮</p>
+                      <p className="text-green-500 text-lg font-bold py-4">
+                        {item.price} ₮
+                      </p>
                     </div>
                     <div>
                       <b className="text-lg">Орц</b>
@@ -314,7 +312,6 @@ export const FoodSalad = () => {
                   </div>
                 </DialogContent>
               </Dialog>
-
             );
           })}
         </div>
