@@ -26,7 +26,7 @@ type AddFoodType = {
   price: number;
   quantity: number;
   category: string;
-  salePercent: string;
+  salePercent: number;
   images: string[];
 };
 
@@ -55,7 +55,7 @@ export const RightSideFood: React.FC<RightSideFoodProps> = ({
   const [price, setPrice] = useState<number>(0);
   const [quantity, setQuantity] = useState<number>(1);
   const [discounted, setDiscounted] = useState<boolean>(false);
-  const [salePercent, setSalePercent] = useState<string>(""); // Corrected variable name
+  const [salePercent, setSalePercent] = useState<number>(0);
 
   const [foods, setFoods] = useState<Food[]>([]);
 
@@ -207,22 +207,30 @@ export const RightSideFood: React.FC<RightSideFoodProps> = ({
                         className="py-4 px-3 w-full placeholder-[#8B8E95] bg-[#F4F4F4] rounded-lg"
                       />
                     </div>
+
                     <div className="flex flex-col gap-2">
                       <div className="font-medium text-[14px] text-black flex items-center gap-2">
                         <Switch
                           checked={discounted}
-                          onCheckedChange={setDiscounted}
+                          onCheckedChange={(checked) => {
+                            setDiscounted(checked);
+                            if (!checked) {
+                              setSalePercent(0);
+                            }
+                          }}
                         />
                         Хямдралтай эсэх
                       </div>
                       <input
                         type="number"
                         value={salePercent}
-                        onChange={(e) => setSalePercent(e.target.value)} // Use setSalePercent
+                        onChange={(e) => setSalePercent(Number(e.target.value))}
                         placeholder="Хямдрал оруулна уу"
                         className="py-4 px-3 w-full placeholder-[#8B8E95] bg-[#F4F4F4] rounded-lg"
+                        disabled={!discounted}
                       />
                     </div>
+
                     <div className="flex flex-col gap-2">
                       <div className="font-medium text-[14px] text-black">
                         Хоолны зураг

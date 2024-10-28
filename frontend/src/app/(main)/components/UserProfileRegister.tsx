@@ -1,17 +1,44 @@
 "use client";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaRegUser } from "react-icons/fa6";
 import { MdOutlineEdit } from "react-icons/md";
 import { MdOutlinePhone } from "react-icons/md";
 import { MdOutlineEmail } from "react-icons/md";
 import { Toaster, toast } from "react-hot-toast";
 import Link from "next/link";
+import { api } from "@/lib/axios";
+type UserMeResponse = {
+  id: string;
+  owog: string;
+  userName: string;
+  email: string;
+  phoneNumber: string;
+  address: string;
+  avatarImg: string;
+};
 
 export const UserProfileRegister = () => {
+  const [userMe, setUserMe] = useState<UserMeResponse>();
+
   const [username, setUsername] = useState<string>("");
   const [phoneNumber, setPhonenumber] = useState<string>("");
-
+  const getMe = async () => {
+    const token = localStorage.getItem("token");
+    try {
+      const response = await api.get("/auth/me", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      setUserMe(response.data);
+    } catch (error) {
+      console.log("Error fetching user data", error);
+    }
+  };
+  useEffect(() => {
+    getMe();
+  }, []);
   return (
     <div>
       <div className="lg:w-[448px]  m-auto mt-[74px] space-y-12 p-6">
@@ -26,7 +53,7 @@ export const UserProfileRegister = () => {
             </div>
           </div>
 
-          <h1 className="font-bold text-2xl text-center">Name</h1>
+          <h1 className="font-bold text-2xl text-center">{userMe?.userName}</h1>
         </div>
         <div className=" space-y-4">
           <div className="bg-gray-50 h-[64px] w-full flex justify-between items-center px-5 rounded ">
@@ -39,7 +66,7 @@ export const UserProfileRegister = () => {
                 <input
                   type="name"
                   className="bg-transparent border-none w-[220px] outline-none"
-                  placeholder="Нэрээ оруулна уу"
+                  placeholder={userMe?.userName}
                 ></input>
               </div>
             </div>
@@ -55,7 +82,7 @@ export const UserProfileRegister = () => {
                 <input
                   type="phoneNumber"
                   className="bg-transparent border-none w-[220px] outline-none"
-                  placeholder="Утасны дугаараа оруулна уу"
+                  placeholder={userMe?.phoneNumber}
                 ></input>
               </div>
             </div>
@@ -71,7 +98,7 @@ export const UserProfileRegister = () => {
                 <input
                   type="email"
                   className="bg-transparent border-none w-[220px] outline-none"
-                  placeholder="Имэйл хаягаа оруулна уу"
+                  placeholder={userMe?.email}
                 ></input>
               </div>
             </div>
