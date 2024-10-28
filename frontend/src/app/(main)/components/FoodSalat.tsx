@@ -11,7 +11,8 @@ import { FoodDiscountCard } from "./FoodDiscountCart";
 type CategoryType = {
   _id: string;
   categoryName: string;
-  
+};
+
 type foodCardType = {
   category: CategoryType[];
   images: string[];
@@ -81,7 +82,7 @@ export const FoodSalad = () => {
             return (
               <Dialog key={index}>
                 <DialogTrigger asChild>
-                  <div className="cursor-pointer" onClick={() => {}}>
+                  <div className="cursor-pointer" onClick={() => { }}>
                     <FoodDiscountCard
                       key={index}
                       src={item.images[0]}
@@ -160,7 +161,7 @@ export const FoodSalad = () => {
             return (
               <Dialog key={index}>
                 <DialogTrigger asChild>
-                  <div className="cursor-pointer" onClick={() => {}}>
+                  <div className="cursor-pointer" onClick={() => { }}>
                     <FoodDiscountCard
                       key={index}
                       src={item.images[0]}
@@ -243,7 +244,7 @@ export const FoodSalad = () => {
                 onOpenChange={(open) => setOpenIndex(open ? index : null)}
               >
                 <DialogTrigger asChild>
-                  <div className="cursor-pointer" onClick={() => {}}>
+                  <div className="cursor-pointer" onClick={() => { }}>
                     <FoodDiscountCard
                       key={index}
                       src={item.images[0]}

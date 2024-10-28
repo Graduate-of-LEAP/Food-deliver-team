@@ -11,10 +11,8 @@ import { FaBars } from "react-icons/fa6";
 import { useEffect, useState } from "react";
 import LoginDialog from "../components/LoginDialog";
 import { SearchCard } from "./SearchCard";
-
-import { Cart } from "./Cart";
-import { useAuthContext } from "@/components/utils/authProvider";
 import { api } from "@/lib/axios";
+import { CartContent } from "./Cartcontent";
 type UserMeResponse = {
   id: string;
   owog: string;
