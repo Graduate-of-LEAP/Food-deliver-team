@@ -1,6 +1,5 @@
 "use client";
 
-import { HeaderDashboard } from "./components/HeaderDashboard";
 import { RightSideFood } from "./components/RightSideFoodCreate";
 import { FaEllipsisV } from "react-icons/fa";
 import { useEffect, useState } from "react";
@@ -14,6 +13,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { api } from "@/lib/axios";
+import { Header } from "../(main)/components/Header";
 
 type Category = {
   _id: string;
@@ -86,7 +86,7 @@ export default function Home() {
 
   return (
     <div className="flex flex-col">
-      <HeaderDashboard />
+      <Header />
       <div className="flex gap-8 w-[1440px] m-auto  ">
         <div className="flex-1 flex flex-col gap-10 pl-[120px] py-6">
           <div className="font-bold text-[22px]">Food menu</div>
