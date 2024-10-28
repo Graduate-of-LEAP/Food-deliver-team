@@ -10,12 +10,12 @@ import { useEffect, useState } from "react";
 import { toast } from 'react-toastify';
 
 
-type CategoryType={
-  _id:string;
-  categoryName:string;
+type CategoryType = {
+  _id: string;
+  categoryName: string;
 }
 type foodCardType = {
-  category:CategoryType[];
+  category: CategoryType[];
   images: string[];
   foodName: string;
   price: number;
@@ -25,7 +25,7 @@ type foodCardType = {
 export const FoodSweet = () => {
 
   const [foods, setFoods] = useState<foodCardType[]>([]);
-  
+
   const getFoods = async () => {
     try {
       const response = await api.get("/food");
@@ -35,8 +35,8 @@ export const FoodSweet = () => {
       console.log("Failed to fetch foods:", error);
     }
   };
-  const filteredVndsenHoolfoods=foods.filter(item=>item.category[0].categoryName==="Breakfast");
-  
+  const filteredVndsenHoolfoods = foods.filter(item => item.category[0].categoryName === "Breakfast");
+
   useEffect(() => {
     getFoods();
   }, []);
@@ -51,18 +51,7 @@ export const FoodSweet = () => {
   const handleIncrease = () => {
     setQuantity((prevQuantity) => prevQuantity + 1);
   };
-  const handleAddToCart = (item: typeof slidesFood[number], index: number) => {
-    addItem({
-      id: index,
-      title: item.title,
-      price: item.price,
-      src: item.src,
-      quantity,
-    });
 
-    toast.success(`${item.title} added to cart!`); // Show toast notification
-    setOpenIndex(null); // Close the dialog
-  };
   return (
     <>
       <div className="flex container flex-col">
@@ -84,7 +73,7 @@ export const FoodSweet = () => {
         </div>{" "}
         <div className=" flex w-full  justify-around gap-5 my-10">
           {filteredVndsenHoolfoods?.map((item, index) => {
-        
+
 
             return (
               <Dialog key={index} open={openIndex === index} onOpenChange={(open) => setOpenIndex(open ? index : null)}>
@@ -98,8 +87,8 @@ export const FoodSweet = () => {
                       src={item.images[0]}
                       title={item.foodName}
                       price={item.price}
-                     
-                  
+
+
                     />
 
                   </div>

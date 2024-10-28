@@ -14,8 +14,8 @@ import Image from "next/image";
      
        
       }`}> */}
-      {/* 1 */}
-      {/* <div className="bg-pink-300 w-full flex  h-fit  gap-10   my-10"
+{/* 1 */ }
+{/* <div className="bg-pink-300 w-full flex  h-fit  gap-10   my-10"
    
        >
           {filteredSaledPercentFoods?.map((item, index) => {
@@ -112,8 +112,8 @@ import Image from "next/image";
             );
           })}
         </div> */}
-        {/* 2 */}
-        {/* <div className="  w-full flex  h-fit  gap-10   my-10 bg-blue-300">
+{/* 2 */ }
+{/* <div className="  w-full flex  h-fit  gap-10   my-10 bg-blue-300">
           {filteredSaledPercentFoods?.map((item, index) => {
             const discountAmount = item.price * (item.salePercent / 100);
             const discountedPrice = item.price - discountAmount;
@@ -208,53 +208,55 @@ import Image from "next/image";
             );
           })}
         </div>  */}
-         {/*  */}
-         
+{/*  */ }
 
- export type FoodDiscountCardProps = {
-    src: string;
-    title: string;
-    price: number;
-    discountPercentage?: number;
-    discountAmount?: number;
-    discountedPrice?: number;
-  };
-  
-  
-  export const FoodDiscountCard = ({
-    src,
-    title,
-    price,
-    discountPercentage,
-    discountAmount,
-    discountedPrice,
-  }: FoodDiscountCardProps) => {
-    return (
-      <div className=" ">
-        <div className="relative ">
-          <div className={`relative  w-[350px] h-[250px]`}>
-            <Image
-              src={src}
-              alt="Picture"
-              fill
-              className={`object-cover rounded-2xl`}
-            ></Image>
-          </div>
-          <div className="absolute top-5 right-10">
-            <button className="bg-[#18BA51] rounded-lg px-2 text-white font-semibold text-[12px]">
-              {discountPercentage}%
-            </button>
-          </div>
+
+export type FoodDiscountCardProps = {
+  src: string;
+  title: string;
+  price: number;
+  discountPercentage?: number;
+  discountAmount?: number;
+  discountedPrice?: number;
+};
+
+
+export const FoodDiscountCard = ({
+  src,
+  title,
+  price,
+  discountPercentage,
+  discountAmount,
+  discountedPrice,
+}: FoodDiscountCardProps) => {
+
+
+  return (
+    <div className=" ">
+      <div className="relative ">
+        <div className={`relative  w-[350px] h-[250px]`}>
+          <Image
+            src={src}
+            alt="Picture"
+            fill
+            className={`object-cover rounded-2xl`}
+          ></Image>
         </div>
-        <p className="text-base font-bold  text-black  ">{title}</p>
-        <div className="flex gap-5">
-          <p className="text-base font-serif text-[#18BA51]">
-            {discountedPrice}₮
-          </p>
-          <p className="text-base font-serif text-[#e13bc8] line-through">
-            {price}₮
-          </p>
+        <div className="absolute top-5 right-10">
+          <button className="bg-[#18BA51] rounded-lg px-2 text-white font-semibold text-[12px]">
+            {discountPercentage}%
+          </button>
         </div>
       </div>
-    );
-  };
+      <p className="text-base font-bold  text-black  ">{title}</p>
+      <div className="flex gap-5">
+        <p className="text-base font-serif text-[#18BA51]">
+          {discountedPrice}₮
+        </p>
+        <p className="text-base font-serif text-[#e13bc8] line-through">
+          {price}₮
+        </p>
+      </div>
+    </div>
+  );
+};

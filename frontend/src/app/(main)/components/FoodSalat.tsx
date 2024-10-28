@@ -8,12 +8,12 @@ import { api } from "@/lib/axios";
 import { useEffect, useState } from "react";
 import { FoodDiscountCard } from "./FoodDiscountCart"
 
-type CategoryType={
-  _id:string;
-  categoryName:string;
+type CategoryType = {
+  _id: string;
+  categoryName: string;
 }
 type foodCardType = {
-  category:CategoryType[];
+  category: CategoryType[];
   images: string[];
   foodName: string;
   price: number;
@@ -21,7 +21,7 @@ type foodCardType = {
 
 export const FoodSalad = () => {
   const [foods, setFoods] = useState<foodCardType[]>([]);
-  
+
   const getFoods = async () => {
     try {
       const response = await api.get("/food");
@@ -31,9 +31,9 @@ export const FoodSalad = () => {
       console.log("Failed to fetch foods:", error);
     }
   };
-  const filteredSaladFoods = foods.filter (item=> item.category[0].categoryName=== "Desserts");
-  const filteredVndsenHoolfoods=foods.filter(item=>item.category[0].categoryName==="Breakfast");
-  const filteredSweetFoods = foods.filter (item=> item.category[0].categoryName=== "Soup")
+  const filteredSaladFoods = foods.filter(item => item.category[0].categoryName === "Desserts");
+  const filteredVndsenHoolfoods = foods.filter(item => item.category[0].categoryName === "Breakfast");
+  const filteredSweetFoods = foods.filter(item => item.category[0].categoryName === "Soup")
   useEffect(() => {
     getFoods();
   }, []);
@@ -47,18 +47,6 @@ export const FoodSalad = () => {
 
   const handleIncrease = () => {
     setQuantity((prevQuantity) => prevQuantity + 1);
-  };
-  const handleAddToCart = (item: typeof slidesFood[number], index: number) => {
-    addItem({
-      id: index,
-      title: item.title,
-      price: item.price,
-      src: item.src,
-      quantity,
-    });
-
-    toast.success(`${item.title} added to cart!`); // Show toast notification
-    setOpenIndex(null); // Close the dialog
   };
 
   return (

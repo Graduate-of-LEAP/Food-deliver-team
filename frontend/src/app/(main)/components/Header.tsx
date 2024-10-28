@@ -10,9 +10,8 @@ import { FaRegUser } from "react-icons/fa6";
 import { FaBars } from "react-icons/fa6";
 import { useState } from "react";
 import LoginDialog from "../components/LoginDialog";
-
-import { Cart } from "./Cart";
 import { useAuthContext } from "@/components/utils/authProvider";
+import { CartContent } from "./Cartcontent";
 
 export const Header = () => {
   const { userMe } = useAuthContext();
@@ -82,7 +81,7 @@ export const Header = () => {
             ></Input>
           </div>
           <MdOutlineShoppingBasket />
-          <Cart />
+          <CartContent />
 
           <div className="flex gap-2 items-center px-4 font-semibold ">
             <FaRegUser />
