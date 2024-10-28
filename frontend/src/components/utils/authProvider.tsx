@@ -11,9 +11,10 @@ import { api } from "@/lib/axios";
 
 type UserMeResponse = {
   id: string;
+  avatarImg: string;
   userName: string;
   email: string;
-  phone: string;
+  phoneNumber: number;
   address: string;
   owog: string;
 };
@@ -22,6 +23,7 @@ type AuthContextType = {
   userMe: UserMeResponse | undefined;
   setUserMe: (userMe: UserMeResponse | undefined) => void;
   LogOut: () => Promise<void>;
+  getMe: () => Promise<void>;
 };
 
 export const AuthContext = createContext<AuthContextType | undefined>(
@@ -32,37 +34,26 @@ type AuthProviderProps = {
   children: ReactNode;
 };
 
-type orderDataResponse = {
-  _id: string;
-  productId: ProductResponse;
-  userId: string;
-  size: string;
-  count: number;
-  price: number;
-}[];
-
-type ProductResponse = {
-  _id: string;
-  productName: string;
-  image: string[];
-  price: number;
-};
-
 export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [userMe, setUserMe] = useState<UserMeResponse | undefined>();
   const userId = userMe?.id || ""; // Use userMe ID
 
   const getMe = async () => {
     const token = localStorage.getItem("token");
+    if (!token) {
+      console.error("Token байхгүй байна!");
+      return;
+    }
     try {
       const response = await api.get("/users/me", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
+      console.log("API хариу: ", response.data); // API-аас хариу зөв ирж байгаа эсэхийг шалгах
       setUserMe(response.data);
     } catch (error) {
-      console.log("Error fetching user data", error);
+      console.error("Error fetching user data", error);
     }
   };
 
@@ -77,7 +68,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   };
 
   useEffect(() => {
-    getMe(); // Хэрэглэгчийн мэдээллийг татаж авч байна
+    getMe();
   }, []);
 
   return (
@@ -86,6 +77,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         userMe,
         setUserMe,
         LogOut,
+        getMe,
       }}
     >
       {children}

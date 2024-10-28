@@ -1,28 +1,36 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { useState } from "react";
 import Image from "next/image";
 import { useCart } from "./context/Cartcontext";
 import { IoIosArrowBack } from "react-icons/io";
 import { MdOutlineCancel, MdOutlineShoppingBasket } from "react-icons/md";
 
-export const Cart = () => {
-  const { items, removeItem } = useCart();
-  const [quantity, setQuantity] = useState(1);
+type CartItem = {
+  id: number;
+  title: string;
+  price: number;
+  src: string;
+  quantity: number;
+};
 
-  const handleDecrease = () => {
-    setQuantity((prevQuantity) => Math.max(prevQuantity - 1, 1));
-  };
-
-  const handleIncrease = () => {
-    setQuantity((prevQuantity) => prevQuantity + 1);
-  };
+export const Cart: React.FC = () => {
+  const { items, removeItem, updateItemQuantity } = useCart();
 
   const totalPrice = items.reduce(
     (total, item) => total + item.price * item.quantity,
     0
   );
+
+  const handleDecrease = (item: CartItem) => {
+    if (item.quantity > 1) {
+      updateItemQuantity(item.id, item.quantity - 1);
+    }
+  };
+
+  const handleIncrease = (item: CartItem) => {
+    updateItemQuantity(item.id, item.quantity + 1);
+  };
 
   return (
     <Sheet>
@@ -36,14 +44,14 @@ export const Cart = () => {
         </Button>
       </SheetTrigger>
 
-      <SheetContent className="flex flex-col justify-between">
+      <SheetContent className="flex flex-col justify-between ">
         <div className="flex font-bold items-center text-3xl gap-48 pb-4">
           <p>
             <IoIosArrowBack />
           </p>
           <p> Таны сагс</p>
         </div>
-        <div className="h-[90%]">
+        <div className="h-[90%] overflow-y-scroll">
           {items.length === 0 ? (
             <p>Сагс хоосон байна</p>
           ) : (
@@ -52,15 +60,15 @@ export const Cart = () => {
                 key={item.id}
                 className="flex border-t-2 border-b-2 py-2 justify-start items-start"
               >
-                <div className="w-1/2 p-2 flex">
+                <div className="w-full h-[250px] p-2 relative flex-1 ">
                   <Image
                     src={item.src}
-                    width={270}
-                    height={270}
+                    fill
                     alt="Picture of the pizza"
+                    className="object-cover"
                   />
                 </div>
-                <div className="w-1/2 flex flex-col justify-between p-3">
+                <div className="w-1/2 flex flex-col gap-4 justify-between p-3">
                   <div>
                     <div className="flex justify-between">
                       <b className="text-2xl">{item.title}</b>
@@ -78,9 +86,22 @@ export const Cart = () => {
                       Хулуу, төмс, лууван, сонгино, цөцгийн тос, самрын үр
                     </p>
                   </div>
-                  <div className="flex gap-2 items-center font-bold">
-                    <p className="text-lg">Тоо</p> <p>:</p>
-                    <p>{item.quantity}</p>
+                  <div className="flex gap-2 items-center font-bold flex-col">
+                    <div className="flex justify-between w-full">
+                      <button
+                        className="h-10 px-4 text-xl rounded-lg bg-green-500 text-white"
+                        onClick={() => handleDecrease(item)}
+                      >
+                        -
+                      </button>
+                      <div className="flex items-center">{item.quantity}</div>
+                      <button
+                        className="h-10 px-4 text-xl rounded-lg bg-green-500 text-white"
+                        onClick={() => handleIncrease(item)}
+                      >
+                        +
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>

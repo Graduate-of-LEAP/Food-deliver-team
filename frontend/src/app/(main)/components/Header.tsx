@@ -5,15 +5,15 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Input } from "@/components/ui/input";
 import { CiSearch } from "react-icons/ci";
-import { MdOutlineShoppingBasket } from "react-icons/md";
-import { FaRegUser } from "react-icons/fa6";
-import { FaBars } from "react-icons/fa6";
 import { useState } from "react";
 import LoginDialog from "../components/LoginDialog";
 import { Cart } from "./Cart";
 import { Drawer } from "./Drawer";
+import { useAuthContext } from "@/components/utils/authProvider";
 
 export const Header = () => {
+  const { userMe } = useAuthContext();
+
   const pathname: string = usePathname();
   interface Path {
     name: string;
@@ -28,15 +28,6 @@ export const Header = () => {
 
   const handleDrawer = () => {
     setIsDrawerOpen((prev) => !prev);
-  };
-  const [quantity, setQuantity] = useState(1);
-
-  const handleDecrease = () => {
-    setQuantity((prevQuantity) => Math.max(prevQuantity - 1, 1));
-  };
-
-  const handleIncrease = () => {
-    setQuantity((prevQuantity) => prevQuantity + 1);
   };
 
   return (
@@ -80,7 +71,13 @@ export const Header = () => {
             ></Input>
           </div>
           <Cart />
-          <LoginDialog />
+          <div className="flex gap-2 items-center px-4 font-semibold ">
+            {userMe?.userName ? (
+              <Link href="/userprofile">{userMe?.userName}</Link>
+            ) : (
+              <LoginDialog />
+            )}
+          </div>
         </div>
       </div>
     </>

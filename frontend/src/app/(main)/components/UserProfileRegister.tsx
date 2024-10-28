@@ -1,16 +1,26 @@
 "use client";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaRegUser } from "react-icons/fa6";
 import { MdOutlineEdit } from "react-icons/md";
 import { MdOutlinePhone } from "react-icons/md";
 import { MdOutlineEmail } from "react-icons/md";
 import { Toaster, toast } from "react-hot-toast";
 import Link from "next/link";
+import { useAuthContext } from "@/components/utils/authProvider";
 
 export const UserProfileRegister = () => {
-  const [username, setUsername] = useState<string>("");
-  const [phoneNumber, setPhonenumber] = useState<string>("");
+  const { userMe, getMe } = useAuthContext();
+
+  const [avatarImg, setAvatarImg] = useState(userMe?.avatarImg || "");
+  const [userName, setUserName] = useState(userMe?.userName || "");
+  const [phoneNumber, setPhoneNumber] = useState(userMe?.phoneNumber || "");
+  const [email, setEmail] = useState(userMe?.email || "");
+
+  useEffect(() => {
+    getMe();
+    console.log("ahashbdkasdk", userMe);
+  }, []);
 
   return (
     <div>
@@ -26,26 +36,28 @@ export const UserProfileRegister = () => {
             </div>
           </div>
 
-          <h1 className="font-bold text-2xl text-center">Name</h1>
+          <h1 className="font-bold text-2xl text-center">{userMe?.userName}</h1>
         </div>
         <div className=" space-y-4">
-          <div className="bg-gray-50 h-[64px] w-full flex justify-between items-center px-5 rounded ">
+          <div className="bg-gray-50 h-[64px] w-full flex justify-between items-center px-5 rounded shadow-lg">
             <div className="flex gap-2">
               <div className="h-12 w-12 rounded-full bg-white flex justify-center items-center">
                 <FaRegUser />
               </div>
               <div>
-                <p className="text-sm text-gray-500">Таны нэр</p>
+                <p className="text-sm text-gray-500">{userMe?.userName}</p>
                 <input
                   type="name"
                   className="bg-transparent border-none w-[220px] outline-none"
-                  placeholder="Нэрээ оруулна уу"
-                ></input>
+                  placeholder="та нэрээ оруулна уу!"
+                >
+                  {userMe?.userName}
+                </input>
               </div>
             </div>
             <MdOutlineEdit className="text-green-500" size={20} />
           </div>
-          <div className="bg-gray-50 h-[64px] w-full flex justify-between items-center px-5 rounded ">
+          <div className="bg-gray-50 h-[64px] w-full flex justify-between items-center px-5 rounded shadow-lg">
             <div className="flex gap-2">
               <div className="h-12 w-12 rounded-full bg-white flex justify-center items-center">
                 <MdOutlinePhone />
@@ -56,12 +68,14 @@ export const UserProfileRegister = () => {
                   type="phoneNumber"
                   className="bg-transparent border-none w-[220px] outline-none"
                   placeholder="Утасны дугаараа оруулна уу"
-                ></input>
+                >
+                  {userMe?.phoneNumber}
+                </input>
               </div>
             </div>
             <MdOutlineEdit className="text-green-500" size={20} />
           </div>
-          <div className="bg-gray-50 h-[64px] w-full flex justify-between items-center px-5 rounded ">
+          <div className="bg-gray-50 h-[64px] w-full flex justify-between items-center px-5 rounded shadow-lg">
             <div className="flex gap-2">
               <div className="h-12 w-12 rounded-full bg-white flex justify-center items-center">
                 <MdOutlineEmail />
@@ -72,13 +86,15 @@ export const UserProfileRegister = () => {
                   type="email"
                   className="bg-transparent border-none w-[220px] outline-none"
                   placeholder="Имэйл хаягаа оруулна уу"
-                ></input>
+                >
+                  {userMe?.email}
+                </input>
               </div>
             </div>
             <MdOutlineEdit className="text-green-500" size={20} />
           </div>
         </div>
-        <div className="w-full bg-green-500 text-white py-2 rounded text-center">
+        <div className="w-full bg-green-500 text-white py-2 rounded text-center shadow-lg">
           <MyComponent />
         </div>
       </div>
