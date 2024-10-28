@@ -11,7 +11,7 @@ import { FoodDiscountCard } from "./FoodDiscountCart";
 type CategoryType = {
   _id: string;
   categoryName: string;
-};
+  
 type foodCardType = {
   category: CategoryType[];
   images: string[];
@@ -40,6 +40,7 @@ export const FoodSalad = () => {
   const filteredSweetFoods = foods.filter(
     (item) => item.category[0]?.categoryName == "Soup"
   );
+
   useEffect(() => {
     getFoods();
   }, []);

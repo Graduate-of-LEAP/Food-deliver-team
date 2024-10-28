@@ -4,9 +4,9 @@ import { Sparkle } from "lucide-react";
 import { ChevronRight } from "lucide-react";
 import { FoodDiscount } from "./FoodDiscount";
 import { FoodMain } from "./FoodMain";
-import { FoodSalad } from "./FoodSalat";
+// import { FoodSalad } from "./FoodSalat";
 import { FoodSweet } from "./FoodSweet";
-import CardComponent  from "./CardComponent";
+import CardComponent from "./CardComponent";
 
 import { DiscountCalculator } from "./DiscountCalculator";
 import { Search } from "./Search";
@@ -17,16 +17,16 @@ const Main = () => {
       <div className="w-full h-fit ">
         <div className="flex flex-col w-full ">
           <div className="flex bg-[#18BA51] justify-around  w-full ">
-          <div className=" w-full h-full flex relative">
+            <div className=" w-full h-full flex relative">
 
-                <Image
-                  src="/images/MainGroup.png"
-                  alt="Description"
-                  fill
-                  className="object-cover"
-                />
-            <div className="container flex justify-between m-auto  border border-black ">
-            
+              <Image
+                src="/images/MainGroup.png"
+                alt="Description"
+                fill
+                className="object-cover"
+              />
+              <div className="container flex justify-between m-auto  border border-black ">
+
 
                 <div className=" flex  justify-center items-center  ">
                   <div className="flex flex-col ">
@@ -52,16 +52,16 @@ const Main = () => {
                     />
                   </div>
                 </div>
-                
+
               </div>
 
-          
+
             </div>
           </div>
           <div className="container m-auto">
-          <CardComponent/>
-            
-         
+            <CardComponent />
+
+
 
             <div className="flex justify-center">
               <FoodDiscount />
@@ -70,7 +70,7 @@ const Main = () => {
               <FoodMain />
             </div>*/}
             <div className="flex justify-center">
-              <FoodSalad />
+              {/* <FoodSalad /> */}
             </div>
             {/* <div className="flex justify-center">
               <FoodSweet />

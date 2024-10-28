@@ -10,7 +10,6 @@ import { FaRegUser } from "react-icons/fa6";
 import { FaBars } from "react-icons/fa6";
 import { useEffect, useState } from "react";
 import LoginDialog from "../components/LoginDialog";
-
 import { SearchCard } from "./SearchCard";
 
 import { Cart } from "./Cart";
@@ -25,6 +24,7 @@ type UserMeResponse = {
   address: string;
   avatarImg: string;
 };
+
 export const Header = () => {
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [userMe, setUserMe] = useState<UserMeResponse>();
@@ -113,7 +113,7 @@ export const Header = () => {
             ></Input>
           </div>
           <MdOutlineShoppingBasket />
-          <Cart />
+          <CartContent />
 
           <div className="flex gap-2 items-center px-4 font-semibold ">
             <FaRegUser />
