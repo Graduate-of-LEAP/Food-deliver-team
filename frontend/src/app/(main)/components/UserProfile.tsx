@@ -27,11 +27,6 @@ export const UserProfile = () => {
     console.log("ahashbdkasdk", userMe);
   }, []);
 
-  const userEdit = async (userId, userName) => {
-    try {
-    } catch (error) {}
-  };
-
   return (
     <div>
       <div className="lg:w-[448px]  m-auto mt-[74px] space-y-12 p-8">
