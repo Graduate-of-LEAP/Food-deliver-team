@@ -14,8 +14,8 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 
 import { Button } from "@/components/ui/button";
 import { FaAngleLeft } from "react-icons/fa";
-import { Cart } from "@/app/(main)/components/Cart";
 import LoginDialog from "@/app/(main)/components/LoginDialog";
+import { CartContent } from "@/app/(main)/components/Cartcontent";
 
 export const HeaderDashboard = () => {
   const pathname: string = usePathname();
@@ -159,7 +159,7 @@ export const HeaderDashboard = () => {
     </Sheet> */}
 
           <MdOutlineShoppingBasket />
-          <Cart />
+          <CartContent />
 
           <div className="flex items-center px-4 font-semibold ">
             <FaRegUser />
