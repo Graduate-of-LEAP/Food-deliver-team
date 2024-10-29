@@ -86,8 +86,8 @@ const Page = () => {
   return (
     <>
       <Header />
-      <div className="flex justify-center min-h-[40vh]">
-        <div className="container">
+      <div className="flex justify-center bg-gray-800 bg-gradient-to-b from-white to-transparent min-h-[40vh]">
+        <div className="container ">
           <div className="w-full gap-7 flex h-fit justify-center items-center">
             {categories.map((category) => (
               <div
@@ -104,10 +104,10 @@ const Page = () => {
               </div>
             ))}
           </div>
-          <div className="bg-pink-200">
-            <div className="w-full bg-red-400">
-              <div className="grid w-full bg-slate-100 grid-cols-4 grid-rows-4 gap-5 my-10">
-                {filteredAllFoods?.map((item: foodCardType, index: number) => (
+          <div className="">
+            <div className="w-full ">
+              <div className="grid w-full grid-cols-5 grid-rows-4 gap-5 my-10  ">
+                {filteredAllFoods?.slice(0, 5).map((item: foodCardType, index: number) => (
                   <Dialog key={index}>
                     <DialogTrigger asChild>
                       <div className="cursor-pointer">

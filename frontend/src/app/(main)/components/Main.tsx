@@ -4,7 +4,7 @@ import { Sparkle } from "lucide-react";
 import { ChevronRight } from "lucide-react";
 import { FoodDiscount } from "./FoodDiscount";
 import { FoodMain } from "./FoodMain";
-// import { FoodSalad } from "./FoodSalat";
+ import { FoodSalad } from "./FoodSalat";
 import { FoodSweet } from "./FoodSweet";
 import CardComponent from "./CardComponent";
 
@@ -14,7 +14,7 @@ import { Search } from "./Search";
 const Main = () => {
   return (
     <>
-      <div className="w-full h-fit ">
+      <div className="w-full h-fitv  ">
         <div className="flex flex-col w-full ">
           <div className="flex bg-[#18BA51] justify-around  w-full ">
             <div className=" w-full h-full flex relative">
@@ -70,7 +70,7 @@ const Main = () => {
               <FoodMain />
             </div>*/}
             <div className="flex justify-center">
-              {/* <FoodSalad /> */}
+              <FoodSalad />
             </div>
             {/* <div className="flex justify-center">
               <FoodSweet />
