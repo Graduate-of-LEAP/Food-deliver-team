@@ -13,7 +13,7 @@ import LoginDialog from "../components/LoginDialog";
 import { SearchCard } from "./SearchCard";
 import { api } from "@/lib/axios";
 import { CartContent } from "./Cartcontent";
-type UserMeResponse = {
+export type UserMeResponse = {
   id: string;
   owog: string;
   userName: string;
