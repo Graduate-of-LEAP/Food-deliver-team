@@ -89,66 +89,70 @@ export const Headdder = () => {
         isVisible ? "translate-y-0" : "-translate-y-full"
       }`}
     >
-      <div className="container flex justify-between m-auto p-6 items-center ">
-        <div className="flex lg:gap-6 lg:text-base text-xs gap-2 items-center">
-          <Image
-            src={"/images/Logo.png"}
-            alt="Pinecone logo"
-            width={32}
-            height={32}
-            className="w-6 h-6 lg:w-8 lg:h-8"
-          />
-          {paths.slice(0, 4).map((path, index) => (
-            <Link key={index} href={path.path}>
-              <div
-                style={{ color: pathname === path.path ? "#c0f288" : "black" }}
-                className="font-semibold lg:visible invisible"
-              >
-                {path.name}
-              </div>
-            </Link>
-          ))}
-        </div>
-        <div className="flex items-center gap-4 lg:visible invisible">
-          <div
-            className="lg:invisible visible fixed right-6 top-9 z-50"
-            onClick={handleDrawer}
-          >
-            <Drawer />
-          </div>
-          <div className="relative">
-            <CiSearch
-              size={18}
-              className="absolute w-6 h-6 top-[6px] left-2 border-gray-500 "
+      <div className="w-full bg-gradient-to-b from-gray-900 to-transparent">
+        <div className="container flex justify-between m-auto p-6 items-center">
+          <div className="flex lg:gap-6 lg:text-base text-xs gap-2 items-center text-white">
+            <Image
+              src={"/images/Logo.png"}
+              alt="Pinecone logo"
+              width={32}
+              height={32}
+              className="w-6 h-6 lg:w-8 lg:h-8 "
             />
-            <Input
-              type="search"
-              placeholder="Бүтээгдэхүүн хайх"
-              className="bg-transparent  w-[260px] px-10 border-gray-100 rounded-xl outline-none "
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-            ></Input>
-          </div>
-          <Cart />
-          <div className="flex gap-2 items-center px-4 font-semibold shadow-md">
-            {userMe?.userName ? (
-              <Link href="/userexit">
-                <div className="flex items-center hover:bg-gray-50 py-1.5 px-2 rounded shadow-md">
-                  <FaRegUser className="mr-2" />
-                  {userMe?.userName}
+            {paths.slice(0, 4).map((path, index) => (
+              <Link key={index} href={path.path}>
+                <div
+                  style={{
+                    color: pathname === path.path ? "#c0f288" : "white",
+                  }}
+                  className="font-semibold lg:visible invisible "
+                >
+                  {path.name}
                 </div>
               </Link>
-            ) : (
-              <LoginDialog />
-            )}
+            ))}
           </div>
-        </div>
+          <div className="flex items-center gap-4 lg:visible invisible">
+            <div
+              className="lg:invisible visible fixed right-6 top-9 z-50"
+              onClick={handleDrawer}
+            >
+              <Drawer />
+            </div>
+            <div className="relative">
+              <CiSearch
+                size={18}
+                className="absolute w-6 h-6 top-[6px] left-2 border-gray-500 text-white "
+              />
+              <Input
+                type="search"
+                placeholder="Бүтээгдэхүүн хайх"
+                className="bg-transparent  w-[260px] px-10 border-gray-100 rounded-lg outline-none "
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+              ></Input>
+            </div>
+            <Cart />
+            <div className=" font-semibold shadow-md bg-white rounded-md">
+              {userMe?.userName ? (
+                <Link href="/userexit">
+                  <div className="flex items-center hover:bg-gray-200 p-1.5 px-2 rounded-md">
+                    <FaRegUser className="mr-2" />
+                    {userMe?.userName}
+                  </div>
+                </Link>
+              ) : (
+                <LoginDialog />
+              )}
+            </div>
+          </div>
 
-        {searchTerm && (
-          <div className="bg-white flex absolute top-20 left-[30%] rounded-lg h-fit justify-center z-50 p-8 border">
-            <SearchCard searchTerm={searchTerm} />
-          </div>
-        )}
+          {searchTerm && (
+            <div className="bg-white flex absolute top-20 left-[30%] rounded-lg h-fit justify-center z-50 p-8 border">
+              <SearchCard searchTerm={searchTerm} />
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

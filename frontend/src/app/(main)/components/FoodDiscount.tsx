@@ -376,8 +376,6 @@
 //   );
 // };
 
-
-
 "use client";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import Image from "next/image";
@@ -408,7 +406,7 @@ type CategoryType = {
   categoryName: string;
 };
 
- export type foodCardType = {
+export type foodCardType = {
   category: CategoryType[];
   images: string[];
   foodName: string;

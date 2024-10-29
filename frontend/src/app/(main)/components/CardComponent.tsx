@@ -33,30 +33,27 @@ const Card = [
   },
 ];
 
-
 const CardComponent = () => {
   return (
-<div className="flex gap-7 mt-5 justify-center">
-{Card.map((item, index) => {
-  return (
-    <CardComponentProps
-      key={index}
-      icon={item.icon}
-      title={item.title}
-      desc={item.desc}
-    />
+    <div className="flex gap-7 mt-5 justify-center">
+      {Card.map((item, index) => {
+        return (
+          <CardComponentProps
+            key={index}
+            icon={item.icon}
+            title={item.title}
+            desc={item.desc}
+          />
+        );
+      })}
+    </div>
   );
-})}
-</div>
-
-  )
-}
-
+};
 
 export const CardComponentProps = ({ icon, title, desc }: CardType) => {
   return (
     <div className="border  w-full h-fit rounded-xl p-6 my-10  ">
-      <div className="text-[#18BA51]">{icon}</div>
+      <div className="text-gray-800">{icon}</div>
 
       <div>
         <div className="text-sm font-serif mt-10 font-bold">{title}</div>
