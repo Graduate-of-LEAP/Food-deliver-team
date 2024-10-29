@@ -17,6 +17,7 @@ type foodCardType = {
   images: string[];
   foodName: string;
   price: number;
+  orts: string
 };
 
 export const FoodSalad = () => {
@@ -58,25 +59,15 @@ export const FoodSalad = () => {
   return (
     <>
       <div className="flex flex-col container border">
-        <div className="flex justify-between mt-6">
-          <div className="flex font-bold ">
-            <Sparkle className="text-green-400" />
-            <Image
-              src="/images/Star.png"
-              alt="Description"
-              width={20}
-              height={20}
-              className=""
-            />
-            Салад ба зууш
-          </div>
-          <div className="flex text-[#18BA51] font-normal">
-            Бүгдийг харах <ChevronRight />
-          </div>
+     
+          <div className="flex text-lime-800 mt-6  font-semibold">
+          Салад ба зууш
+       
         </div>{" "}
         {/*filteredVndsenHoolfoods  */}
-        <div className=" grid grid-cols-4 grid-flow-row gap-5 my-10">
-          {filteredVndsenHoolfoods?.map((item, index) => {
+        <div className="flex justify-center">
+        <div className=" grid grid-cols-5 grid-flow-row gap-10 my-10">
+          {filteredVndsenHoolfoods?.slice(0, 5).map((item, index) => {
             return (
               <Dialog key={index}>
                 <DialogTrigger asChild>
@@ -152,10 +143,17 @@ export const FoodSalad = () => {
               </Dialog>
             );
           })}
+        </div>
         </div>
         {/* filteredSaladFoods */}
-        <div className=" grid grid-cols-4 grid-flow-row gap-5 my-10">
-          {filteredSaladFoods?.map((item, index) => {
+
+        <div className="flex text-mt-6 text-xl  font-semibold">
+        Үндсэн хоол
+       
+        </div>{" "}
+        <div className="flex justify-center">
+        <div className=" grid grid-cols-5 grid-flow-row gap-10 my-10">
+          {filteredSaladFoods?.slice(0,5).map((item, index) => {
             return (
               <Dialog key={index}>
                 <DialogTrigger asChild>
@@ -189,7 +187,7 @@ export const FoodSalad = () => {
                     <div>
                       <b className="text-lg">Орц</b>
                       <p className="p-2 bg-gray-50 rounded-lg my-2">
-                        Хулуу, төмс, лууван, сонгино, цөцгийн тос, самрын үр
+                 {item.orts}
                       </p>
                     </div>
                     <div className="flex flex-col gap-4">
@@ -232,9 +230,17 @@ export const FoodSalad = () => {
             );
           })}
         </div>
+        
+</div>
         {/*filteredSweetFoods */}
-        <div className=" grid grid-cols-4 grid-flow-row gap-5 my-10">
-          {filteredSweetFoods?.map((item, index) => {
+
+        <div className="flex text-lime-800 mt-6  font-semibold">
+        Уух зүйл
+       
+        </div>{" "}
+        <div className="flex justify-center">
+        <div className=" grid grid-cols-5 grid-flow-row gap-10 my-10">
+          {filteredSweetFoods?.slice(0, 5).map((item, index) => {
             return (
               <Dialog
                 key={index}
@@ -314,6 +320,7 @@ export const FoodSalad = () => {
               </Dialog>
             );
           })}
+        </div>
         </div>
       </div>
     </>

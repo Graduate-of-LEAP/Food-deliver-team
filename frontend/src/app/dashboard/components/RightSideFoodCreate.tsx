@@ -304,7 +304,7 @@ export const RightSideFood: React.FC<RightSideFoodProps> = ({
       <div className="grid grid-cols-3 gap-x-6 gap-y-16">
         {foods.map((item) => (
           <div key={item._id} className="">
-            <div className="relative w-full h-[186px]">
+            <div className="relative w-full h-[250px]">
               <Image
                 src={item.images[0] || "/1.png"}
                 alt={item.foodName}

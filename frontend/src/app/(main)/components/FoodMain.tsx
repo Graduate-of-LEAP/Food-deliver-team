@@ -56,7 +56,7 @@ export const FoodMain = () => {
   };
   return (
     <>
-      <div className="flex container border flex-col">
+      <div className="flex container border  flex-col">
         <div className="flex justify-between mt-6">
           <div className="flex font-bold ">
             <Sparkle className="text-green-400" />
