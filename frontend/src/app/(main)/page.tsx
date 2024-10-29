@@ -1,4 +1,3 @@
-import { Cart } from "./components/Cart";
 import { Footer } from "./components/Footer";
 
 import { ForgetCode } from "./components/ForgetCode";
@@ -12,7 +11,7 @@ export default function Home() {
     <>
       <Header />
       <Main />
-      <Footer/>
+      <Footer />
     </>
   );
 }

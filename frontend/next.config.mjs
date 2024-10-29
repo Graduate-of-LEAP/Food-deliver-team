@@ -12,6 +12,7 @@ const nextConfig = {
   env: {
     customKey: "my-value",
     NEXT_PUBLIC_API: process.env.NEXT_PUBLIC_API,
+    ABLY_KEY: process.env.ABLY_KEY || "",
   },
 };
 
