@@ -14,24 +14,39 @@ import {
 import { Input } from "../../../components/ui/input";
 import { api } from "@/lib/axios";
 import { useEffect } from "react";
-import { useAuthContext } from "@/components/utils/authProvider";
 
 type sagsCardType = {
-  userId: string;
   _id: string;
-  foodName: string;
+  userId: string;
+  foodId: foodType;
   price: number;
+  count: number;
+};
+type foodType = {
   orts: string;
   images: string[];
+  salePercent: number;
+  foodName: string;
+  _id: string;
 };
-
-
+type UserMeResponse = {
+  id: string;
+};
+type addOrderPackResponse = {
+  userId: string;
+  foods: {
+    food: string;
+    price: number;
+    count: number;
+  }[];
+  status: string;
+  phoneNumber: string;
+  district: string;
+  khoroo: string;
+  apartment: string;
+  orderDetail: string;
+};
 export const Address: React.FC = () => {
-
-  const {
-    userMe,
-  } = useAuthContext();
-
   const [district, setDistrict] = useState<string>("");
   const [khoroo, setKhoroo] = useState<string>("");
   const [apartment, setApartment] = useState<string>("");
@@ -40,36 +55,66 @@ export const Address: React.FC = () => {
   const [cashChecked, setCashChecked] = useState<boolean>(false);
   const [cardChecked, setCardChecked] = useState<boolean>(false);
   const [sags, setSags] = useState<sagsCardType[]>([]);
+  const [userMe, setUserMe] = useState<UserMeResponse>();
+
+  const getMe = async () => {
+    const token = localStorage.getItem("token");
+    try {
+      const response = await api.get("/auth/me", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      setUserMe(response.data);
+    } catch (error) {
+      console.log("Error fetching user data", error);
+    }
+  };
 
   const getSags = async () => {
+    const token = localStorage.getItem("token");
     try {
-      const response = await api.get("/sags");
-      console.log(response.data); // Check the structure of the response
-      const sagsWithId = response.data.sags.map((sags: any) => ({
-        _id: sags._id,
-        foodName: sags.foodId.foodName,
-        price: sags.price,
-        orts: sags.foodId.orts,
-        images: sags.foodId.images,
-      }));
-      setSags(sagsWithId);
+      const response = await api.get("/sags", {
+        params: { userId: userMe?.id },
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      setSags(response.data.sags);
+      console.log(response.data.sags);
     } catch (error) {
       console.log("Failed to fetch sags:", error);
     }
   };
 
+  const createOrderPack = async (addOrderPack: addOrderPackResponse) => {
+    try {
+      const response = await api.post("/order", addOrderPack);
+
+      console.log("Order pack creation response:", response);
+    } catch (error) {
+      console.error("Error adding orderPack:", error);
+    }
+  };
 
 
 
   useEffect(() => {
-    getSags();
+    getMe();
   }, []);
 
-  console.log(sags)
+  useEffect(() => {
+    if (userMe) {
+      getSags();
+    }
+  }, [userMe]);
 
   const allFieldsFilled = (): boolean => {
     return (
-      district !== "" && khoroo !== "" && apartment !== "" && phoneNumber.length >= 8
+      district !== "" &&
+      khoroo !== "" &&
+      apartment !== "" &&
+      phoneNumber.length >= 8
     );
   };
 
@@ -99,8 +144,9 @@ export const Address: React.FC = () => {
           Хаяг аа оруулна уу
           <Select onValueChange={setDistrict} value={district}>
             <SelectTrigger
-              className={`${district ? "bg-green-500 text-white" : "bg-gray-100"
-                } w-[432px]`}
+              className={`${
+                district ? "bg-green-500 text-white" : "bg-gray-100"
+              } w-[432px]`}
             >
               <SelectValue
                 placeholder={
@@ -139,8 +185,9 @@ export const Address: React.FC = () => {
           </Select>
           <Select onValueChange={setKhoroo} value={khoroo}>
             <SelectTrigger
-              className={`${khoroo ? "bg-green-500 text-white" : "bg-gray-100"
-                } w-[432px]`}
+              className={`${
+                khoroo ? "bg-green-500 text-white" : "bg-gray-100"
+              } w-[432px]`}
             >
               <SelectValue
                 placeholder={
@@ -173,8 +220,9 @@ export const Address: React.FC = () => {
           </Select>
           <Select onValueChange={setApartment} value={apartment}>
             <SelectTrigger
-              className={`${apartment ? "bg-green-500 text-white" : "bg-gray-100"
-                } w-[432px]`}
+              className={`${
+                apartment ? "bg-green-500 text-white" : "bg-gray-100"
+              } w-[432px]`}
             >
               <SelectValue
                 placeholder={
@@ -276,14 +324,21 @@ export const Address: React.FC = () => {
             sags.map((item) => (
               <div className="flex border-b-2 border-t-2 pt-2" key={item._id}>
                 <div>
-                  {item.images && item.images.length > 0 && (
-                    <img src={item.images[0]} className="w-60 h-40 object-cover" />
+                  {item.foodId.images && item.foodId.images.length > 0 && (
+                    <img
+                      src={item.foodId.images[0]}
+                      className="w-60 h-40 object-cover"
+                    />
                   )}
                 </div>
                 <div className="flex flex-col justify-between p-4">
-                  <span className="font-bold">{item.foodName}</span>
-                  <span className="text-green-400 font-bold">₮{item.price.toFixed(2)}</span>
-                  <span>{item.orts}</span>
+                  <span className="font-bold uppercase">
+                    {item.foodId.foodName}
+                  </span>
+                  <span className="text-green-400 font-bold">
+                    ₮{item.price.toFixed(2)}
+                  </span>
+                  <span>{item.foodId.orts}</span>
                 </div>
               </div>
             ))
@@ -291,19 +346,39 @@ export const Address: React.FC = () => {
             <span className="text-gray-500">No items in the cart</span>
           )}
           <button
-            className={`w-1/2 rounded-sm p-2 text-white ${allFieldsFilled() && isPaymentSelected()
-              ? "bg-green-500"
-              : "bg-gray-100 text-gray-400"
-              }`}
+            className={`w-1/2 rounded-sm p-2 text-white ${
+              allFieldsFilled() && isPaymentSelected()
+                ? "bg-green-500"
+                : "bg-gray-100 text-gray-400"
+            }`}
             disabled={!allFieldsFilled() || !isPaymentSelected()}
+            onClick={() => {
+              if (userMe?.id) {
+                const foods = sags.map((item) => ({
+                  food: item.foodId._id, // Pass only the product ID (string)
+                  price: item.price, // Use the updated price
+                  count: item.count, // Use the updated count
+                }));
+
+                createOrderPack({
+                  userId: userMe.id,
+                  status: "Шинэ захиалга",
+                  foods,
+                  phoneNumber: phoneNumber,
+                  district: district,
+                  khoroo: khoroo,
+                  apartment: apartment,
+                  orderDetail: orderDetail,
+                });
+              } else {
+                console.error("User ID is undefined");
+              }
+            }}
           >
             Захиалах
           </button>
         </div>
       </div>
     </div>
-
   );
 };
-
-
