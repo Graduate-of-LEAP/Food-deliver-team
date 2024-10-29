@@ -3,7 +3,8 @@ import { sagsModel } from "../../models/sags.schema";
 
 export const getSagsController: RequestHandler = async (req, res) => {
   try {
-    const sags = await sagsModel.find({}).populate("foodId");
+    const { userId } = req.query;
+    const sags = await sagsModel.find({ userId }).populate("foodId");
     return res.status(200).json({
       sags,
     });

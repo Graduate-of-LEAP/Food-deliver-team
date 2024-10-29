@@ -7,7 +7,7 @@ const orderFoodSchema = new Schema({
     ref: "Food",
     required: true,
   },
-  quantity: {
+  count: {
     type: Number,
     required: true,
   },
@@ -15,7 +15,6 @@ const orderFoodSchema = new Schema({
     type: String,
   },
 });
-
 
 const orderSchema = new Schema({
   status: {
@@ -63,9 +62,7 @@ const orderSchema = new Schema({
     required: true,
     default: "Дэлгэрэнгүй мэдээлэл",
   },
-  foods: [
-    orderFoodSchema
-  ],
+  foods: [orderFoodSchema],
   createdAt: {
     type: Date,
     required: true,
