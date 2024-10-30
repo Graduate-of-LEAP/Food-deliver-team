@@ -2,19 +2,21 @@ import { RequestHandler } from "express";
 import { messageModel } from "../../models/message.schema";
 
 export const createMessageController: RequestHandler = async (req, res) => {
-  if (req.method === "POST") {
-    const { userId, userName, avatarImg, phoneNumber, text } = req.body;
+  // const { userId, userName, avatarImg, phoneNumber, text } = req.body;
+  try {
+    await messageModel.create({
+      ...req.body,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    });
+    return res.status(201).json({
+      message: "createMessageController DEER Message Nemegdlee",
+    });
+  } catch (error) {
+    console.log(error);
 
-    try {
-      // Мессежийг өгөгдлийн санд хадгалах
-      const savedMessage = await messageModel.create({
-        data: { userId, userName, text, avatarImg, phoneNumber },
-      });
-      return res.status(201).json(savedMessage);
-    } catch (error) {
-      return res
-        .status(500)
-        .json({ errorMessage: "Failed to save message", error });
-    }
+    return res.status(400).json({
+      message: "createMessageController buruu l nemeed bndaa",
+    });
   }
 };

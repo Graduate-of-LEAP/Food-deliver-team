@@ -48,53 +48,69 @@ function Conversation({ chatId }: { chatId: string }) {
   useEffect(() => {
     getMe();
   }, []);
-  //userMe-ийн утгыг логдож шалгаж
-  console.log(userMe);
-  useEffect(() => {
-    console.log(userMe);
-  }, [userMe]);
+  //userMe-ийн утгыг логдож шалгаж   OK
+  console.log(
+    "userMe-ийн утгыг логдож шалгаж байна шүүүүүүүү======= ok",
+    userMe
+  );
 
   //
 
-  //
-  //
   useConnectionStateListener("connected", () => {
-    console.log("Connected to Ably!");
+    console.log("Ably-д холбогдлоо!");
+  });
+  useConnectionStateListener("disconnected", () => {
+    console.log("Ably-тай холбоо тасарлаа!");
   });
 
+  //
   const { channel } = useChannel(chatId, "message", (message) => {
     setMessages((PreviousMessages) => [message, ...PreviousMessages]);
   });
 
-  //   const sendMessage = () => {
-  //     channel.publish("message", text);
-  //     setText("");
-  //   };
-  const sendMessage = () => {
-    if (userMe) {
-      const messageData = {
-        userId: userMe.id,
-        userName: userMe.userName,
-        text: text,
-        avatarImg: userMe.avatarImg || "default_avatar.png", // Зураг хуваарилах
-        phoneNumber: userMe.phoneNumber || "No number added", // Утасны дугаар
-      };
-      channel.publish("message", messageData);
-      setText("");
-      // Server руу хадгалах логик
-      api
-        .post("/message", messageData) // messageData-г дамжуулах
-        .then((response) => {
-          console.log("Message saved", response.data);
-          setMessages((prev) => [...prev, response.data]); // Хадгалаад ирсэн мессежийг нэмэх
-        })
-        .catch((error) => {
-          console.error("Error saving message", error);
-        });
+  //   const { channel } = useChannel(chatId, "message", (message) => {
+  //     console.log("Ирсэн мессеж:???????", message); // message.data болон message.data.text-г шалгах
+  //     if (message.data) {
+  //       setMessages((previousMessages) => [message, ...previousMessages]);
+  //     } else {
+  //       console.error("Мессежийн өгөгдөл алга???????????????????????");
+  //     }
+  //   });
+  // Мессеж хүлээн авч байгаа эсэхийг шалгах
+  console.log("Channel:Мессеж хүлээн авч байгаа эсэхийг шалгах ", channel);
 
-      setText(""); // Текстийг цэвэрлэх
-    }
+  const sendMessage = () => {
+    channel.publish("message", text);
+    setText("");
   };
+
+  // Server руу хадгалах логик
+
+  //   const sendMessage = () => {
+  //     if (userMe) {
+  //       const messageData = {
+  //         userId: userMe.id,
+  //         userName: userMe.userName,
+  //         text: text,
+  //         avatarImg: userMe.avatarImg || "default_avatar.png", // Зураг хуваарилах
+  //         phoneNumber: userMe.phoneNumber || "No number added", // Утасны дугаар
+  //       };
+  //       console.log("Илгээж буй мессеж:-------- ok", messageData);
+  //       setText("");
+  //       // Server руу хадгалах логик
+  //       api
+  //         .post("/message", messageData) // messageData-г дамжуулах
+  //         .then((response) => {
+  //           console.log("Message saved FROM dashboard realtime", response.data);
+  //           setMessages((prev) => [...prev, response.data]); // Хадгалаад ирсэн мессежийг нэмэх
+  //         })
+  //         .catch((error) => {
+  //           console.error("Error saving message", error);
+  //         });
+
+  //       setText(""); // Текстийг цэвэрлэх
+  //     }
+  //   };
 
   return (
     <div className="m-5">
@@ -112,29 +128,49 @@ function Conversation({ chatId }: { chatId: string }) {
           Publish
         </button>
       </div>
-
-      {messages.map((message) => {
-        return (
-          <div key={message.id} className="chat chat-start flex">
-            <div className="chat-bubble my-5 bg-pink-200 rounded-xl p-2">
-              <strong>{message.data.userName}:</strong> {message.data.text}
-              {/* <p>{message.data.phoneNumber}</p>
-              <p>{message.data.avatarImg}</p> */}
-              {/* {userMe?.avatarImg && (
-                <Image
-                  // src={message.data.avatarImg} // Зурагны URL
-                  src={testImageUrl}
-                  alt="avatarImg"
-                  width={40}
-                  height={50}
-                  className="rounded-full"
-                />
-              )} */}
-              {/* <p>{message.data.userId}</p> */}
+      <div>
+        {messages.map((message) => {
+          return (
+            <div key={message.id} className="chat chat-start">
+              {/* <div className="chat-bubble"> {message.data}
+                
+              </div> */}
+              {message.data.userName}: {message.data.text}
             </div>
-          </div>
-        );
-      })}
+          );
+        })}
+      </div>
+
+      {/* Server руу хадгалсан чатыг урагшаа гаргах*/}
+      {/* <div>
+        {messages.map((message) => {
+          return (
+            <div key={message.id} className="chat chat-start flex">
+              <div className="chat-bubble my-5 bg-pink-200 rounded-xl p-2">
+                <strong>{message.data.userName}:</strong> {message.data.text}
+                <strong>
+                  {message.data?.userName || "Тодорхойгүй хэрэглэгч"}:
+                </strong>{" "}
+                {message.data?.text}
+                <div>{message.data.text}</div>
+                <p>{message.data.phoneNumber}</p>
+                <p>{message.data.avatarImg}</p>
+                {userMe?.avatarImg && (
+                  <Image
+                    // src={message.data.avatarImg} // Зурагны URL
+                    src={testImageUrl}
+                    alt="avatarImg"
+                    width={40}
+                    height={50}
+                    className="rounded-full"
+                  />
+                )}
+                <p>{message.data.userId}</p>
+              </div>
+            </div>
+          );
+        })}
+      </div> */}
     </div>
   );
 }
