@@ -3,12 +3,12 @@ import { messageModel } from "../../models/message.schema";
 
 export const createMessageController: RequestHandler = async (req, res) => {
   if (req.method === "POST") {
-    const { text } = req.body;
+    const { userId, userName, avatarImg, phoneNumber, text } = req.body;
 
     try {
       // Мессежийг өгөгдлийн санд хадгалах
       const savedMessage = await messageModel.create({
-        data: { text },
+        data: { userId, userName, text, avatarImg, phoneNumber },
       });
       return res.status(201).json(savedMessage);
     } catch (error) {
