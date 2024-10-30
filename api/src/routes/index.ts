@@ -6,3 +6,4 @@ export * from "./order.router";
 export * from "./sags.router";
 export * from "./review.router";
 export * from "./getMe.router";
+export * from "./message.router";
