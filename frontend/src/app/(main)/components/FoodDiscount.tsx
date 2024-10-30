@@ -150,7 +150,7 @@ export const FoodDiscount = () => {
   }, [filteredSaledPercentFoods.length]);
 
   return (
-    <div className="flex flex-col container border">
+    <div className="flex flex-col max-w-7xl border ">
       <div className="flex justify-between mt-6 px-20">
         <div className="flex font-bold">
           <Sparkle className="text-green-400" />
