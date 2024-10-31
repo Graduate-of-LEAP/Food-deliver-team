@@ -1,3 +1,4 @@
+
 "use client";
 import {
     SheetContent,
@@ -63,15 +64,16 @@ export const CartContent: React.FC = () => {
 
     const totalPrice = sags.reduce((total, sag) => total + sag.price * sag.count, 0);
 
-    const handleDecrease = (item: CartItem) => {
-        if (item.quantity > 1) {
-            updateItemQuantity(item.id, item.quantity - 1);
-        }
-    };
+  const handleDecrease = (item: CartItem) => {
+    if (item.quantity > 1) {
+      updateItemQuantity(item.id, item.quantity - 1);
+    }
+  };
 
-    const handleIncrease = (item: CartItem) => {
-        updateItemQuantity(item.id, item.quantity + 1);
-    };
+  const handleIncrease = (item: CartItem) => {
+    updateItemQuantity(item.id, item.quantity + 1);
+  };
+
 
     const getSags = async () => {
         const token = localStorage.getItem("token");
@@ -166,11 +168,52 @@ export const CartContent: React.FC = () => {
                         <p>Нийт төлөх дүн</p>
                         <b>{totalPrice} ₮</b>
                     </div>
-                    <Link href="/order" className="w-1/2 rounded-sm text-white bg-green-500 flex items-center justify-center">
-                        Захиалах
-                    </Link>
+                    <p className="text-[#86c41d] text-lg font-bold">
+                      {item.price * item.quantity} ₮
+                    </p>
+                  </div>
+                  <div>
+                    <b className="text-lg">Орц</b>
+                    <p className="p-2 bg-gray-50 rounded-lg my-2">
+                      Хулуу, төмс, лууван, сонгино, цөцгийн тос, самрын үр
+                    </p>
+                  </div>
+                  <div className="flex gap-2 items-center font-bold flex-col">
+                    <div className="flex justify-between w-full">
+                      <button
+                        className="h-10 px-4 text-xl rounded-lg bg-[#86c41d] text-white"
+                        onClick={() => handleDecrease(item)}
+                      >
+                        -
+                      </button>
+                      <div className="flex items-center">{item.quantity}</div>
+                      <button
+                        className="h-10 px-4 text-xl rounded-lg bg-[#86c41d] text-white"
+                        onClick={() => handleIncrease(item)}
+                      >
+                        +
+                      </button>
+                    </div>
+                  </div>
                 </div>
-            </SheetContent>
-        </Sheet>
-    );
+              </div>
+            ))
+          )}
+        </div>
+        <div className="flex justify-between border-t-2 py-8">
+          <div className="flex flex-col">
+            <p>Нийт төлөх дүн</p>
+            <b>{totalPrice} ₮</b>
+          </div>
+          <Link
+            href="/order"
+            className="w-1/2 rounded-sm text-white bg-[#86c41d] flex items-center justify-center"
+          >
+            Захиалах
+          </Link>
+        </div>
+      </SheetContent>
+    </Sheet>
+  );
+
 };

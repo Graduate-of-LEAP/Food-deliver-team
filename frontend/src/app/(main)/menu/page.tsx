@@ -431,30 +431,100 @@ const Page = () => {
   return (
     <>
       <Header />
-      <div className="flex justify-center min-h-[40vh]">
-        <div className="container">
+      <div className="flex justify-center bg-gray-200 bg-gradient-to-b from-white to-transparent min-h-[40vh] pt-[120px]">
+        <div className="container ">
+
           <div className="w-full gap-7 flex h-fit justify-center items-center">
             {categories.map((category) => (
               <div
                 key={category._id}
                 onClick={() => handleCategorySelect(category._id)}
-                className={`border py-2 w-full justify-center cursor-pointer flex items-center rounded-[8px] border-[#D6D8DB] font-medium text-[18px] ${selectedCategory.includes(category._id) || (!selectedCategory.length && category._id === "all") ? "bg-[#18BA51] text-white" : ""}`}
+                className={`border py-2 w-full justify-center cursor-pointer flex items-center rounded-[8px] border-[#D6D8DB] font-medium text-[18px] ${
+                  selectedCategory.includes(category._id) ||
+                  (!selectedCategory.length && category._id === "all")
+                    ? "bg-[#86c41d] text-white"
+                    : ""
+                }`}
+
               >
                 <div>{category.categoryName}</div>
               </div>
             ))}
           </div>
-          <div className="bg-pink-200">
-            <div className="w-full bg-red-400">
-              <div className="grid w-full bg-slate-100 grid-cols-4 grid-rows-4 gap-5 my-10">
-                {filteredAllFoods?.map((item: foodCardType, index: number) => (
-                  <div key={index} className="cursor-pointer" onClick={() => handleFoodSelect(item)}>
-                    <FoodDiscountCard
-                      src={item.images[0]}
-                      title={item.foodName}
-                      price={item.price}
-                    />
-                  </div>
+          <div className="">
+            <div className="w-full ">
+              <div className="grid w-full grid-cols-5 grid-rows-4 gap-5 my-10  ">
+                {filteredAllFoods.map((item: foodCardType, index: number) => (
+                  <Dialog key={index}>
+                    <DialogTrigger asChild>
+                      <div className="cursor-pointer">
+                        <FoodDiscountCard
+                          src={item.images[0]}
+                          title={item.foodName}
+                          price={item.price}
+                        />
+                      </div>
+                    </DialogTrigger>
+                    <DialogContent className="sm:max-w-[800px] flex gap-8">
+                      <div className="w-[48%]">
+                        <Image
+                          src={item.images[0]}
+                          width={800}
+                          height={800}
+                          alt="Picture of the food"
+                          className="h-full w-full object-cover rounded-2xl"
+                        />
+                      </div>
+
+                      <div className="w-[48%] flex flex-col py-8">
+                        <div>
+                          <b className="text-2xl">{item.foodName}</b>
+                          <p className="text-green-500 text-lg font-bold py-4">
+                            {item.price} ₮
+                          </p>
+                        </div>
+                        <div>
+                          <b className="text-lg">Ingredients</b>
+                          <p className="p-2 bg-gray-50 rounded-lg my-2">
+                            Хулуу, төмс, лууван, сонгино, цөцгийн тос, самрын үр
+                          </p>
+                        </div>
+                        <div className="flex flex-col gap-4">
+                          <b className="text-lg">Quantity</b>
+                          <div className="flex justify-between">
+                            <button
+                              className="h-10 px-4 text-xl rounded-lg bg-green-500 text-white"
+                              onClick={handleDecrease}
+                            >
+                              -
+                            </button>
+                            <div className="flex items-center">{quantity}</div>
+                            <button
+                              className="h-10 px-4 text-xl rounded-lg bg-green-500 text-white"
+                              onClick={handleIncrease}
+                            >
+                              +
+                            </button>
+                          </div>
+                        </div>
+                        <button
+                          className="mt-8 h-12 rounded-sm px-20 bg-green-500 flex justify-center text-white items-center"
+                          onClick={() => {
+                            addItem({
+                              id: index,
+                              title: item.foodName,
+                              price: item.price,
+                              src: item.images[0],
+                              quantity,
+                            });
+                          }}
+                        >
+                          Add to Cart
+                        </button>
+                      </div>
+                    </DialogContent>
+                  </Dialog>
+
                 ))}
               </div>
             </div>

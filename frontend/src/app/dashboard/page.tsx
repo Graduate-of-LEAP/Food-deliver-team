@@ -86,7 +86,7 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col pt-[80px]">
       <Header />
       <div className="flex gap-8 w-[1440px] m-auto  ">
         <div className="flex-1 flex flex-col gap-10 pl-[120px] py-6">
@@ -94,8 +94,10 @@ export default function Home() {
           <div className="flex flex-col gap-6">
             <div
               onClick={() => handleCategorySelect("")}
-              className={`flex items-center w-[258px] justify-between px-4 py-1 rounded-[8px] border text-xl font-medium cursor-pointer ${selectedCategory === "" ? "bg-[#18BA51] text-white" : ""
-                }`}
+              className={`flex items-center w-[258px] justify-between px-4 py-1 rounded-[8px] border text-xl font-medium cursor-pointer ${
+                selectedCategory === "" ? "bg-[#86c41d] text-white" : ""
+              }`}
+
             >
               <div>All Categories</div>
             </div>
@@ -104,10 +106,12 @@ export default function Home() {
               <div
                 key={category._id}
                 onClick={() => handleCategorySelect(category._id)}
-                className={`flex items-center w-[258px] justify-between px-4 py-1 rounded-[8px] border text-xl font-medium cursor-pointer ${selectedCategory === category._id
-                  ? "bg-[#18BA51] text-white"
-                  : ""
-                  }`}
+                className={`flex items-center w-[258px] justify-between px-4 py-1 rounded-[8px] border text-xl font-medium cursor-pointer ${
+                  selectedCategory === category._id
+                    ? "bg-[#86c41d] text-white"
+                    : ""
+                }`}
+
               >
                 <div>{category.categoryName}</div>
                 <Dialog>
@@ -129,7 +133,7 @@ export default function Home() {
                         <div className="flex justify-between w-full">
                           <DialogClose>
                             <button
-                              className="rounded-lg bg-green-600 px-4 py-2 text-red-600 font-semibold"
+                              className="rounded-lg bg-[#86c41d] px-4 py-2 text-red-600 font-semibold"
                               onClick={() =>
                                 deleteCategory({
                                   _id: category._id,
@@ -142,7 +146,7 @@ export default function Home() {
 
                           <DialogClose>
                             <button
-                              className="rounded-lg bg-green-600 px-4 py-2 text-white font-semibold"
+                              className="rounded-lg bg-[#86c41d] px-4 py-2 text-white font-semibold"
                               onClick={() =>
                                 editCategory({
                                   _id: category._id,
