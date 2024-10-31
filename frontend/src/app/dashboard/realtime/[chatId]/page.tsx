@@ -30,7 +30,7 @@ function Conversation({ chatId }: { chatId: string }) {
   const [messages, setMessages] = useState<Ably.Message[]>([]);
   const [text, setText] = useState<string>("");
   const [userMe, setUserMe] = useState<UserMeResponse>();
-  const testImageUrl = "/img1.png"; // Зурагны URL
+  const testImageUrl = "/img1.png"; // Зурагны URL test shu
   //
   const getMe = async () => {
     const token = localStorage.getItem("token");
@@ -45,6 +45,7 @@ function Conversation({ chatId }: { chatId: string }) {
       console.log("Error fetching user data", error);
     }
   };
+  //
   useEffect(() => {
     getMe();
   }, []);
@@ -55,7 +56,6 @@ function Conversation({ chatId }: { chatId: string }) {
   );
 
   //
-
   useConnectionStateListener("connected", () => {
     console.log("Ably-д холбогдлоо!");
   });
@@ -63,54 +63,52 @@ function Conversation({ chatId }: { chatId: string }) {
     console.log("Ably-тай холбоо тасарлаа!");
   });
 
-  //
   const { channel } = useChannel(chatId, "message", (message) => {
-    setMessages((PreviousMessages) => [message, ...PreviousMessages]);
+    console.log("Ирсэн мессеж:???????++++++++", message); // message.data болон message.data.text-г шалгах
+    if (message) {
+      console.log("KKKKKB");
+      setMessages((previousMessages) => [message, ...previousMessages]);
+    } else {
+      console.error("Мессежийн өгөгдөл алга???????????????????????");
+    }
   });
-
-  //   const { channel } = useChannel(chatId, "message", (message) => {
-  //     console.log("Ирсэн мессеж:???????", message); // message.data болон message.data.text-г шалгах
-  //     if (message.data) {
-  //       setMessages((previousMessages) => [message, ...previousMessages]);
-  //     } else {
-  //       console.error("Мессежийн өгөгдөл алга???????????????????????");
-  //     }
-  //   });
-  // Мессеж хүлээн авч байгаа эсэхийг шалгах
+  //   Мессеж хүлээн авч байгаа эсэхийг шалгах
   console.log("Channel:Мессеж хүлээн авч байгаа эсэхийг шалгах ", channel);
-
-  const sendMessage = () => {
-    channel.publish("message", text);
-    setText("");
-  };
 
   // Server руу хадгалах логик
 
-  //   const sendMessage = () => {
-  //     if (userMe) {
-  //       const messageData = {
-  //         userId: userMe.id,
-  //         userName: userMe.userName,
-  //         text: text,
-  //         avatarImg: userMe.avatarImg || "default_avatar.png", // Зураг хуваарилах
-  //         phoneNumber: userMe.phoneNumber || "No number added", // Утасны дугаар
-  //       };
-  //       console.log("Илгээж буй мессеж:-------- ok", messageData);
-  //       setText("");
-  //       // Server руу хадгалах логик
-  //       api
-  //         .post("/message", messageData) // messageData-г дамжуулах
-  //         .then((response) => {
-  //           console.log("Message saved FROM dashboard realtime", response.data);
-  //           setMessages((prev) => [...prev, response.data]); // Хадгалаад ирсэн мессежийг нэмэх
-  //         })
-  //         .catch((error) => {
-  //           console.error("Error saving message", error);
-  //         });
+  const sendMessage = () => {
+    console.log("HIII");
+    if (userMe) {
+      const messageData = {
+        userId: userMe.id,
+        userName: userMe.userName,
+        text: text,
+        avatarImg: userMe.avatarImg || "default_avatar.png", // Зураг хуваарилах
+        phoneNumber: userMe.phoneNumber || "No number added", // Утасны дугаар
+      };
 
-  //       setText(""); // Текстийг цэвэрлэх
-  //     }
-  //   };
+      // Server руу хадгалах логик
+      api
+        .post("/message", messageData) // messageData-г дамжуулах
+        .then((response) => {
+          console.log("Message saved FROM dashboard realtime", response.data);
+          setMessages((prev) => [...prev, response.data]); // Хадгалаад ирсэн мессежийг нэмэх
+        })
+        .catch((error) => {
+          console.error("Error saving message", error);
+        });
+
+      // Мессежийг чалд руу илгээх
+      channel.publish("message", messageData);
+
+      // Текстийг цэвэрлэх
+      setText("");
+      console.log("Илгээж буй мессеж:-------- ok", messageData);
+    } else {
+      console.log("LLLl");
+    }
+  };
 
   return (
     <div className="m-5">
@@ -128,33 +126,19 @@ function Conversation({ chatId }: { chatId: string }) {
           Publish
         </button>
       </div>
-      <div>
-        {messages.map((message) => {
-          return (
-            <div key={message.id} className="chat chat-start">
-              {/* <div className="chat-bubble"> {message.data}
-                
-              </div> */}
-              {message.data.userName}: {message.data.text}
-            </div>
-          );
-        })}
-      </div>
 
       {/* Server руу хадгалсан чатыг урагшаа гаргах*/}
-      {/* <div>
+      <div>
         {messages.map((message) => {
           return (
             <div key={message.id} className="chat chat-start flex">
               <div className="chat-bubble my-5 bg-pink-200 rounded-xl p-2">
-                <strong>{message.data.userName}:</strong> {message.data.text}
-                <strong>
+                <strong>{message.data?.userName}:</strong> {message.data?.text}
+                {/* <strong>
                   {message.data?.userName || "Тодорхойгүй хэрэглэгч"}:
-                </strong>{" "}
-                {message.data?.text}
-                <div>{message.data.text}</div>
-                <p>{message.data.phoneNumber}</p>
-                <p>{message.data.avatarImg}</p>
+                </strong>{" "} */}
+                <p>{message.data?.phoneNumber}</p>
+                <p>{message.data?.avatarImg}</p>
                 {userMe?.avatarImg && (
                   <Image
                     // src={message.data.avatarImg} // Зурагны URL
@@ -165,12 +149,13 @@ function Conversation({ chatId }: { chatId: string }) {
                     className="rounded-full"
                   />
                 )}
-                <p>{message.data.userId}</p>
+                <p>{message.data?.userId}</p>
               </div>
+              {/*  */}
             </div>
           );
         })}
-      </div> */}
+      </div>
     </div>
   );
 }
