@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/dialog";
 import { api } from "@/lib/axios";
 import { Header } from "../(main)/components/Header";
+import Link from "next/link";
 
 type Category = {
   _id: string;
@@ -96,6 +97,7 @@ export default function Home() {
               className={`flex items-center w-[258px] justify-between px-4 py-1 rounded-[8px] border text-xl font-medium cursor-pointer ${
                 selectedCategory === "" ? "bg-[#86c41d] text-white" : ""
               }`}
+
             >
               <div>All Categories</div>
             </div>
@@ -109,6 +111,7 @@ export default function Home() {
                     ? "bg-[#86c41d] text-white"
                     : ""
                 }`}
+
               >
                 <div>{category.categoryName}</div>
                 <Dialog>
@@ -208,7 +211,7 @@ export default function Home() {
             </Dialog>
           </div>
           <div className="font-medium text-[18px] border text-center rounded-lg py-2 cursor-pointer bg-gray-300">
-            Захиалгууд харах
+            <Link href="/dashboard/order">Захиалгууд харах</Link>
           </div>
         </div>
         <RightSideFood selectedCategory={selectedCategory} />
