@@ -111,7 +111,6 @@
 //     setQuantity((prevQuantity) => prevQuantity + 1);
 //   };
 
-
 //   const createSags = async (addSags: CreateSagsType): Promise<any> => {
 //     const token = localStorage.getItem("token");
 //     console.log("Creating sags with token:", token, "data:", addSags);
@@ -280,7 +279,6 @@
 
 // export default Page;
 
-
 "use client";
 import { useState, useEffect } from "react";
 import { Header } from "../components/Header";
@@ -289,9 +287,10 @@ import { FoodDiscountCard } from "../../(main)/components/FoodDiscountCart";
 import { api } from "@/lib/axios";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import Image from "next/image";
-import { AxiosError } from 'axios';
+import { AxiosError } from "axios";
 import { useCart } from "../components/context/Cartcontext";
 import { useAuthContext } from "@/components/utils/authProvider";
+import { DialogTrigger } from "@radix-ui/react-dialog";
 
 export type Category = {
   _id: string;
@@ -400,7 +399,10 @@ const Page = () => {
       return response.data;
     } catch (error) {
       const axiosError = error as AxiosError;
-      console.error("API error:", axiosError.response?.data || axiosError.message);
+      console.error(
+        "API error:",
+        axiosError.response?.data || axiosError.message
+      );
       throw error;
     }
   };
@@ -433,7 +435,6 @@ const Page = () => {
       <Header />
       <div className="flex justify-center bg-gray-200 bg-gradient-to-b from-white to-transparent min-h-[40vh] pt-[120px]">
         <div className="container ">
-
           <div className="w-full gap-7 flex h-fit justify-center items-center">
             {categories.map((category) => (
               <div
@@ -445,7 +446,6 @@ const Page = () => {
                     ? "bg-[#86c41d] text-white"
                     : ""
                 }`}
-
               >
                 <div>{category.categoryName}</div>
               </div>
@@ -524,7 +524,6 @@ const Page = () => {
                       </div>
                     </DialogContent>
                   </Dialog>
-
                 ))}
               </div>
             </div>
@@ -608,7 +607,9 @@ const Page = () => {
                     }
                   } catch (error) {
                     console.error("Error:", error);
-                    alert("Захиалга нэмэхэд алдаа гарлаа. Дахин оролдож үзнэ үү.");
+                    alert(
+                      "Захиалга нэмэхэд алдаа гарлаа. Дахин оролдож үзнэ үү."
+                    );
                   } finally {
                     closeDialog();
                   }
@@ -627,5 +628,3 @@ const Page = () => {
 };
 
 export default Page;
-
-
