@@ -248,7 +248,7 @@ export const FoodDiscountCard = ({
           </button>
         </div>
       </div>
-      <p className="text-base font-bold  text-black  ">{title}</p>
+      <p className="text-base font-bold  text-black  ">{title} </p>
       <div className="flex gap-5">
         <p className="text-base font-serif text-[#18BA51]">
           {discountedPrice}₮
