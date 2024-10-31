@@ -33,13 +33,13 @@ export const FoodSalad = () => {
     }
   };
   const filteredSaladFoods = foods.filter(
-    (item) => item.category[0]?.categoryName == "Desserts"
+    (item) => item.category[0]?.categoryName == "Салад ба зууш"
   );
   const filteredVndsenHoolfoods = foods.filter(
-    (item) => item.category[0]?.categoryName == "Breakfast"
+    (item) => item.category[0]?.categoryName == "Үндсэн хоол"
   );
   const filteredSweetFoods = foods.filter(
-    (item) => item.category[0]?.categoryName == "Soup"
+    (item) => item.category[0]?.categoryName == "Уух зүйл"
   );
 
   useEffect(() => {
@@ -59,26 +59,15 @@ export const FoodSalad = () => {
 
   return (
     <>
-      <div className="flex flex-col container border">
-        <div className="flex justify-between mt-6">
-          <div className="flex font-bold ">
-            <Sparkle className="text-green-400" />
-            <Image
-              src="/images/Star.png"
-              alt="Description"
-              width={20}
-              height={20}
-              className=""
-            />
-            Салад ба зууш
-          </div>
-          <div className="flex text-[#18BA51] font-normal">
-            Бүгдийг харах <ChevronRight />
-          </div>
+      <div className="flex flex-col container pt-6">
+  
+          <div className="flex text-gray-800 font-bold text-2xl  pl-6">
+            Салад ба зууш  
         </div>{" "}
         {/*filteredVndsenHoolfoods  */}
-        <div className=" grid grid-cols-4 grid-flow-row gap-5 my-10">
-          {filteredVndsenHoolfoods?.map((item, index) => {
+        <div className="">
+        <div className=" grid grid-cols-5 grid-flow-row gap-5 my-10">
+          {filteredVndsenHoolfoods?.slice(0, 5).map((item, index) => {
             return (
               <Dialog key={index}>
                 <DialogTrigger asChild>
@@ -154,10 +143,14 @@ export const FoodSalad = () => {
               </Dialog>
             );
           })}
+          </div>
         </div>
         {/* filteredSaladFoods */}
-        <div className=" grid grid-cols-4 grid-flow-row gap-5 my-10">
-          {filteredSaladFoods?.map((item, index) => {
+        <div className="flex text-gray-800 font-bold text-2xl  pl-6">
+        Үндсэн хоол  
+        </div>{" "}
+        <div className=" grid grid-cols-5 grid-flow-row gap-5 my-10">
+          {filteredSaladFoods?.slice(0, 5).map((item, index) => {
             return (
               <Dialog key={index}>
                 <DialogTrigger asChild>
@@ -235,8 +228,11 @@ export const FoodSalad = () => {
           })}
         </div>
         {/*filteredSweetFoods */}
-        <div className=" grid grid-cols-4 grid-flow-row gap-5 my-10">
-          {filteredSweetFoods?.map((item, index) => {
+        <div className="flex text-gray-800 font-bold text-2xl  pl-6">
+        Уух зүйл 
+        </div>{" "}
+        <div className="grid grid-cols-5 grid-flow-row gap-5 my-10">
+          {filteredSweetFoods?.slice(0, 5).map((item, index) => {
             return (
               <Dialog
                 key={index}
@@ -316,8 +312,9 @@ export const FoodSalad = () => {
               </Dialog>
             );
           })}
+          </div>
         </div>
-      </div>
+   
     </>
   );
 };
