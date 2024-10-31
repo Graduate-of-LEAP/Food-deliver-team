@@ -1,53 +1,100 @@
+// 
 "use client";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import Image from "next/image";
-import { Sparkle } from "lucide-react";
-import { ChevronRight } from "lucide-react";
 import { useCart } from "./context/Cartcontext";
 import { api } from "@/lib/axios";
 import { useEffect, useState } from "react";
 import { FoodDiscountCard } from "./FoodDiscountCart";
+import { AxiosError } from 'axios';
+import { useAuthContext } from "@/components/utils/authProvider";
+import { FoodMainLast } from "./FoodMainLast";
+import { FoodDrinkLast } from "./FoodDrinkLast";
+
+export type Category = {
+  _id: string;
+  categoryName: string;
+};
+
+type CartItem = {
+  id: number;
+  title: string;
+  price: number;
+  src: string;
+  quantity: number;
+  orts: string;
+};
+
+type foodCardType = {
+  _id: string;
+  category: CategoryType[];
+  images: string[];
+  foodName: string;
+  price: number;
+  salePercent: number;
+  discountAmount: number;
+  discountedPrice: number;
+  orts: string;
+};
 
 type CategoryType = {
   _id: string;
   categoryName: string;
 };
 
-type foodCardType = {
-  category: CategoryType[];
-  images: string[];
-  foodName: string;
+interface CreateSagsType {
+  userId: string;
   price: number;
-};
+  foodId: string;
+  count: string;
+}
 
 export const FoodSalad = () => {
   const [foods, setFoods] = useState<foodCardType[]>([]);
+  const [currentItem, setCurrentItem] = useState<foodCardType | null>(null);
+  const [quantity, setQuantity] = useState(1);
+  const { userMe } = useAuthContext();
+  const { addItem } = useCart();
+  const [dialogOpen, setDialogOpen] = useState(false);
 
   const getFoods = async () => {
     try {
       const response = await api.get("/food");
-      setFoods(response.data.foods);
-      console.log(response.data.foods);
+      const foodsWithId = response.data.foods.map((food: any) => ({
+        ...food,
+        _id: food._id,
+      }));
+      setFoods(foodsWithId);
     } catch (error) {
       console.log("Failed to fetch foods:", error);
     }
   };
-  const filteredSaladFoods = foods.filter(
-    (item) => item.category[0]?.categoryName == "Салад ба зууш"
-  );
+
   const filteredVndsenHoolfoods = foods.filter(
-    (item) => item.category[0]?.categoryName == "Үндсэн хоол"
+    (item) => item.category[0]?.categoryName === "Үндсэн хоол"
   );
-  const filteredSweetFoods = foods.filter(
-    (item) => item.category[0]?.categoryName == "Уух зүйл"
-  );
+
+  const createSags = async (addSags: CreateSagsType): Promise<any> => {
+    const token = localStorage.getItem("token");
+    try {
+      const response = await api.post("/sags", addSags, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      return response.data;
+    } catch (error) {
+      const axiosError = error as AxiosError;
+      console.error("API error:", axiosError.response?.data || axiosError.message);
+      throw error;
+    }
+  };
 
   useEffect(() => {
     getFoods();
   }, []);
-  const { addItem } = useCart();
-  const [quantity, setQuantity] = useState(1);
-  const [openIndex, setOpenIndex] = useState<number | null>(null);
+
+
 
   const handleDecrease = () => {
     setQuantity((prevQuantity) => Math.max(prevQuantity - 1, 1));
@@ -56,289 +103,138 @@ export const FoodSalad = () => {
   const handleIncrease = () => {
     setQuantity((prevQuantity) => prevQuantity + 1);
   };
+  const openDialog = (item: foodCardType) => {
+    setCurrentItem(item);
+    setDialogOpen(true);
+  };
 
   return (
     <>
       <div className="flex flex-col container pt-6">
-  
-          <div className="flex text-gray-800 font-bold text-2xl  pl-6">
-            Салад ба зууш  
-        </div>{" "}
-        {/*filteredVndsenHoolfoods  */}
-        <div className="">
-        <div className=" grid grid-cols-5 grid-flow-row gap-5 my-10">
-          {filteredVndsenHoolfoods?.slice(0, 5).map((item, index) => {
-            return (
-              <Dialog key={index}>
-                <DialogTrigger asChild>
-                  <div className="cursor-pointer" onClick={() => { }}>
-                    <FoodDiscountCard
-                      key={index}
-                      src={item.images[0]}
-                      title={item.foodName}
-                      price={item.price}
-                    />
-                  </div>
-                </DialogTrigger>
-                <DialogContent className="sm:max-w-[800px] flex gap-8">
-                  <div className="w-[48%]">
-                    <Image
-                      src={item.images[0]}
-                      width={800}
-                      height={800}
-                      alt="Picture of the pizza"
-                      className="h-full w-full object-cover rounded-2xl"
-                    />
-                  </div>
-
-                  <div className="w-[48%] flex flex-col py-8">
-                    <div>
-                      <b className="text-2xl">{item.foodName}</b>
-                      <p className="text-green-500 text-lg font-bold py-4">
-                        {item.price} ₮
-                      </p>
-                    </div>
-                    <div>
-                      <b className="text-lg">Орц</b>
-                      <p className="p-2 bg-gray-50 rounded-lg my-2">
-                        Хулуу, төмс, лууван, сонгино, цөцгийн тос, самрын үр
-                      </p>
-                    </div>
-                    <div className="flex flex-col gap-4">
-                      <b className="text-lg">Тоо</b>
-                      <div>
-                        <div className="flex justify-between">
-                          <button
-                            className="h-10 px-4 text-xl rounded-lg bg-green-500 text-white"
-                            onClick={handleDecrease}
-                          >
-                            -
-                          </button>
-                          <div className="flex items-center">{quantity}</div>
-                          <button
-                            className="h-10 px-4 text-xl rounded-lg bg-green-500 text-white"
-                            onClick={handleIncrease}
-                          >
-                            +
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                    <button
-                      className="mt-8 h-12 rounded-sm px-20 bg-green-500 flex justify-center text-white items-center"
-                      onClick={() => {
-                        addItem({
-                          id: index,
-                          title: item.foodName,
-                          price: item.price,
-                          src: item.images[0],
-                          quantity,
-                        });
-                      }}
-                    >
-                      Сагслах
-                    </button>
-                  </div>
-                </DialogContent>
-              </Dialog>
-            );
-          })}
-          </div>
+        <div className="flex text-gray-800 font-bold text-2xl pl-6">
+          Салад ба зууш
         </div>
-        {/* filteredSaladFoods */}
-        <div className="flex text-gray-800 font-bold text-2xl  pl-6">
-        Үндсэн хоол  
-        </div>{" "}
-        <div className=" grid grid-cols-5 grid-flow-row gap-5 my-10">
-          {filteredSaladFoods?.slice(0, 5).map((item, index) => {
-            return (
-              <Dialog key={index}>
-                <DialogTrigger asChild>
-                  <div className="cursor-pointer" onClick={() => { }}>
-                    <FoodDiscountCard
-                      key={index}
-                      src={item.images[0]}
-                      title={item.foodName}
-                      price={item.price}
-                    />
-                  </div>
-                </DialogTrigger>
-                <DialogContent className="sm:max-w-[800px] flex gap-8">
-                  <div className="w-[48%]">
-                    <Image
-                      src={item.images[0]}
-                      width={800}
-                      height={800}
-                      alt="Picture of the pizza"
-                      className="h-full w-full object-cover rounded-2xl"
-                    />
-                  </div>
-
-                  <div className="w-[48%] flex flex-col py-8">
-                    <div>
-                      <b className="text-2xl">{item.foodName}</b>
-                      <p className="text-green-500 text-lg font-bold py-4">
-                        {item.price} ₮
-                      </p>
-                    </div>
-                    <div>
-                      <b className="text-lg">Орц</b>
-                      <p className="p-2 bg-gray-50 rounded-lg my-2">
-                        Хулуу, төмс, лууван, сонгино, цөцгийн тос, самрын үр
-                      </p>
-                    </div>
-                    <div className="flex flex-col gap-4">
-                      <b className="text-lg">Тоо</b>
-                      <div>
-                        <div className="flex justify-between">
-                          <button
-                            className="h-10 px-4 text-xl rounded-lg bg-green-500 text-white"
-                            onClick={handleDecrease}
-                          >
-                            -
-                          </button>
-                          <div className="flex items-center">{quantity}</div>
-                          <button
-                            className="h-10 px-4 text-xl rounded-lg bg-green-500 text-white"
-                            onClick={handleIncrease}
-                          >
-                            +
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                    <button
-                      className="mt-8 h-12 rounded-sm px-20 bg-green-500 flex justify-center text-white items-center"
-                      onClick={() => {
-                        addItem({
-                          id: index,
-                          title: item.foodName,
-                          price: item.price,
-                          src: item.images[0],
-                          quantity,
-                        });
-                      }}
-                    >
-                      Сагслах
-                    </button>
-                  </div>
-                </DialogContent>
-              </Dialog>
-            );
-          })}
-        </div>
-        {/*filteredSweetFoods */}
-        <div className="flex text-gray-800 font-bold text-2xl  pl-6">
-        Уух зүйл 
-        </div>{" "}
         <div className="grid grid-cols-5 grid-flow-row gap-5 my-10">
-          {filteredSweetFoods?.slice(0, 5).map((item, index) => {
-            return (
-              <Dialog
-                key={index}
-                open={openIndex === index}
-                onOpenChange={(open) => setOpenIndex(open ? index : null)}
-              >
-                <DialogTrigger asChild>
-                  <div className="cursor-pointer" onClick={() => { }}>
-                    <FoodDiscountCard
-                      key={index}
-                      src={item.images[0]}
-                      title={item.foodName}
-                      price={item.price}
-                    />
-                  </div>
-                </DialogTrigger>
-                <DialogContent className="sm:max-w-[800px] flex gap-8">
-                  <div className="w-[48%]">
-                    <Image
-                      src={item.images[0]}
-                      width={800}
-                      height={800}
-                      alt="Picture of the pizza"
-                      className="h-full w-full object-cover rounded-2xl"
-                    />
-                  </div>
+          {filteredVndsenHoolfoods?.slice(0, 5).map((item, index) => (
 
-                  <div className="w-[48%] flex flex-col py-8">
-                    <div>
-                      <b className="text-2xl">{item.foodName}</b>
-                      <p className="text-green-500 text-lg font-bold py-4">
-                        {item.price} ₮
-                      </p>
+            <Dialog key={index} open={dialogOpen} onOpenChange={setDialogOpen}>
+              <DialogTrigger asChild>
+                <div
+                  className="cursor-pointer"
+                  onClick={() => {
+                    setCurrentItem(item);
+                  }}
+                >
+                  <FoodDiscountCard
+                    src={item.images[0]}
+                    title={item.foodName}
+                    price={item.price}
+                  />
+                </div>
+              </DialogTrigger>
+              <DialogContent className="sm:max-w-[800px] flex gap-8">
+                {currentItem && ( // Ensure currentItem is set
+                  <>
+                    <div className="w-[48%]">
+                      <Image
+                        src={currentItem.images[0]}
+                        width={800}
+                        height={800}
+                        alt={currentItem.foodName}
+                        className="h-[400px] w-full object-cover rounded-2xl"
+                      />
                     </div>
-                    <div>
-                      <b className="text-lg">Орц</b>
-                      <p className="p-2 bg-gray-50 rounded-lg my-2">
-                        Хулуу, төмс, лууван, сонгино, цөцгийн тос, самрын үр
-                      </p>
-                    </div>
-                    <div className="flex flex-col gap-4">
-                      <b className="text-lg">Тоо</b>
+
+                    <div className="w-[48%] flex flex-col py-8">
                       <div>
-                        <div className="flex justify-between">
-                          <button
-                            className="h-10 px-4 text-xl rounded-lg bg-green-500 text-white"
-                            onClick={handleDecrease}
-                          >
-                            -
-                          </button>
-                          <div className="flex items-center">{quantity}</div>
-                          <button
-                            className="h-10 px-4 text-xl rounded-lg bg-green-500 text-white"
-                            onClick={handleIncrease}
-                          >
-                            +
-                          </button>
+                        <b className="text-2xl">{currentItem.foodName}</b>
+                        <p className="text-green-500 text-lg font-bold py-4">
+                          {currentItem.price} ₮
+                        </p>
+                      </div>
+                      <div>
+                        <b className="text-lg">Орц</b>
+                        <p className="p-2 bg-gray-50 rounded-lg my-2">
+                          Хулуу, төмс, лууван, сонгино, цөцгийн тос, самрын үр
+                        </p>
+                      </div>
+                      <div className="flex flex-col gap-4">
+                        <b className="text-lg">Тоо</b>
+                        <div>
+                          <div className="flex justify-between">
+                            <button
+                              className="h-10 px-4 text-xl rounded-lg bg-green-500 text-white"
+                              onClick={handleDecrease}
+                            >
+                              -
+                            </button>
+                            <div className="flex items-center">{quantity}</div>
+                            <button
+                              className="h-10 px-4 text-xl rounded-lg bg-green-500 text-white"
+                              onClick={handleIncrease}
+                            >
+                              +
+                            </button>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                    <button
-                      className="mt-8 h-12 rounded-sm px-20 bg-green-500 flex justify-center text-white items-center"
-                      onClick={() => {
-                        addItem({
-                          id: index,
-                          title: item.foodName,
-                          price: item.price,
-                          src: item.images[0],
-                          quantity,
-                        });
-                      }}
-                    >
-                      Сагслах
-                    </button>
-                  </div>
-                </DialogContent>
-              </Dialog>
-            );
-          })}
-          </div>
-        </div>
-   
-    </>
-  );
-};
-type FoodDiscountCardProps = {
-  src: string;
-  title: string;
-  price: number;
-};
+                      <button
+                        className="mt-8 h-12 rounded-sm px-20 bg-green-500 flex justify-center text-white items-center"
+                        onClick={async () => {
+                          if (!userMe?.id) {
+                            alert("Захиалга нэмэхийн тулд та нэвтэрч орно уу.");
+                            return;
+                          }
 
-export const FoodSaladCard = ({ src, title, price }: FoodDiscountCardProps) => {
-  return (
-    <div className="">
-      <div className={`relative  w-[250px] h-[200px]`}>
-        <Image
-          src={src}
-          alt="Picture"
-          fill
-          className={`object-cover rounded-2xl`}
-        ></Image>
+                          if (!currentItem) {
+                            alert("Тухайн бүтээгдэхүүн олдсонгүй.");
+                            return;
+                          }
+
+                          const cartItem: CartItem = {
+                            id: Number(currentItem._id),
+                            title: currentItem.foodName,
+                            price: currentItem.price,
+                            src: currentItem.images[0],
+                            quantity: quantity,
+                            orts: String(currentItem.orts)
+                          };
+
+                          try {
+                            addItem(cartItem);
+                            const result = await createSags({
+                              foodId: currentItem._id,
+                              userId: userMe.id,
+                              price: currentItem.price || 0,
+                              count: quantity.toString(),
+                            });
+
+                            if (result) {
+                              alert("Захиалга амжилттай нэмэгдлээ!");
+                            }
+                          } catch (error) {
+                            console.error("Error:", error);
+                            alert("Захиалга нэмэхэд алдаа гарлаа. Дахин оролдож үзнэ үү.");
+                          } finally {
+                            setDialogOpen(false);
+                            setQuantity(1);
+                          }
+                        }}
+                      >
+                        Сагсанд нэмэх & Сагслах
+                      </button>
+
+                    </div>
+                  </>
+                )}
+              </DialogContent>
+            </Dialog>
+          ))}
+        </div>
+
+        <FoodMainLast />
+        <FoodDrinkLast />
       </div>
-      <div className="">
-        <p className="text-base font-bold  text-black ">{title}</p>
-        <p className="text-base font-serif text-[#18BA51]">{price}₮</p>
-      </div>
-    </div>
+    </>
   );
 };
