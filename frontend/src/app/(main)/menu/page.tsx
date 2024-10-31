@@ -86,7 +86,7 @@ const Page = () => {
   return (
     <>
       <Header />
-      <div className="flex justify-center bg-gray-800 bg-gradient-to-b from-white to-transparent min-h-[40vh]">
+      <div className="flex justify-center bg-gray-200 bg-gradient-to-b from-white to-transparent min-h-[40vh] pt-[120px]">
         <div className="container ">
           <div className="w-full gap-7 flex h-fit justify-center items-center">
             {categories.map((category) => (
@@ -96,7 +96,7 @@ const Page = () => {
                 className={`border py-2 w-full justify-center cursor-pointer flex items-center rounded-[8px] border-[#D6D8DB] font-medium text-[18px] ${
                   selectedCategory.includes(category._id) ||
                   (!selectedCategory.length && category._id === "all")
-                    ? "bg-[#18BA51] text-white"
+                    ? "bg-[#86c41d] text-white"
                     : ""
                 }`}
               >
@@ -107,7 +107,7 @@ const Page = () => {
           <div className="">
             <div className="w-full ">
               <div className="grid w-full grid-cols-5 grid-rows-4 gap-5 my-10  ">
-                {filteredAllFoods?.slice(0, 5).map((item: foodCardType, index: number) => (
+                {filteredAllFoods.map((item: foodCardType, index: number) => (
                   <Dialog key={index}>
                     <DialogTrigger asChild>
                       <div className="cursor-pointer">
