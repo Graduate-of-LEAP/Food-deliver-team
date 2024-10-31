@@ -145,7 +145,7 @@ export const RightSideFood: React.FC<RightSideFoodProps> = ({
         <div>
           <Dialog>
             <DialogTrigger>
-              <div className="flex items-center bg-[#18BA51] text-white px-4 py-1 rounded-[8px] border font-medium cursor-pointer">
+              <div className="flex items-center bg-[#86c41d] text-white px-4 py-1 rounded-[8px] border font-medium cursor-pointer">
                 <div>Add new food</div>
               </div>
             </DialogTrigger>
@@ -314,9 +314,7 @@ export const RightSideFood: React.FC<RightSideFoodProps> = ({
             </div>
             <div className="">
               <p className="text-base font-bold text-black">{item.foodName}</p>
-              <p className="text-base font-serif text-[#18BA51]">
-                {item.price}₮
-              </p>
+              <p className="text-base text-black">{item.price}₮</p>
             </div>
           </div>
         ))}

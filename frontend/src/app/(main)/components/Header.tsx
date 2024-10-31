@@ -5,15 +5,15 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Input } from "@/components/ui/input";
 import { CiSearch } from "react-icons/ci";
-import { MdOutlineShoppingBasket } from "react-icons/md";
 import { FaRegUser } from "react-icons/fa6";
-import { FaBars } from "react-icons/fa6";
 import { useEffect, useState } from "react";
 import LoginDialog from "../components/LoginDialog";
 import { SearchCard } from "./SearchCard";
 import { api } from "@/lib/axios";
+import { Drawer } from "./Drawer";
 import { CartContent } from "./Cartcontent";
-export type UserMeResponse = {
+
+type UserMeResponse = {
   id: string;
   owog: string;
   userName: string;
@@ -22,8 +22,30 @@ export type UserMeResponse = {
   address: string;
   avatarImg: string;
 };
-
 export const Header = () => {
+  const [isVisible, setIsVisible] = useState(true);
+  let lastScrollY = 0;
+
+  const handleScroll = () => {
+    if (typeof window !== "undefined") {
+      const scrollY = window.scrollY;
+
+      if (scrollY > lastScrollY) {
+        setIsVisible(false);
+      } else {
+        setIsVisible(true);
+      }
+      lastScrollY = scrollY;
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [userMe, setUserMe] = useState<UserMeResponse>();
 
@@ -38,20 +60,7 @@ export const Header = () => {
     { name: "Хүргэлтийн бүс", path: "/map" },
     { name: "Dashboard", path: "/dashboard" },
   ];
-  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
-  const handleDrawer = () => {
-    setIsDrawerOpen((prev) => !prev);
-  };
-  const [quantity, setQuantity] = useState(1);
-
-  const handleDecrease = () => {
-    setQuantity((prevQuantity) => Math.max(prevQuantity - 1, 1));
-  };
-
-  const handleIncrease = () => {
-    setQuantity((prevQuantity) => prevQuantity + 1);
-  };
   const getMe = async () => {
     const token = localStorage.getItem("token");
     try {
@@ -68,67 +77,75 @@ export const Header = () => {
   useEffect(() => {
     getMe();
   }, []);
+
   return (
-    <>
-      <div className="container flex justify-between m-auto p-6 items-center ">
-        <div className="flex lg:gap-6 lg:text-base text-xs gap-2 items-center">
-          <Image
-            src={"/images/Logo.png"}
-            alt="Pinecone logo"
-            width={32}
-            height={32}
-            className="w-6 h-6 lg:w-8 lg:h-8"
-          />
-          {paths.slice(0, 4).map((path, index) => (
-            <Link key={index} href={path.path}>
-              <div
-                style={{ color: pathname === path.path ? "#c0f288" : "black" }}
-                className="font-semibold"
-              >
-                {path.name}
-              </div>
-            </Link>
-          ))}
-        </div>
-        <div className="flex items-center gap-4 lg:visible invisible">
-          <FaBars
-            onClick={handleDrawer}
-            size={24}
-            className="lg:invisible visible fixed right-6"
-          />
-          {/* Search Input */}
-          <div className="relative">
-            <CiSearch
-              size={18}
-              className="absolute w-6 h-6 top-[6px] left-2 border-gray-500 "
+    <div
+      className={`fixed top-0 left-0 right-0 transition-transform duration-300 z-[100] ${
+        isVisible ? "translate-y-0" : "-translate-y-full"
+      }`}
+    >
+      <div className="w-full bg-gradient-to-b from-gray-700 to-transparent">
+        <div className="container flex justify-between m-auto p-6 items-center">
+          <div className="flex lg:gap-6 lg:text-base text-xs gap-2 items-center text-white">
+            <Image
+              src={"/images/Logo.png"}
+              alt="Pinecone logo"
+              width={32}
+              height={32}
+              className="w-6 h-6 lg:w-8 lg:h-8 "
             />
-            <Input
-              type="search"
-              placeholder="Бүтээгдэхүүн хайх"
-              className="bg-transparent  w-[260px] px-10 border-gray-100 rounded-xl outline-none "
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-            ></Input>
+            {paths.slice(0, 4).map((path, index) => (
+              <Link key={index} href={path.path}>
+                <div
+                  style={{
+                    color: pathname === path.path ? "#86c41d" : "white",
+                  }}
+                  className="font-semibold lg:visible invisible "
+                >
+                  {path.name}
+                </div>
+              </Link>
+            ))}
           </div>
-          <MdOutlineShoppingBasket />
-          <CartContent />
+          <div className="flex items-center gap-4 lg:visible invisible">
+            <div className="lg:invisible visible fixed right-6 top-9 z-50">
+              <Drawer />
+            </div>
+            <div className="relative">
+              <CiSearch
+                size={18}
+                className="absolute w-6 h-6 top-[6px] left-2 border-gray-500 text-white "
+              />
+              <Input
+                type="search"
+                placeholder="Бүтээгдэхүүн хайх"
+                className="bg-transparent  w-[260px] px-10 border-gray-100 rounded-lg outline-none "
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+              ></Input>
+            </div>
+            <CartContent />
+            <div className=" font-semibold shadow-md bg-white rounded-md">
+              {userMe?.userName ? (
+                <Link href="/userexit">
+                  <div className="flex items-center hover:bg-gray-200 p-1.5 px-2 rounded-md">
+                    <FaRegUser className="mr-2" />
+                    {userMe?.userName}
+                  </div>
+                </Link>
+              ) : (
+                <LoginDialog />
+              )}
+            </div>
+          </div>
 
-          <div className="flex gap-2 items-center px-4 font-semibold ">
-            <FaRegUser />
-            {userMe?.userName ? (
-              <Link href="/userexit">{userMe?.userName}</Link>
-            ) : (
-              <LoginDialog />
-            )}
-          </div>
+          {searchTerm && (
+            <div className="bg-white flex absolute top-20 left-[30%] rounded-lg h-fit justify-center z-50 p-8 border">
+              <SearchCard searchTerm={searchTerm} />
+            </div>
+          )}
         </div>
-
-        {searchTerm && (
-          <div className="bg-white flex absolute top-20 left-[30%] rounded-lg h-fit justify-center z-50 p-8 border">
-            <SearchCard searchTerm={searchTerm} />
-          </div>
-        )}
       </div>
-    </>
+    </div>
   );
 };

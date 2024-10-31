@@ -89,7 +89,13 @@
 
 "use client";
 
-import { createContext, useState, ReactNode, useContext, useEffect } from "react";
+import {
+  createContext,
+  useState,
+  ReactNode,
+  useContext,
+  useEffect,
+} from "react";
 import { api } from "@/lib/axios";
 import { useRouter } from "next/navigation";
 
@@ -108,7 +114,9 @@ type AuthContextType = {
   LogOut: () => Promise<void>;
 };
 
-export const AuthContext = createContext<AuthContextType | undefined>(undefined);
+export const AuthContext = createContext<AuthContextType | undefined>(
+  undefined
+);
 
 type AuthProviderProps = {
   children: ReactNode;
@@ -116,7 +124,6 @@ type AuthProviderProps = {
 
 export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [userMe, setUserMe] = useState<UserMeResponse | undefined>();
-  const userId = userMe?.id || ""; // Use userMe ID
   const router = useRouter();
 
   const getMe = async () => {

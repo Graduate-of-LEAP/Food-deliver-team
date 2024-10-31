@@ -8,3 +8,4 @@ export * from "./cloudinary";
 export * from "./auth";
 export * from "./middleware";
 export * from "./user";
+export * from "./message";
