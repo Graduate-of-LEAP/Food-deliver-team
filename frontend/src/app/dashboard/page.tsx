@@ -30,27 +30,6 @@ export default function Home() {
   const [categories, setCategories] = useState<Category[]>([]);
   const [newCategoryName, setNewCategoryName] = useState<string>("");
 
-  // Chat
-  const [messages, setMessages] = useState([]);
-  const fetchMessages = async () => {
-    // API-ээс мессежүүдийг авах
-    try {
-      const response = await api.get("/message");
-      setMessages(response.data);
-      console.log("Where is message DATA", response.data);
-    } catch (error) {
-      console.log("MESSAGE avahad aldaaa garlaa shuuuuuuuuuu", error);
-
-      console.log("Error fetching messages", error);
-    }
-  };
-
-  useEffect(() => {
-    fetchMessages();
-  }, []);
-
-  //  Chat
-
   const handleCategorySelect = (_id: string) => {
     setSelectedCategory(_id);
   };
@@ -122,7 +101,6 @@ export default function Home() {
               className={`flex items-center w-[258px] justify-between px-4 py-1 rounded-[8px] border text-xl font-medium cursor-pointer ${
                 selectedCategory === "" ? "bg-[#86c41d] text-white" : ""
               }`}
-
             >
               <div>All Categories</div>
             </div>
@@ -136,7 +114,6 @@ export default function Home() {
                     ? "bg-[#86c41d] text-white"
                     : ""
                 }`}
-
               >
                 <div>{category.categoryName}</div>
                 <Dialog>

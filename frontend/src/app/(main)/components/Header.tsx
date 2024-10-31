@@ -13,7 +13,7 @@ import { api } from "@/lib/axios";
 import { Drawer } from "./Drawer";
 import { CartContent } from "./Cartcontent";
 
-type UserMeResponse = {
+export type UserMeResponse = {
   id: string;
   owog: string;
   userName: string;
