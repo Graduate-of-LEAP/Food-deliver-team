@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/dialog";
 import { api } from "@/lib/axios";
 import { Header } from "../(main)/components/Header";
+import Link from "next/link";
 
 type Category = {
   _id: string;
@@ -93,9 +94,8 @@ export default function Home() {
           <div className="flex flex-col gap-6">
             <div
               onClick={() => handleCategorySelect("")}
-              className={`flex items-center w-[258px] justify-between px-4 py-1 rounded-[8px] border text-xl font-medium cursor-pointer ${
-                selectedCategory === "" ? "bg-[#18BA51] text-white" : ""
-              }`}
+              className={`flex items-center w-[258px] justify-between px-4 py-1 rounded-[8px] border text-xl font-medium cursor-pointer ${selectedCategory === "" ? "bg-[#18BA51] text-white" : ""
+                }`}
             >
               <div>All Categories</div>
             </div>
@@ -104,11 +104,10 @@ export default function Home() {
               <div
                 key={category._id}
                 onClick={() => handleCategorySelect(category._id)}
-                className={`flex items-center w-[258px] justify-between px-4 py-1 rounded-[8px] border text-xl font-medium cursor-pointer ${
-                  selectedCategory === category._id
-                    ? "bg-[#18BA51] text-white"
-                    : ""
-                }`}
+                className={`flex items-center w-[258px] justify-between px-4 py-1 rounded-[8px] border text-xl font-medium cursor-pointer ${selectedCategory === category._id
+                  ? "bg-[#18BA51] text-white"
+                  : ""
+                  }`}
               >
                 <div>{category.categoryName}</div>
                 <Dialog>
@@ -208,7 +207,7 @@ export default function Home() {
             </Dialog>
           </div>
           <div className="font-medium text-[18px] border text-center rounded-lg py-2 cursor-pointer bg-gray-300">
-            Захиалгууд харах
+            <Link href="/dashboard/order">Захиалгууд харах</Link>
           </div>
         </div>
         <RightSideFood selectedCategory={selectedCategory} />

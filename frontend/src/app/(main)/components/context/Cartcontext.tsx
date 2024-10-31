@@ -21,6 +21,17 @@ const CartContext = createContext<CartContextType | undefined>(undefined);
 export const CartProvider = ({ children }: { children: React.ReactNode }) => {
     const [items, setItems] = useState<CartItem[]>([]);
 
+    // const addItem = (item: CartItem) => {
+    //     setItems((prevItems) => {
+    //         const existingItem = prevItems.find((i) => i.id === item.id);
+    //         if (existingItem) {
+    //             return prevItems.map((i) =>
+    //                 i.id === existingItem.id ? { ...i, quantity: i.quantity + item.quantity } : i
+    //             );
+    //         }
+    //         return [...prevItems, item];
+    //     });
+    // };
     const addItem = (item: CartItem) => {
         setItems((prevItems) => {
             const existingItem = prevItems.find((i) => i.id === item.id);
@@ -32,6 +43,7 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
             return [...prevItems, item];
         });
     };
+
 
     const removeItem = (id: number) => {
         setItems((prevItems) => prevItems.filter((item) => item.id !== id));
