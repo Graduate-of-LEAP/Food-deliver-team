@@ -5,7 +5,6 @@ import Link from "next/link";
 import { FC, useState } from "react";
 import { IoEyeOutline } from "react-icons/io5";
 import { IoEyeOffOutline } from "react-icons/io5";
-import * as Yup from "yup";
 import { useRouter } from "next/navigation";
 import api from "axios";
 

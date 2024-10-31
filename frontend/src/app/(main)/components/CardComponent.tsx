@@ -1,5 +1,4 @@
 //import { CardType } from "./Main";
-import Image from "next/image";
 import { BookOpen } from "lucide-react";
 import { Clock4 } from "lucide-react";
 import { Salad } from "lucide-react";

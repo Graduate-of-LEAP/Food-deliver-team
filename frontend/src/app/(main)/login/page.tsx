@@ -2,7 +2,6 @@
 
 import { useAuthContext } from "@/components/utils/authProvider";
 import { api } from "@/lib/axios";
-import { useFormik } from "formik";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -33,13 +32,14 @@ const Page = () => {
     } catch (error: unknown) {
       if (error instanceof Error) {
         console.error(error.message);
-        setError("Login failed. Please check your credentials.");
+        setError("Нэвтрэхэд алдаа гарлаа. Та өөрийн мэдээллээ шалгана уу.");
       } else {
         console.error("An unexpected error occurred");
-        setError("An unexpected error occurred.");
+        setError("Тодорхойгүй алдаа гарлаа.");
       }
     }
   };
+
   return (
     <div>
       <div className="sm:w-[448px] m-auto mt-[74px] space-y-12">
@@ -53,20 +53,22 @@ const Page = () => {
               className="bg-gray-50 p-2 rounded border shadow-sm"
               onChange={(e) => setEmail(e.target.value)}
               value={email}
-            ></input>
+            />
           </div>
           <div className="flex flex-col text-sm">
             <label>Нууц үг</label>
             <input
               name="password"
+              type="password"
               placeholder="Нууц үгээ оруулна уу"
               className="bg-gray-50 p-2 rounded border shadow-sm"
               onChange={(e) => setPassword(e.target.value)}
               value={password}
-            ></input>
+            />
             <p className="text-end">Нууц үг сэргээх</p>
           </div>
         </div>
+        {error && <p className="text-red-500 text-center">{error}</p>}
         <div className="space-y-8 text-center text-sm">
           <button
             className="p-2 bg-gray-50 border shadow-md w-full rounded hover:bg-green-400 hover:text-white"
@@ -85,4 +87,5 @@ const Page = () => {
     </div>
   );
 };
+
 export default Page;

@@ -13,7 +13,6 @@ const client = new Ably.Realtime({ key: process.env.ABLY_KEY });
 import { UserMeResponse } from "../components/Header";
 import { api } from "@/lib/axios";
 import { FaRegUser } from "react-icons/fa6";
-import Link from "next/link";
 import Image from "next/image";
 //
 export default function Page({ params }: { params: { chatId: string } }) {

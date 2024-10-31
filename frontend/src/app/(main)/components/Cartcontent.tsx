@@ -38,7 +38,7 @@ type FoodType = {
 };
 
 export const CartContent: React.FC = () => {
-  const { items, removeItem, updateItemQuantity } = useCart();
+  const { updateItemQuantity } = useCart(); // Removed unused variables
   const [userMe, setUserMe] = useState<UserMeResponse>();
   const [sags, setSags] = useState<SagsCardType[]>([]);
 

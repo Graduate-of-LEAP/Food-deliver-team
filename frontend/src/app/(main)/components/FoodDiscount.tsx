@@ -5,7 +5,7 @@ import { Sparkle } from "lucide-react";
 import { useCart } from "./context/Cartcontext";
 import { api } from "@/lib/axios";
 import { useEffect, useState } from "react";
-import { AxiosError } from 'axios';
+import { AxiosError } from "axios";
 import {
   Carousel,
   CarouselContent,
@@ -14,7 +14,6 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import { Card, CardContent } from "@/components/ui/card";
-import { Category } from "../menu/page";
 import { FoodDiscountCard } from "./FoodDiscountCart";
 import { useAuthContext } from "@/components/utils/authProvider";
 
@@ -56,7 +55,13 @@ interface CreateSagsType {
   price: number;
   foodId: string;
   count: string;
+}
 
+// Define the response type for createSags
+interface SagsResponseType {
+  success: boolean;
+  message?: string;
+  // Add any other fields returned by the API if needed
 }
 
 export const FoodDiscount = () => {
@@ -71,25 +76,26 @@ export const FoodDiscount = () => {
   const getFoods = async () => {
     try {
       const response = await api.get("/food");
-      const foodsWithId = response.data.foods.map((food: any) => ({
-        ...food,
-        _id: food._id,
-      }));
+      const foodsWithId: foodCardType[] = response.data.foods.map(
+        (food: foodCardType) => ({
+          ...food,
+          _id: food._id,
+        })
+      );
       setFoods(foodsWithId);
     } catch (error) {
       console.log("Failed to fetch foods:", error);
     }
   };
 
-
-
-
-  const createSags = async (addSags: CreateSagsType): Promise<any> => {
+  const createSags = async (
+    addSags: CreateSagsType
+  ): Promise<SagsResponseType> => {
     const token = localStorage.getItem("token");
     console.log("Creating sags with token:", token, "data:", addSags);
 
     try {
-      const response = await api.post("/sags", addSags, {
+      const response = await api.post<SagsResponseType>("/sags", addSags, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -98,13 +104,13 @@ export const FoodDiscount = () => {
       return response.data;
     } catch (error) {
       const axiosError = error as AxiosError;
-      console.error("API error:", axiosError.response?.data || axiosError.message);
+      console.error(
+        "API error:",
+        axiosError.response?.data || axiosError.message
+      );
       throw error;
     }
   };
-
-
-
 
   useEffect(() => {
     getFoods();
@@ -155,7 +161,12 @@ export const FoodDiscount = () => {
       <div className="flex justify-between mt-6 px-20">
         <div className="flex font-bold">
           <Sparkle className="text-green-400" />
-          <Image src="/images/Star.png" alt="Description" width={20} height={20} />
+          <Image
+            src="/images/Star.png"
+            alt="Description"
+            width={20}
+            height={20}
+          />
           Хямдралтай
         </div>
       </div>
@@ -163,21 +174,31 @@ export const FoodDiscount = () => {
         <Carousel className="w-full">
           <CarouselContent
             style={{
-              transform: `translateX(-${percent * ((100 / filteredSaledPercentFoods.length) * 2.9)}%)`,
+              transform: `translateX(-${
+                percent * ((100 / filteredSaledPercentFoods.length) * 2.9)
+              }%)`,
             }}
-            className={`w-full flex h-fit gap-10 ${isTransitioning ? "transition-transform duration-1000" : ""}`}
+            className={`w-full flex h-fit gap-10 ${
+              isTransitioning ? "transition-transform duration-1000" : ""
+            }`}
           >
             {filteredSaledPercentFoods.map((item) => {
               const discountAmount = item.price * (item.salePercent / 100);
               const discountedPrice = item.price - discountAmount;
               return (
-                <CarouselItem key={item._id} className="pl-1 md:basis-1/2 relative lg:basis-1/3">
+                <CarouselItem
+                  key={item._id}
+                  className="pl-1 md:basis-1/2 relative lg:basis-1/3"
+                >
                   <div className="p-1">
                     <Card>
                       <CardContent className="flex aspect-square items-center justify-center p-6">
                         <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
                           <DialogTrigger asChild>
-                            <div className="cursor-pointer m-auto" onClick={() => openDialog(item)}>
+                            <div
+                              className="cursor-pointer m-auto"
+                              onClick={() => openDialog(item)}
+                            >
                               <FoodDiscountCard
                                 src={item.images[0]}
                                 title={item.foodName}
@@ -201,7 +222,6 @@ export const FoodDiscount = () => {
         </Carousel>
       </div>
 
-      {/* Move Dialog Content outside the map */}
       <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
         <DialogContent className="sm:max-w-[800px] flex gap-8">
           {currentItem && (
@@ -222,7 +242,9 @@ export const FoodDiscount = () => {
                     {currentItem.price}₮
                   </p>
                   <p className="text-green-500 text-lg font-bold">
-                    {currentItem.price - (currentItem.price * (currentItem.salePercent / 100))}₮
+                    {currentItem.price -
+                      currentItem.price * (currentItem.salePercent / 100)}
+                    ₮
                   </p>
                 </div>
                 <div>
@@ -235,9 +257,19 @@ export const FoodDiscount = () => {
                   <b className="text-lg">Тоо</b>
                   <div>
                     <div className="flex justify-between">
-                      <button className="h-10 px-4 text-xl rounded-lg bg-green-500 text-white" onClick={handleDecrease}>-</button>
+                      <button
+                        className="h-10 px-4 text-xl rounded-lg bg-green-500 text-white"
+                        onClick={handleDecrease}
+                      >
+                        -
+                      </button>
                       <div className="flex items-center">{quantity}</div>
-                      <button className="h-10 px-4 text-xl rounded-lg bg-green-500 text-white" onClick={handleIncrease}>+</button>
+                      <button
+                        className="h-10 px-4 text-xl rounded-lg bg-green-500 text-white"
+                        onClick={handleIncrease}
+                      >
+                        +
+                      </button>
                     </div>
                   </div>
                 </div>
@@ -257,34 +289,25 @@ export const FoodDiscount = () => {
                     const cartItem: CartItem = {
                       id: Number(currentItem._id),
                       title: currentItem.foodName,
-                      price: currentItem.price,
+                      price: currentItem.discountedPrice,
                       src: currentItem.images[0],
                       quantity: quantity,
-                      orts: String(currentItem.orts)
+                      orts: currentItem.orts,
                     };
 
-                    try {
-                      addItem(cartItem);
-                      const result = await createSags({
-                        foodId: currentItem._id,
-                        userId: userMe.id,
-                        price: currentItem.price || 0,
-                        count: quantity.toString(),
-                      });
+                    addItem(cartItem);
 
-                      if (result) {
-                        alert("Захиалга амжилттай нэмэгдлээ!");
-                      }
-                    } catch (error) {
-                      console.error("Error:", error);
-                      alert("Захиалга нэмэхэд алдаа гарлаа. Дахин оролдож үзнэ үү.");
-                    } finally {
-                      setDialogOpen(false);
-                      setQuantity(1);
-                    }
+                    await createSags({
+                      userId: userMe.id,
+                      price: currentItem.price,
+                      foodId: currentItem._id,
+                      count: String(quantity),
+                    });
+
+                    alert("Таны сагсанд нэмэгдлээ.");
                   }}
                 >
-                  Сагсанд нэмэх & Сагслах
+                  Сагсанд нэмэх
                 </button>
               </div>
             </>

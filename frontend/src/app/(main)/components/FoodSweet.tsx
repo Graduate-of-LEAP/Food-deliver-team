@@ -7,23 +7,19 @@ import { ChevronRight } from "lucide-react";
 import { useCart } from "./context/Cartcontext";
 import { api } from "@/lib/axios";
 import { useEffect, useState } from "react";
-import { toast } from 'react-toastify';
-
 
 type CategoryType = {
   _id: string;
   categoryName: string;
-}
+};
 type foodCardType = {
   category: CategoryType[];
   images: string[];
   foodName: string;
   price: number;
-
 };
 
 export const FoodSweet = () => {
-
   const [foods, setFoods] = useState<foodCardType[]>([]);
 
   const getFoods = async () => {
@@ -35,7 +31,9 @@ export const FoodSweet = () => {
       console.log("Failed to fetch foods:", error);
     }
   };
-  const filteredVndsenHoolfoods = foods.filter(item => item.category[0].categoryName === "Breakfast");
+  const filteredVndsenHoolfoods = foods.filter(
+    (item) => item.category[0].categoryName === "Breakfast"
+  );
 
   useEffect(() => {
     getFoods();
@@ -73,24 +71,19 @@ export const FoodSweet = () => {
         </div>{" "}
         <div className=" flex w-full  justify-around gap-5 my-10">
           {filteredVndsenHoolfoods?.map((item, index) => {
-
-
             return (
-              <Dialog key={index} open={openIndex === index} onOpenChange={(open) => setOpenIndex(open ? index : null)}>
+              <Dialog
+                key={index}
+                open={openIndex === index}
+                onOpenChange={(open) => setOpenIndex(open ? index : null)}
+              >
                 <DialogTrigger asChild>
-                  <div
-                    className="cursor-pointer"
-                    onClick={() => { }}
-                  >
-
+                  <div className="cursor-pointer" onClick={() => {}}>
                     <FoodSweetCard
                       src={item.images[0]}
                       title={item.foodName}
                       price={item.price}
-
-
                     />
-
                   </div>
                 </DialogTrigger>
                 <DialogContent className="sm:max-w-[800px] flex gap-8">
@@ -107,7 +100,9 @@ export const FoodSweet = () => {
                   <div className="w-[48%] flex flex-col py-8">
                     <div>
                       <b className="text-2xl">{item.foodName}</b>
-                      <p className="text-green-500 text-lg font-bold py-4">{item.price} ₮</p>
+                      <p className="text-green-500 text-lg font-bold py-4">
+                        {item.price} ₮
+                      </p>
                     </div>
                     <div>
                       <b className="text-lg">Орц</b>
@@ -121,7 +116,8 @@ export const FoodSweet = () => {
                         <div className="flex justify-between">
                           <button
                             className="h-10 px-4 text-xl rounded-lg bg-green-500 text-white"
-                            onClick={handleDecrease}>
+                            onClick={handleDecrease}
+                          >
                             -
                           </button>
                           <div className="flex items-center">{quantity}</div>
@@ -151,7 +147,6 @@ export const FoodSweet = () => {
                   </div>
                 </DialogContent>
               </Dialog>
-
             );
           })}
         </div>
@@ -164,7 +159,6 @@ type FoodDiscountCardProps = {
   src: string;
   title: string;
   price: number;
-
 };
 export const FoodSweetCard = ({ src, title, price }: FoodDiscountCardProps) => {
   return (

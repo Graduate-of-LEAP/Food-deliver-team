@@ -1,5 +1,4 @@
 import React from "react";
-import { FoodDiscount } from "./FoodDiscount";
 
 export type DiscountCalculatorType = {
   originalPrice: number;
