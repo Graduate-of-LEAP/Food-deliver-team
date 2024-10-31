@@ -144,9 +144,8 @@ export const Address: React.FC = () => {
           Хаяг аа оруулна уу
           <Select onValueChange={setDistrict} value={district}>
             <SelectTrigger
-              className={`${
-                district ? "bg-green-500 text-white" : "bg-gray-100"
-              } w-[432px]`}
+              className={`${district ? "bg-green-500 text-white" : "bg-gray-100"
+                } w-[432px]`}
             >
               <SelectValue
                 placeholder={
@@ -185,9 +184,8 @@ export const Address: React.FC = () => {
           </Select>
           <Select onValueChange={setKhoroo} value={khoroo}>
             <SelectTrigger
-              className={`${
-                khoroo ? "bg-green-500 text-white" : "bg-gray-100"
-              } w-[432px]`}
+              className={`${khoroo ? "bg-green-500 text-white" : "bg-gray-100"
+                } w-[432px]`}
             >
               <SelectValue
                 placeholder={
@@ -220,9 +218,8 @@ export const Address: React.FC = () => {
           </Select>
           <Select onValueChange={setApartment} value={apartment}>
             <SelectTrigger
-              className={`${
-                apartment ? "bg-green-500 text-white" : "bg-gray-100"
-              } w-[432px]`}
+              className={`${apartment ? "bg-green-500 text-white" : "bg-gray-100"
+                } w-[432px]`}
             >
               <SelectValue
                 placeholder={
@@ -323,7 +320,7 @@ export const Address: React.FC = () => {
           {sags.length > 0 ? (
             sags.map((item) => (
               <div className="flex border-b-2 border-t-2 pt-2" key={item._id}>
-                <div>
+                <div className="flex-1">
                   {item.foodId.images && item.foodId.images.length > 0 && (
                     <img
                       src={item.foodId.images[0]}
@@ -331,7 +328,7 @@ export const Address: React.FC = () => {
                     />
                   )}
                 </div>
-                <div className="flex flex-col justify-between p-4">
+                <div className="flex flex-col justify-between p-4 flex-1">
                   <span className="font-bold uppercase">
                     {item.foodId.foodName}
                   </span>
@@ -346,11 +343,10 @@ export const Address: React.FC = () => {
             <span className="text-gray-500">No items in the cart</span>
           )}
           <button
-            className={`w-1/2 rounded-sm p-2 text-white ${
-              allFieldsFilled() && isPaymentSelected()
-                ? "bg-green-500"
-                : "bg-gray-100 text-gray-400"
-            }`}
+            className={`w-1/2 rounded-sm p-2 text-white ${allFieldsFilled() && isPaymentSelected()
+              ? "bg-green-500"
+              : "bg-gray-100 text-gray-400"
+              }`}
             disabled={!allFieldsFilled() || !isPaymentSelected()}
             onClick={() => {
               if (userMe?.id) {

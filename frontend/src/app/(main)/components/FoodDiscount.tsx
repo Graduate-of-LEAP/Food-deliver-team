@@ -1,4 +1,3 @@
-
 "use client";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import Image from "next/image";
@@ -18,7 +17,6 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Category } from "../menu/page";
 import { FoodDiscountCard } from "./FoodDiscountCart";
 import { useAuthContext } from "@/components/utils/authProvider";
-
 
 export type DiscountCalculatorType = {
   originalPrice: number;
@@ -41,6 +39,7 @@ type foodCardType = {
   salePercent: number;
   discountAmount: number;
   discountedPrice: number;
+  orts: string;
 };
 
 type CartItem = {
@@ -49,28 +48,25 @@ type CartItem = {
   price: number;
   src: string;
   quantity: number;
+  orts: string;
 };
-
 
 interface CreateSagsType {
   userId: string;
   price: number;
   foodId: string;
   count: string;
+
 }
 
-
 export const FoodDiscount = () => {
-
-  const {
-    userMe,
-  } = useAuthContext();
+  const { userMe } = useAuthContext();
   const [percent, setPercent] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(true);
-  const [categories, setCategories] = useState<Category[]>([]);
   const [foods, setFoods] = useState<foodCardType[]>([]);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [currentItem, setCurrentItem] = useState<foodCardType | null>(null);
+  const [quantity, setQuantity] = useState(1);
 
   const getFoods = async () => {
     try {
@@ -84,6 +80,7 @@ export const FoodDiscount = () => {
       console.log("Failed to fetch foods:", error);
     }
   };
+
 
 
 
@@ -118,7 +115,6 @@ export const FoodDiscount = () => {
   );
 
   const { addItem } = useCart();
-  const [quantity, setQuantity] = useState(1);
 
   const handleDecrease = () => {
     setQuantity((prevQuantity) => Math.max(prevQuantity - 1, 1));
@@ -149,17 +145,17 @@ export const FoodDiscount = () => {
     return () => clearInterval(interval);
   }, [filteredSaledPercentFoods.length]);
 
+  const openDialog = (item: foodCardType) => {
+    setCurrentItem(item);
+    setDialogOpen(true);
+  };
+
   return (
-    <div className="flex flex-col container border">
+    <div className="flex flex-col max-w-7xl border ">
       <div className="flex justify-between mt-6 px-20">
         <div className="flex font-bold">
           <Sparkle className="text-green-400" />
-          <Image
-            src="/images/Star.png"
-            alt="Description"
-            width={20}
-            height={20}
-          />
+          <Image src="/images/Star.png" alt="Description" width={20} height={20} />
           Хямдралтай
         </div>
       </div>
@@ -167,34 +163,22 @@ export const FoodDiscount = () => {
         <Carousel className="w-full">
           <CarouselContent
             style={{
-              transform: `translateX(-${percent * ((100 / filteredSaledPercentFoods.length) * 2.9)
-                }%)`,
+              transform: `translateX(-${percent * ((100 / filteredSaledPercentFoods.length) * 2.9)}%)`,
             }}
-            className={`w-full flex h-fit gap-10 ${isTransitioning ? "transition-transform duration-1000" : ""
-              }`}
+            className={`w-full flex h-fit gap-10 ${isTransitioning ? "transition-transform duration-1000" : ""}`}
           >
-            {filteredSaledPercentFoods.map((item, index) => {
+            {filteredSaledPercentFoods.map((item) => {
               const discountAmount = item.price * (item.salePercent / 100);
               const discountedPrice = item.price - discountAmount;
               return (
-                <CarouselItem
-                  key={index}
-                  className="pl-1 md:basis-1/2 relative lg:basis-1/3"
-                >
+                <CarouselItem key={item._id} className="pl-1 md:basis-1/2 relative lg:basis-1/3">
                   <div className="p-1">
                     <Card>
                       <CardContent className="flex aspect-square items-center justify-center p-6">
                         <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
                           <DialogTrigger asChild>
-                            <div
-                              className="cursor-pointer m-auto"
-                              onClick={() => {
-                                setCurrentItem(item);
-                                setDialogOpen(true);
-                              }}
-                            >
+                            <div className="cursor-pointer m-auto" onClick={() => openDialog(item)}>
                               <FoodDiscountCard
-
                                 src={item.images[0]}
                                 title={item.foodName}
                                 price={item.price}
@@ -204,98 +188,6 @@ export const FoodDiscount = () => {
                               />
                             </div>
                           </DialogTrigger>
-                          <DialogContent className="sm:max-w-[800px] flex gap-8">
-                            <div className="w-[48%]">
-                              <Image
-                                src={item.images[0]}
-                                width={800}
-                                height={800}
-                                alt="Picture of the food"
-                                className="h-full w-full object-cover rounded-2xl"
-                              />
-                            </div>
-                            <div className="w-[48%] flex flex-col py-8">
-                              <div>
-                                <b className="text-2xl">{item.foodName}</b>
-                                <p className="text-base font-serif text-[#e13bc8] line-through">
-                                  {item.price}₮
-                                </p>
-                                <p className="text-green-500 text-lg font-bold">
-                                  {discountedPrice}₮
-                                </p>
-                              </div>
-                              <div className="flex flex-col gap-4">
-                                <b className="text-lg">Тоо</b>
-                                <div>
-                                  <div className="flex justify-between">
-                                    <button
-                                      className="h-10 px-4 text-xl rounded-lg bg-green-500 text-white"
-                                      onClick={handleDecrease}
-                                    >
-                                      -
-                                    </button>
-                                    <div className="flex items-center">
-                                      {quantity}
-                                    </div>
-                                    <button
-                                      className="h-10 px-4 text-xl rounded-lg bg-green-500 text-white"
-                                      onClick={handleIncrease}
-                                    >
-                                      +
-                                    </button>
-                                  </div>
-                                </div>
-                              </div>
-                              <button
-                                className="mt-8 h-12 rounded-sm px-20 bg-green-500 flex justify-center text-white items-center"
-                                onClick={async () => {
-                                  if (!userMe?.id) {
-                                    alert("Захиалга нэмэхийн тулд та нэвтэрч орно уу.");
-                                    return;
-                                  }
-
-                                  if (!currentItem) {
-                                    alert("Тухайн бүтээгдэхүүн олдсонгүй.");
-                                    return;
-                                  }
-
-                                  const cartItem: CartItem = {
-                                    id: Number(currentItem._id),  // Ensure this is a number
-                                    title: currentItem.foodName,
-                                    price: currentItem.price,
-                                    src: currentItem.images[0],
-                                    quantity: quantity,
-                                  };
-
-                                  try {
-
-                                    addItem(cartItem);
-
-                                    const result = await createSags({
-                                      foodId: currentItem._id,
-                                      userId: userMe.id,
-                                      price: currentItem.price || 0,
-                                      count: quantity.toString(),
-                                    });
-
-                                    if (result) {
-                                      alert("Захиалга амжилттай нэмэгдлээ!");
-                                    }
-                                  } catch (error) {
-                                    console.error("Error:", error);
-                                    alert("Захиалга нэмэхэд алдаа гарлаа. Дахин оролдож үзнэ үү.");
-                                  } finally {
-                                    setDialogOpen(false);
-                                    setQuantity(1);
-                                  }
-                                }}
-                              >
-                                Сагсанд нэмэх & Сагслах
-                              </button>
-
-
-                            </div>
-                          </DialogContent>
                         </Dialog>
                       </CardContent>
                     </Card>
@@ -308,6 +200,97 @@ export const FoodDiscount = () => {
           <CarouselNext onClick={handleNext} />
         </Carousel>
       </div>
+
+      {/* Move Dialog Content outside the map */}
+      <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+        <DialogContent className="sm:max-w-[800px] flex gap-8">
+          {currentItem && (
+            <>
+              <div className="w-[48%] ">
+                <Image
+                  src={currentItem.images[0]}
+                  width={200}
+                  height={200}
+                  alt="Picture of the food"
+                  className="w-96 h-96 object-cover rounded-2xl"
+                />
+              </div>
+              <div className="w-[48%] flex flex-col">
+                <div>
+                  <b className="text-2xl">{currentItem.foodName}</b>
+                  <p className="text-base font-serif text-[#e13bc8] line-through">
+                    {currentItem.price}₮
+                  </p>
+                  <p className="text-green-500 text-lg font-bold">
+                    {currentItem.price - (currentItem.price * (currentItem.salePercent / 100))}₮
+                  </p>
+                </div>
+                <div>
+                  <b className="text-lg">Орц</b>
+                  <p className="p-2 bg-gray-50 rounded-lg my-2">
+                    {currentItem.orts}
+                  </p>
+                </div>
+                <div className="flex flex-col gap-4">
+                  <b className="text-lg">Тоо</b>
+                  <div>
+                    <div className="flex justify-between">
+                      <button className="h-10 px-4 text-xl rounded-lg bg-green-500 text-white" onClick={handleDecrease}>-</button>
+                      <div className="flex items-center">{quantity}</div>
+                      <button className="h-10 px-4 text-xl rounded-lg bg-green-500 text-white" onClick={handleIncrease}>+</button>
+                    </div>
+                  </div>
+                </div>
+                <button
+                  className="mt-8 h-12 rounded-sm px-20 bg-green-500 flex justify-center text-white items-center"
+                  onClick={async () => {
+                    if (!userMe?.id) {
+                      alert("Захиалга нэмэхийн тулд та нэвтэрч орно уу.");
+                      return;
+                    }
+
+                    if (!currentItem) {
+                      alert("Тухайн бүтээгдэхүүн олдсонгүй.");
+                      return;
+                    }
+
+                    const cartItem: CartItem = {
+                      id: Number(currentItem._id),
+                      title: currentItem.foodName,
+                      price: currentItem.price,
+                      src: currentItem.images[0],
+                      quantity: quantity,
+                      orts: String(currentItem.orts)
+                    };
+
+                    try {
+                      addItem(cartItem);
+                      const result = await createSags({
+                        foodId: currentItem._id,
+                        userId: userMe.id,
+                        price: currentItem.price || 0,
+                        count: quantity.toString(),
+                      });
+
+                      if (result) {
+                        alert("Захиалга амжилттай нэмэгдлээ!");
+                      }
+                    } catch (error) {
+                      console.error("Error:", error);
+                      alert("Захиалга нэмэхэд алдаа гарлаа. Дахин оролдож үзнэ үү.");
+                    } finally {
+                      setDialogOpen(false);
+                      setQuantity(1);
+                    }
+                  }}
+                >
+                  Сагсанд нэмэх & Сагслах
+                </button>
+              </div>
+            </>
+          )}
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
