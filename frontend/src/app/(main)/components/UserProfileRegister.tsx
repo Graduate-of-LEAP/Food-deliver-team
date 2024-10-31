@@ -21,8 +21,8 @@ type UserMeResponse = {
 export const UserProfileRegister = () => {
   const [userMe, setUserMe] = useState<UserMeResponse>();
 
-  const [username, setUsername] = useState<string>("");
-  const [phoneNumber, setPhonenumber] = useState<string>("");
+  // const [username, setUsername] = useState<string>("");
+  // const [phoneNumber, setPhonenumber] = useState<string>("");
   const getMe = async () => {
     const token = localStorage.getItem("token");
     try {

@@ -48,6 +48,7 @@ const LoginDialog: React.FC = () => {
 
   const handleClick = () => {
     setIsClicked(true);
+    logIn({ email, password });
   };
   const togglePasswordVisibility = () => {
     setShowPassword((prevState) => !prevState);
@@ -107,7 +108,7 @@ const LoginDialog: React.FC = () => {
                   ? "bg-[bg-[#f7432b] text-white"
                   : "bg-gray-50 text-black"
               } hover:bg-transparent hover:border hover:border-[#f7432b]`}
-              onClick={() => logIn({ email, password })}
+              onClick={handleClick}
             >
               Нэвтрэх
             </Button>

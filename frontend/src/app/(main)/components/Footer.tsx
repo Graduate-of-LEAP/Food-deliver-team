@@ -1,13 +1,10 @@
 "use client";
 import { Logo } from "@/icon/Logo";
 import Image from "next/image";
-import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { FaFacebook, FaInstagram, FaTwitter } from "react-icons/fa";
 
 export const Footer = () => {
-  const pathname: string = usePathname();
-
   type FooterLink = {
     title: string;
     href: string;

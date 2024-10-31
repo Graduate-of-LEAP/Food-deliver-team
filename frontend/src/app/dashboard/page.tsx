@@ -15,7 +15,6 @@ import {
 } from "@/components/ui/dialog";
 import { api } from "@/lib/axios";
 import { Header } from "../(main)/components/Header";
-import { useAuthContext } from "@/components/utils/authProvider";
 import Link from "next/link";
 
 type Category = {
@@ -24,37 +23,12 @@ type Category = {
 };
 
 export default function Home() {
-  const { userMe } = useAuthContext();
+  // Removed userMe since it's not used
+  const [selectedCategory, setSelectedCategory] = useState<string>(""); // State for the selected category
+  const [categories, setCategories] = useState<Category[]>([]); // State for categories
+  const [newCategoryName, setNewCategoryName] = useState<string>(""); // State for new category name
 
-  const [selectedCategory, setSelectedCategory] = useState<string>(""); // Set default to "all" for "All Categories"
-  const [categories, setCategories] = useState<Category[]>([]);
-  const [newCategoryName, setNewCategoryName] = useState<string>("");
-
-  // Chat
-  const [messages, setMessages] = useState([]);
-  const fetchMessages = async () => {
-    // API-ээс мессежүүдийг авах
-    try {
-      const response = await api.get("/message");
-      setMessages(response.data);
-      console.log("Where is message DATA", response.data);
-    } catch (error) {
-      console.log("MESSAGE avahad aldaaa garlaa shuuuuuuuuuu", error);
-
-      console.log("Error fetching messages", error);
-    }
-  };
-
-  useEffect(() => {
-    fetchMessages();
-  }, []);
-
-  //  Chat
-
-  const handleCategorySelect = (_id: string) => {
-    setSelectedCategory(_id);
-  };
-
+  // Fetch categories from API
   const getCategories = async () => {
     try {
       const response = await api.get("/category");
@@ -64,6 +38,7 @@ export default function Home() {
     }
   };
 
+  // Create new category
   const createCategory = async () => {
     if (newCategoryName) {
       try {
@@ -75,6 +50,8 @@ export default function Home() {
       }
     }
   };
+
+  // Edit existing category
   const editCategory = async ({
     _id,
     newCategoryName,
@@ -94,10 +71,11 @@ export default function Home() {
     }
   };
 
+  // Delete category
   const deleteCategory = async ({ _id }: { _id: string }) => {
     try {
       await api.delete("/category", {
-        data: { _id }, // pass _id in the request body
+        data: { _id }, // Pass _id in the request body
       });
       setNewCategoryName("");
       getCategories();
@@ -106,6 +84,7 @@ export default function Home() {
     }
   };
 
+  // Fetch categories when component mounts
   useEffect(() => {
     getCategories();
   }, []);
@@ -113,16 +92,15 @@ export default function Home() {
   return (
     <div className="flex flex-col pt-[80px]">
       <Header />
-      <div className="flex gap-8 w-[1440px] m-auto  ">
+      <div className="flex gap-8 w-[1440px] m-auto">
         <div className="flex-1 flex flex-col gap-10 pl-[120px] py-6">
           <div className="font-bold text-[22px]">Food menu</div>
           <div className="flex flex-col gap-6">
             <div
-              onClick={() => handleCategorySelect("")}
+              onClick={() => setSelectedCategory("")}
               className={`flex items-center w-[258px] justify-between px-4 py-1 rounded-[8px] border text-xl font-medium cursor-pointer ${
                 selectedCategory === "" ? "bg-[#86c41d] text-white" : ""
               }`}
-
             >
               <div>All Categories</div>
             </div>
@@ -130,13 +108,12 @@ export default function Home() {
             {categories.map((category) => (
               <div
                 key={category._id}
-                onClick={() => handleCategorySelect(category._id)}
+                onClick={() => setSelectedCategory(category._id)}
                 className={`flex items-center w-[258px] justify-between px-4 py-1 rounded-[8px] border text-xl font-medium cursor-pointer ${
                   selectedCategory === category._id
                     ? "bg-[#86c41d] text-white"
                     : ""
                 }`}
-
               >
                 <div>{category.categoryName}</div>
                 <Dialog>
@@ -154,15 +131,13 @@ export default function Home() {
                           placeholder={category.categoryName}
                           value={newCategoryName}
                           onChange={(e) => setNewCategoryName(e.target.value)}
-                        ></input>
+                        />
                         <div className="flex justify-between w-full">
                           <DialogClose>
                             <button
                               className="rounded-lg bg-[#86c41d] px-4 py-2 text-red-600 font-semibold"
                               onClick={() =>
-                                deleteCategory({
-                                  _id: category._id,
-                                })
+                                deleteCategory({ _id: category._id })
                               }
                             >
                               Category устгах
@@ -175,7 +150,7 @@ export default function Home() {
                               onClick={() =>
                                 editCategory({
                                   _id: category._id,
-                                  newCategoryName: newCategoryName,
+                                  newCategoryName,
                                 })
                               }
                             >
@@ -241,19 +216,6 @@ export default function Home() {
         </div>
         <RightSideFood selectedCategory={selectedCategory} />
       </div>
-
-      {/*  */}
-      {/* <div className="bg-pink-700">
-        <h1>Chat Messages 123</h1>
-        {messages.map((message) => (
-          <div key={message.id}>
-            <strong>
-              {message.userName} (ID: {message.userId}):
-            </strong>{" "}
-            {message.text}
-          </div>
-        ))}
-      </div> */}
     </div>
   );
 }

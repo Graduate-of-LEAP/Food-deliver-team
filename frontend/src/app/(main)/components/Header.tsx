@@ -60,11 +60,6 @@ export const Header = () => {
     { name: "Хүргэлтийн бүс", path: "/map" },
     { name: "Dashboard", path: "/dashboard" },
   ];
-  const [_isDrawerOpen, setIsDrawerOpen] = useState(false);
-
-  const handleDrawer = () => {
-    setIsDrawerOpen((prev) => !prev);
-  };
 
   const getMe = async () => {
     const token = localStorage.getItem("token");
@@ -113,10 +108,7 @@ export const Header = () => {
             ))}
           </div>
           <div className="flex items-center gap-4 lg:visible invisible">
-            <div
-              className="lg:invisible visible fixed right-6 top-9 z-50"
-              onClick={handleDrawer}
-            >
+            <div className="lg:invisible visible fixed right-6 top-9 z-50">
               <Drawer />
             </div>
             <div className="relative">

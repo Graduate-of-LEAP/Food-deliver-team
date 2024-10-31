@@ -1,7 +1,6 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import anime from "animejs";
-import Image from "next/image";
 import { FaBars, FaRegUser } from "react-icons/fa";
 import { CiSearch } from "react-icons/ci";
 import { Input } from "@/components/ui/input";
