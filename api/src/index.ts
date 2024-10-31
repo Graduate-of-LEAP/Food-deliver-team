@@ -11,6 +11,7 @@ import {
   sagsRouter,
   savedFoodRouter,
   userRouter,
+  messageRouter,
 } from "./routes";
 import { upload } from "./controllers/config/multer";
 import { createCloudinaryController } from "./controllers";
@@ -34,6 +35,7 @@ app.use("/order", orderRouter);
 app.use("/sags", sagsRouter);
 app.use("/review", reviewRouter);
 app.use("/auth", getMeRouter);
+app.use("/message", messageRouter);
 
 cloudinary.config({
   cloud_name: process.env.CLOUD_NAME,

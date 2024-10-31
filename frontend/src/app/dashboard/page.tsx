@@ -3,6 +3,7 @@
 import { RightSideFood } from "./components/RightSideFoodCreate";
 import { FaEllipsisV } from "react-icons/fa";
 import { useEffect, useState } from "react";
+
 import {
   Dialog,
   DialogClose,
@@ -14,6 +15,7 @@ import {
 } from "@/components/ui/dialog";
 import { api } from "@/lib/axios";
 import { Header } from "../(main)/components/Header";
+import { useAuthContext } from "@/components/utils/authProvider";
 import Link from "next/link";
 
 type Category = {
@@ -22,9 +24,32 @@ type Category = {
 };
 
 export default function Home() {
+  const { userMe } = useAuthContext();
+
   const [selectedCategory, setSelectedCategory] = useState<string>(""); // Set default to "all" for "All Categories"
   const [categories, setCategories] = useState<Category[]>([]);
   const [newCategoryName, setNewCategoryName] = useState<string>("");
+
+  // Chat
+  const [messages, setMessages] = useState([]);
+  const fetchMessages = async () => {
+    // API-ээс мессежүүдийг авах
+    try {
+      const response = await api.get("/message");
+      setMessages(response.data);
+      console.log("Where is message DATA", response.data);
+    } catch (error) {
+      console.log("MESSAGE avahad aldaaa garlaa shuuuuuuuuuu", error);
+
+      console.log("Error fetching messages", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchMessages();
+  }, []);
+
+  //  Chat
 
   const handleCategorySelect = (_id: string) => {
     setSelectedCategory(_id);
@@ -216,6 +241,19 @@ export default function Home() {
         </div>
         <RightSideFood selectedCategory={selectedCategory} />
       </div>
+
+      {/*  */}
+      {/* <div className="bg-pink-700">
+        <h1>Chat Messages 123</h1>
+        {messages.map((message) => (
+          <div key={message.id}>
+            <strong>
+              {message.userName} (ID: {message.userId}):
+            </strong>{" "}
+            {message.text}
+          </div>
+        ))}
+      </div> */}
     </div>
   );
 }
