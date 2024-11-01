@@ -5,7 +5,7 @@ import { useCart } from "./context/Cartcontext";
 import { api } from "@/lib/axios";
 import { useEffect, useState } from "react";
 import { FoodDiscountCard } from "./FoodDiscountCart";
-import { AxiosError } from 'axios';
+import { AxiosError } from "axios";
 import { useAuthContext } from "@/components/utils/authProvider";
 import { FoodMainLast } from "./FoodMainLast";
 import { FoodDrinkLast } from "./FoodDrinkLast";
@@ -59,7 +59,7 @@ export const FoodSalad = () => {
   const getFoods = async () => {
     try {
       const response = await api.get("/food");
-      const foodsWithId = response.data.foods.map((food: any) => ({
+      const foodsWithId = response.data.foods.map((food: foodCardType) => ({
         ...food,
         _id: food._id,
       }));
@@ -73,7 +73,7 @@ export const FoodSalad = () => {
     (item) => item.category[0]?.categoryName === "Үндсэн хоол"
   );
 
-  const createSags = async (addSags: CreateSagsType): Promise<any> => {
+  const createSags = async (addSags: CreateSagsType) => {
     const token = localStorage.getItem("token");
     try {
       const response = await api.post("/sags", addSags, {
@@ -84,7 +84,10 @@ export const FoodSalad = () => {
       return response.data;
     } catch (error) {
       const axiosError = error as AxiosError;
-      console.error("API error:", axiosError.response?.data || axiosError.message);
+      console.error(
+        "API error:",
+        axiosError.response?.data || axiosError.message
+      );
       throw error;
     }
   };
@@ -93,8 +96,6 @@ export const FoodSalad = () => {
     getFoods();
   }, []);
 
-
-
   const handleDecrease = () => {
     setQuantity((prevQuantity) => Math.max(prevQuantity - 1, 1));
   };
@@ -102,6 +103,7 @@ export const FoodSalad = () => {
   const handleIncrease = () => {
     setQuantity((prevQuantity) => prevQuantity + 1);
   };
+
   const openDialog = (item: foodCardType) => {
     setCurrentItem(item);
     setDialogOpen(true);
@@ -115,14 +117,11 @@ export const FoodSalad = () => {
         </div>
         <div className="grid grid-cols-5 grid-flow-row gap-5 my-10">
           {filteredVndsenHoolfoods?.slice(0, 5).map((item, index) => (
-
             <Dialog key={index} open={dialogOpen} onOpenChange={setDialogOpen}>
               <DialogTrigger asChild>
                 <div
                   className="cursor-pointer"
-                  onClick={() => {
-                    setCurrentItem(item);
-                  }}
+                  onClick={() => openDialog(item)} // Use the openDialog function
                 >
                   <FoodDiscountCard
                     src={item.images[0]}
@@ -196,7 +195,7 @@ export const FoodSalad = () => {
                             price: currentItem.price,
                             src: currentItem.images[0],
                             quantity: quantity,
-                            orts: String(currentItem.orts)
+                            orts: String(currentItem.orts),
                           };
 
                           try {
@@ -213,7 +212,9 @@ export const FoodSalad = () => {
                             }
                           } catch (error) {
                             console.error("Error:", error);
-                            alert("Захиалга нэмэхэд алдаа гарлаа. Дахин оролдож үзнэ үү.");
+                            alert(
+                              "Захиалга нэмэхэд алдаа гарлаа. Дахин оролдож үзнэ үү."
+                            );
                           } finally {
                             setDialogOpen(false);
                             setQuantity(1);
@@ -222,7 +223,6 @@ export const FoodSalad = () => {
                       >
                         Сагсанд нэмэх & Сагслах
                       </button>
-
                     </div>
                   </>
                 )}

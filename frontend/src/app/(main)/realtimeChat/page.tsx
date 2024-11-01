@@ -7,14 +7,21 @@ import {
   useChannel,
   useConnectionStateListener,
 } from "ably/react";
-
-// Connect to Ably using the AblyProvider component and your API key
-const client = new Ably.Realtime({ key: process.env.ABLY_KEY });
-import { UserMeResponse } from "../components/Header";
-import { api } from "@/lib/axios";
+import { api } from "@/lib/axios"; // Adjust the import based on your project structure
 import { FaRegUser } from "react-icons/fa6";
 import Image from "next/image";
-//
+type UserMeResponse = {
+  id: string;
+  owog: string;
+  userName: string;
+  email: string;
+  phoneNumber: string;
+  address: string;
+  avatarImg: string;
+};
+// Connect to Ably using the AblyProvider component and your API key
+const client = new Ably.Realtime({ key: process.env.ABLY_KEY });
+
 export default function Page({ params }: { params: { chatId: string } }) {
   return (
     <AblyProvider client={client}>
@@ -31,7 +38,7 @@ function Conversation({ chatId }: { chatId: string }) {
   const [username, setUsername] = useState<string>("User1"); // Хэрэглэгчийн нэр
   const [userMe, setUserMe] = useState<UserMeResponse>();
   const testImageUrl = "/img1.png"; // Зурагны URL
-  //
+
   const getMe = async () => {
     const token = localStorage.getItem("token");
     try {
@@ -45,29 +52,23 @@ function Conversation({ chatId }: { chatId: string }) {
       console.log("Error fetching user data", error);
     }
   };
+
   useEffect(() => {
     getMe();
   }, []);
-  //userMe-ийн утгыг логдож шалгаж
-  console.log(userMe);
+
   useEffect(() => {
     console.log(userMe);
   }, [userMe]);
 
-  //
-  //
   useConnectionStateListener("connected", () => {
     console.log("Connected to Ably!");
   });
 
   const { channel } = useChannel(chatId, "message", (message) => {
-    setMessages((PreviousMessages) => [message, ...PreviousMessages]);
+    setMessages((previousMessages) => [message, ...previousMessages]);
   });
 
-  //   const sendMessage = () => {
-  //     channel.publish("message", text);
-  //     setText("");
-  //   };
   const sendMessage = () => {
     const message = {
       text: text,
@@ -83,8 +84,16 @@ function Conversation({ chatId }: { chatId: string }) {
         <input
           className="input input-bordered bg-gray-100"
           type="text"
+          value={username} // Bind username input to state
+          onChange={(e) => setUsername(e.target.value)} // Update username state
+          placeholder="Enter your username" // Placeholder for username input
+        />
+        <input
+          className="input input-bordered bg-gray-100"
+          type="text"
           value={text}
           onChange={(e) => setText(e.target.value)}
+          placeholder="Type a message" // Placeholder for message input
         />
         <button
           className="btn bg-pink-100 p-2 rounded-lg"
@@ -93,30 +102,19 @@ function Conversation({ chatId }: { chatId: string }) {
           Publish
         </button>
       </div>
-      {/* 
       {messages.map((message) => {
-        return (
-          <div key={message.id} className="chat chat-start">
-            <div className="chat-bubble"> {message.data}</div>
-          </div>
-        );
-      })} */}
-      {messages.map((message) => {
-        const isUser1 = message.data.user === "User1"; // Мессеж бичсэн хүний нэрийг шалгах
+        const isUser = message.data.user === username; // Check if the message was sent by the current user
         return (
           <div
             key={message.id}
-            className={`chat ${isUser1 ? "chat-end" : "chat-start"}`}
+            className={`chat ${isUser ? "chat-end" : "chat-start"}`}
           >
             <div className="chat-bubble flex gap-2">
               <div className="flex bg-yellow-200 gap-2 rounded-lg p-2 mt-5 items-center">
                 <FaRegUser />
-
-                {/*  */}
                 {userMe?.avatarImg && (
                   <Image
-                    // src={userMe.avatarImg} // Зурагны URL
-                    src={testImageUrl}
+                    src={testImageUrl} // Image URL
                     alt="avatarImg"
                     width={40}
                     height={50}
@@ -125,7 +123,6 @@ function Conversation({ chatId }: { chatId: string }) {
                 )}
                 {userMe?.userName}
               </div>
-
               <div className="bg-gray-300 gap-2 rounded-lg p-2 mt-5">
                 {message.data.text}
               </div>

@@ -17,6 +17,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import Link from "next/link";
 
 type UserMeResponse = {
   id: string;
@@ -266,7 +267,9 @@ export const UserProfile = () => {
               <div className="h-12 w-12 border rounded-full bg-white flex justify-center items-center">
                 <GrHistory />
               </div>
-              <p>Захиалгын түүх</p>
+              <Link href={`/userexit/userOrder`}>
+                <p>Захиалгын түүх</p>
+              </Link>
             </div>
           </div>
           <div className=" h-[64px] w-[392px] flex justify-between items-center px-5 rounded ">

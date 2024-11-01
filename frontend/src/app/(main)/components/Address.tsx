@@ -14,6 +14,7 @@ import {
 import { Input } from "../../../components/ui/input";
 import { api } from "@/lib/axios";
 import { useEffect } from "react";
+import Link from "next/link";
 
 type sagsCardType = {
   _id: string;
@@ -97,8 +98,6 @@ export const Address: React.FC = () => {
     }
   };
 
-
-
   useEffect(() => {
     getMe();
   }, []);
@@ -144,8 +143,9 @@ export const Address: React.FC = () => {
           Хаяг аа оруулна уу
           <Select onValueChange={setDistrict} value={district}>
             <SelectTrigger
-              className={`${district ? "bg-green-500 text-white" : "bg-gray-100"
-                } w-[432px]`}
+              className={`${
+                district ? "bg-green-500 text-white" : "bg-gray-100"
+              } w-[432px]`}
             >
               <SelectValue
                 placeholder={
@@ -184,8 +184,9 @@ export const Address: React.FC = () => {
           </Select>
           <Select onValueChange={setKhoroo} value={khoroo}>
             <SelectTrigger
-              className={`${khoroo ? "bg-green-500 text-white" : "bg-gray-100"
-                } w-[432px]`}
+              className={`${
+                khoroo ? "bg-green-500 text-white" : "bg-gray-100"
+              } w-[432px]`}
             >
               <SelectValue
                 placeholder={
@@ -218,8 +219,9 @@ export const Address: React.FC = () => {
           </Select>
           <Select onValueChange={setApartment} value={apartment}>
             <SelectTrigger
-              className={`${apartment ? "bg-green-500 text-white" : "bg-gray-100"
-                } w-[432px]`}
+              className={`${
+                apartment ? "bg-green-500 text-white" : "bg-gray-100"
+              } w-[432px]`}
             >
               <SelectValue
                 placeholder={
@@ -342,37 +344,40 @@ export const Address: React.FC = () => {
           ) : (
             <span className="text-gray-500">No items in the cart</span>
           )}
-          <button
-            className={`w-1/2 rounded-sm p-2 text-white ${allFieldsFilled() && isPaymentSelected()
-              ? "bg-green-500"
-              : "bg-gray-100 text-gray-400"
+          <Link href={`/userexit/userOrder`}>
+            <button
+              className={`w-1/2 rounded-sm p-2 text-white ${
+                allFieldsFilled() && isPaymentSelected()
+                  ? "bg-green-500"
+                  : "bg-gray-100 text-gray-400"
               }`}
-            disabled={!allFieldsFilled() || !isPaymentSelected()}
-            onClick={() => {
-              if (userMe?.id) {
-                const foods = sags.map((item) => ({
-                  food: item.foodId._id, // Pass only the product ID (string)
-                  price: item.price, // Use the updated price
-                  count: item.count, // Use the updated count
-                }));
+              disabled={!allFieldsFilled() || !isPaymentSelected()}
+              onClick={() => {
+                if (userMe?.id) {
+                  const foods = sags.map((item) => ({
+                    food: item.foodId._id, // Pass only the product ID (string)
+                    price: item.price, // Use the updated price
+                    count: item.count, // Use the updated count
+                  }));
 
-                createOrderPack({
-                  userId: userMe.id,
-                  status: "Шинэ захиалга",
-                  foods,
-                  phoneNumber: phoneNumber,
-                  district: district,
-                  khoroo: khoroo,
-                  apartment: apartment,
-                  orderDetail: orderDetail,
-                });
-              } else {
-                console.error("User ID is undefined");
-              }
-            }}
-          >
-            Захиалах
-          </button>
+                  createOrderPack({
+                    userId: userMe.id,
+                    status: "Шинэ захиалга",
+                    foods,
+                    phoneNumber: phoneNumber,
+                    district: district,
+                    khoroo: khoroo,
+                    apartment: apartment,
+                    orderDetail: orderDetail,
+                  });
+                } else {
+                  console.error("User ID is undefined");
+                }
+              }}
+            >
+              Захиалах
+            </button>
+          </Link>
         </div>
       </div>
     </div>

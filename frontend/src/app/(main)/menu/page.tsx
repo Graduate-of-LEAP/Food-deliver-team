@@ -1,4 +1,3 @@
-
 "use client";
 import { useState, useEffect } from "react";
 import { Header } from "../components/Header";
@@ -7,7 +6,7 @@ import { FoodDiscountCard } from "../../(main)/components/FoodDiscountCart";
 import { api } from "@/lib/axios";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import Image from "next/image";
-import { AxiosError } from 'axios';
+import { AxiosError } from "axios";
 import { useCart } from "../components/context/Cartcontext";
 import { useAuthContext } from "@/components/utils/authProvider";
 
@@ -89,7 +88,7 @@ const Page = () => {
   const getFoods = async () => {
     try {
       const response = await api.get("/food");
-      const foodsWithId = response.data.foods.map((food: any) => ({
+      const foodsWithId = response.data.foods.map((food: foodCardType) => ({
         ...food,
         _id: food._id,
       }));
@@ -107,7 +106,7 @@ const Page = () => {
     setQuantity((prevQuantity) => prevQuantity + 1);
   };
 
-  const createSags = async (addSags: CreateSagsType): Promise<any> => {
+  const createSags = async (addSags: CreateSagsType) => {
     const token = localStorage.getItem("token");
     try {
       const response = await api.post("/sags", addSags, {
@@ -118,7 +117,10 @@ const Page = () => {
       return response.data;
     } catch (error) {
       const axiosError = error as AxiosError;
-      console.error("API error:", axiosError.response?.data || axiosError.message);
+      console.error(
+        "API error:",
+        axiosError.response?.data || axiosError.message
+      );
       throw error;
     }
   };
@@ -149,14 +151,19 @@ const Page = () => {
   return (
     <>
       <Header />
-      <div className="flex justify-center min-h-[40vh]">
+      <div className="flex justify-center min-h-[40vh] pt-[120px]">
         <div className="container">
           <div className="w-full gap-7 flex h-fit justify-center items-center">
             {categories.map((category) => (
               <div
                 key={category._id}
                 onClick={() => handleCategorySelect(category._id)}
-                className={`border py-2 w-full justify-center cursor-pointer flex items-center rounded-[8px] border-[#D6D8DB] font-medium text-[18px] ${selectedCategory.includes(category._id) || (!selectedCategory.length && category._id === "all") ? "bg-[#18BA51] text-white" : ""}`}
+                className={`border py-2 w-full justify-center cursor-pointer flex items-center rounded-[8px] border-[#D6D8DB] font-medium text-[18px] ${
+                  selectedCategory.includes(category._id) ||
+                  (!selectedCategory.length && category._id === "all")
+                    ? "bg-[#18BA51] text-white"
+                    : ""
+                }`}
               >
                 <div>{category.categoryName}</div>
               </div>
@@ -166,7 +173,11 @@ const Page = () => {
             <div className="w-full bg-red-400">
               <div className="grid w-full bg-slate-100 grid-cols-4 grid-rows-4 gap-5 my-10">
                 {filteredAllFoods?.map((item: foodCardType, index: number) => (
-                  <div key={index} className="cursor-pointer" onClick={() => handleFoodSelect(item)}>
+                  <div
+                    key={index}
+                    className="cursor-pointer"
+                    onClick={() => handleFoodSelect(item)}
+                  >
                     <FoodDiscountCard
                       src={item.images[0]}
                       title={item.foodName}
@@ -256,7 +267,9 @@ const Page = () => {
                     }
                   } catch (error) {
                     console.error("Error:", error);
-                    alert("Захиалга нэмэхэд алдаа гарлаа. Дахин оролдож үзнэ үү.");
+                    alert(
+                      "Захиалга нэмэхэд алдаа гарлаа. Дахин оролдож үзнэ үү."
+                    );
                   } finally {
                     closeDialog();
                   }

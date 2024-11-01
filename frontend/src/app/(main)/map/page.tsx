@@ -27,7 +27,7 @@ const Page = () => {
   ];
 
   return (
-    <div className="w-full bg-slate-50">
+    <div className="w-full bg-slate-50 ">
       <Header />
       <div className="flex justify-center pt-[60px]">
         <div className="container">

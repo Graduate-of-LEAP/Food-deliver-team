@@ -197,6 +197,18 @@ export const RightSideFood: React.FC<RightSideFoodProps> = ({
                     </div>
                     <div className="flex flex-col gap-2">
                       <label className="font-medium text-[14px] text-black">
+                        Хоолны тоо
+                      </label>
+                      <input
+                        type="number"
+                        value={quantity}
+                        onChange={(e) => setQuantity(Number(e.target.value))}
+                        placeholder="Хоолны тоо оруулна уу"
+                        className="py-4 px-3 w-full placeholder-[#8B8E95] bg-[#F4F4F4] rounded-lg"
+                      />
+                    </div>
+                    <div className="flex flex-col gap-2">
+                      <label className="font-medium text-[14px] text-black">
                         Хоолны үнэ
                       </label>
                       <input

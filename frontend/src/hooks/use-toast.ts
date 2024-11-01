@@ -15,12 +15,6 @@ type ToasterToast = ToastProps & {
   action?: ToastActionElement;
 };
 
-type ActionType =
-  | "ADD_TOAST"
-  | "UPDATE_TOAST"
-  | "DISMISS_TOAST"
-  | "REMOVE_TOAST";
-
 let count = 0;
 
 function genId() {
@@ -118,6 +112,8 @@ export const reducer = (state: State, action: Action): State => {
         ...state,
         toasts: state.toasts.filter((t) => t.id !== action.toastId),
       };
+    default:
+      return state; // Ensure that the default case returns the current state
   }
 };
 

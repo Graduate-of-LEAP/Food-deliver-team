@@ -7,10 +7,17 @@ import {
   useChannel,
   useConnectionStateListener,
 } from "ably/react";
-import { UserMeResponse } from "../../../(main)/components/Header";
 import { api } from "@/lib/axios";
 import Image from "next/image";
-
+type UserMeResponse = {
+  id: string;
+  owog: string;
+  userName: string;
+  email: string;
+  phoneNumber: string;
+  address: string;
+  avatarImg: string;
+};
 const client = new Ably.Realtime({ key: process.env.ABLY_KEY });
 
 export default function Page({ params }: { params: { chatId: string } }) {
