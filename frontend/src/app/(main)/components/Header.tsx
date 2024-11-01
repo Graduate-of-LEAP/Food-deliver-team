@@ -12,6 +12,7 @@ import { SearchCard } from "./SearchCard";
 import { api } from "@/lib/axios";
 import { Drawer } from "./Drawer";
 import { CartContent } from "./Cartcontent";
+import { ChatDialog } from "./chatDialog";
 
 type UserMeResponse = {
   id: string;
@@ -25,7 +26,6 @@ type UserMeResponse = {
 export const Header = () => {
   const [isVisible, setIsVisible] = useState(true);
   let lastScrollY = 0;
-
   const handleScroll = () => {
     if (typeof window !== "undefined") {
       const scrollY = window.scrollY;
@@ -48,7 +48,7 @@ export const Header = () => {
 
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [userMe, setUserMe] = useState<UserMeResponse>();
-
+  const [userId, setUserId] = useState<string>();
   const pathname: string = usePathname();
   interface Path {
     name: string;
@@ -70,10 +70,12 @@ export const Header = () => {
         },
       });
       setUserMe(response.data);
+      setUserId(response.data.id);
     } catch (error) {
       console.log("Error fetching user data", error);
     }
   };
+
   useEffect(() => {
     getMe();
   }, []);
@@ -124,6 +126,7 @@ export const Header = () => {
                 onChange={(e) => setSearchTerm(e.target.value)}
               ></Input>
             </div>
+
             <CartContent />
             <div className=" font-semibold shadow-md bg-white rounded-md">
               {userMe?.userName ? (
@@ -145,6 +148,9 @@ export const Header = () => {
             </div>
           )}
         </div>
+      </div>
+      <div className="fixed right-20 top-[1000px] z-50">
+        <ChatDialog params={{ chatId: userId as string }} />
       </div>
     </div>
   );
