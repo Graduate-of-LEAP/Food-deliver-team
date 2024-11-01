@@ -112,7 +112,7 @@ export const FoodMainLast = () => {
   return (
     <>
       <div className="flex text-gray-800 font-bold text-2xl pl-6">
-        Үндсэн хоол
+        Салад ба зууш
       </div>
       <div className="grid grid-cols-5 grid-flow-row gap-5 my-10">
         {filteredSaladFoods.slice(0, 5).map((item, index) => (
