@@ -33,7 +33,7 @@ export const CarouselContainer = () => {
   useEffect(() => {
     const date = new Date();
     const currentHour = date.getHours();
-    if (currentHour >= 16 && currentHour <= 23) {
+    if (currentHour >= 11 && currentHour <= 23) {
       setIsOpen(true);
     }
   });
