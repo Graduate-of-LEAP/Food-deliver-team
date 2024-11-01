@@ -149,7 +149,7 @@ export const Header = () => {
           )}
         </div>
       </div>
-      <div className="fixed right-20 top-[1000px] z-50">
+      <div className="fixed right-20 top-[75vh] z-50">
         <ChatDialog params={{ chatId: userId as string }} />
       </div>
     </div>
