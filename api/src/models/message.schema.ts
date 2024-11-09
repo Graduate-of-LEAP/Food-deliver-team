@@ -12,15 +12,19 @@ const messageSchema = new Schema({
     required: true,
     default: "No number added",
   },
+  isAdmin: {
+    type: Boolean,
+    default: false,
+  },
   createdAt: {
     type: Date,
     required: true,
-    default: Date.now(),
+    default: Date.now,
   },
   updatedAt: {
     type: Date,
     required: true,
-    default: Date.now(),
+    default: Date.now,
   },
 });
 export const messageModel = model("Message", messageSchema);

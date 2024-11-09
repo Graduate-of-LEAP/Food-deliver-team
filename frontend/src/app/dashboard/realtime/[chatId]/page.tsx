@@ -12,15 +12,22 @@ import { UserMeResponse } from "../../../(main)/components/Header";
 import { api } from "@/lib/axios";
 import Link from "next/link";
 import Image from "next/image";
+import { useParams } from "next/navigation";
 //
 // Connect to Ably using the AblyProvider component and your API key
 const client = new Ably.Realtime({ key: process.env.ABLY_KEY });
 
-export default function Page({ params }: { params: { chatId: string } }) {
+type Params = {
+  chatId: string;
+};
+
+export default function Page() {
+  const { chatId } = useParams<Params>();
+
   return (
     <AblyProvider client={client}>
-      <ChannelProvider channelName={params.chatId}>
-        <Conversation chatId={params.chatId} />
+      <ChannelProvider channelName={chatId}>
+        <Conversation chatId={chatId} />
       </ChannelProvider>
     </AblyProvider>
   );
@@ -86,6 +93,7 @@ function Conversation({ chatId }: { chatId: string }) {
         text: text,
         avatarImg: userMe.avatarImg || "default_avatar.png", // Зураг хуваарилах
         phoneNumber: userMe.phoneNumber || "No number added", // Утасны дугаар
+        isAdmin: false, // Мессежийг хэрэглэгчийнх гэж тэмдэглэж байна
       };
 
       // Server руу хадгалах логик
